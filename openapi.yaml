@@ -3,14 +3,27 @@ info:
   title: "Bakery Website API"
   version: "1.0.0"
   description: |
-    A Filipino family run bakery website with the feel of a sari-sari store where customers are directed to pre-order what they want. Orders will only be accepted locally and will be confirmed by the owner. These orders will be uniquely identified and organized into an easy-to-use interface for the owner.
+    A Filipino family run bakery website with the feel of a sari-sari store where customers are directed to pre-order what they want.
+    Orders will only be accepted locally and will be confirmed by the owner.
+    These orders will be uniquely identified and organized into an easy-to-use interface for the owner.
 
 servers:
   - url: http://localhost:8000
 
+tags:
+  - name: Public
+    description: Public endpoints (customers)
+  - name: Products
+    description: Bakery products
+  - name: Orders
+    description: Orders and checkout flow
+  - name: Auth
+    description: Bakery owner authentication (admin only)
+
 paths:
   /api/home:
     get:
+      tags: [Public]
       summary: Retrieve home page data
       responses:
         "200":
@@ -18,14 +31,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
+                $ref: "#/components/schemas/HomeResponse"
+              examples:
+                success:
+                  value:
+                    success: true
+                error:
+                  value:
+                    error: "website down"
 
   /api/shop:
     get:
+      tags: [Products]
       summary: Retrieve all baked goods
       responses:
         "200":
@@ -39,7 +56,8 @@ paths:
 
   /api/shop/{item_id}:
     get:
-      summary: Retrieve product details
+      tags: [Products]
+      summary: Retrieve all info about an item
       parameters:
         - name: item_id
           in: path
@@ -54,26 +72,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/Product"
 
-  /api/checkout:
-    post:
-      summary: Finalize and place order
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/OrderCreate"
-      responses:
-        "201":
-          description: Order placed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrderResponse"
-
-  /api/orders:
+  /api/orders/:
     get:
-      summary: Retrieve all current orders (owner view)
+      tags: [Orders]
+      summary: Retrieve all current orders (owner interface)
       responses:
         "200":
           description: List of orders
@@ -84,8 +86,183 @@ paths:
                 items:
                   $ref: "#/components/schemas/Order"
 
+  /api/orders/{item_id}:
+    post:
+      tags: [Orders]
+      summary: Add to cart
+      description: |
+        Represents adding an item to a cart. Cart may be handled in the frontend, but this endpoint
+        matches the assignment endpoint list.
+      parameters:
+        - name: item_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddToCartRequest"
+      responses:
+        "200":
+          description: Added to cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+              examples:
+                success:
+                  value:
+                    success: true
+
+  /api/checkout:
+    get:
+      tags: [Orders]
+      summary: Retrieve checkout page
+      description: |
+        Returns a list of items the frontend is about to check out (cart summary).
+        (If cart is fully frontend, this can return the same structure as /api/shop or be a placeholder.)
+      responses:
+        "200":
+          description: Checkout items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
+    post:
+      tags: [Orders]
+      summary: Finalize and place order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckoutRequest"
+            examples:
+              example:
+                value:
+                  date: "2026-02-20"
+                  time: "15:30:00"
+                  name: "Juan Dela Cruz"
+                  email: "juan@example.com"
+                  phone_number: "415-555-0199"
+      responses:
+        "201":
+          description: Order placed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutResponse"
+              examples:
+                success:
+                  value:
+                    success: true
+                error:
+                  value:
+                    error: "unavailable date"
+
+  # ---------------------------
+  # Optional owner authentication (matches your User model)
+  # You can keep or remove these endpoints depending on your group plan.
+  # ---------------------------
+  /api/signup:
+    post:
+      tags: [Auth]
+      summary: Create owner user (admin)
+      description: Used for the bakery owner account (not customers).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreate"
+      responses:
+        "200":
+          description: Owner user created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  user:
+                    $ref: "#/components/schemas/User"
+
+  /api/login:
+    post:
+      tags: [Auth]
+      summary: Owner login
+      description: Logs in the bakery owner (admin). Token handling can be added later if needed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+
 components:
   schemas:
+    # ----------------
+    # Simple responses
+    # ----------------
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+    HomeResponse:
+      oneOf:
+        - type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+          required: [success]
+        - type: object
+          properties:
+            error:
+              type: string
+              example: "website down"
+          required: [error]
+
+    CheckoutResponse:
+      oneOf:
+        - type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+          required: [success]
+        - type: object
+          properties:
+            error:
+              type: string
+              example: "unavailable date"
+          required: [error]
+
+    # --------------
+    # Product model
+    # --------------
     Product:
       type: object
       properties:
@@ -95,49 +272,68 @@ components:
           type: string
         calories:
           type: integer
+          nullable: true
         price:
           type: number
           format: float
         picture:
           type: string
+          nullable: true
         description:
           type: string
+          nullable: true
         allergens:
           type: array
           items:
             type: string
+      required:
+        - id
+        - name
+        - price
 
-    OrderCreate:
+    # ------------------------
+    # Requests per your table
+    # ------------------------
+    AddToCartRequest:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          minimum: 1
+        item:
+          type: string
+          description: Item name/label (as written in your endpoint table)
+        item_id:
+          type: integer
+      required:
+        - quantity
+
+    CheckoutRequest:
       type: object
       required:
-        - pickup_date
-        - pickup_time
-        - customer_name
-        - customer_email
+        - date
+        - time
+        - name
+        - email
       properties:
-        pickup_date:
+        date:
           type: string
           format: date
-        pickup_time:
+        time:
           type: string
           format: time
-        customer_name:
+        name:
           type: string
-        customer_email:
+        email:
           type: string
           format: email
-        customer_phone_number:
+        phone_number:
           type: string
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              product_id:
-                type: integer
-              quantity:
-                type: integer
+          nullable: true
 
+    # --------------
+    # Order models
+    # --------------
     Order:
       type: object
       properties:
@@ -147,30 +343,112 @@ components:
           type: string
         customer_email:
           type: string
+          format: email
         customer_phone_number:
           type: string
+          nullable: true
+        status:
+          type: string
+          example: "PENDING"
+        total_price:
+          type: number
+          format: float
+        ordered_at:
+          type: string
+          format: date-time
+          nullable: true
         pickup_date:
           type: string
           format: date
         pickup_time:
           type: string
           format: time
-        status:
+        notes:
           type: string
-        items:
+          nullable: true
+        managed_by_user_id:
+          type: integer
+          nullable: true
+        order_items:
           type: array
           items:
-            type: object
-            properties:
-              product_id:
-                type: integer
-              quantity:
-                type: integer
+            $ref: "#/components/schemas/OrderItem"
+      required:
+        - id
+        - customer_name
+        - customer_email
+        - status
+        - pickup_date
+        - pickup_time
 
-    OrderResponse:
+    OrderItem:
       type: object
       properties:
-        success:
-          type: boolean
-        order:
-          $ref: "#/components/schemas/Order"
+        id:
+          type: integer
+        order_id:
+          type: integer
+        product_id:
+          type: integer
+        quantity:
+          type: integer
+          minimum: 1
+        unit_price:
+          type: number
+          format: float
+        line_total:
+          type: number
+          format: float
+      required:
+        - id
+        - order_id
+        - product_id
+        - quantity
+
+    # ---------------------------
+    # User / Owner models
+    # ---------------------------
+    User:
+      type: object
+      description: Bakery owner account (admin). Customers do not create accounts.
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Bakery Owner"
+        email:
+          type: string
+          format: email
+          example: "owner@bakery.com"
+        password_hash:
+          type: string
+          example: "$2b$10$abcdef..."
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-02-19T12:00:00Z"
+
+    UserCreate:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          description: Plain password for account creation (hashed in database).
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
