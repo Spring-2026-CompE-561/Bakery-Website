@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: "Bakery Website API"
+  version: "1.0.0"
+  description: |
+    A Filipino family run bakery website with the feel of a sari-sari store where customers are directed to pre-order what they want. Orders will only be accepted locally and will be confirmed by the owner. These orders will be uniquely identified and organized into an easy-to-use interface for the owner.
+
+servers:
+  - url: http://localhost:8000
+
+paths:
+  /api/home:
+    get:
+      summary: Retrieve home page data
+      responses:
+        "200":
+          description: Home loaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+
+  /api/shop:
+    get:
+      summary: Retrieve all baked goods
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
+  /api/shop/{item_id}:
+    get:
+      summary: Retrieve product details
+      parameters:
+        - name: item_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /api/checkout:
+    post:
+      summary: Finalize and place order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderCreate"
+      responses:
+        "201":
+          description: Order placed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
+
+  /api/orders:
+    get:
+      summary: Retrieve all current orders (owner view)
+      responses:
+        "200":
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        calories:
+          type: integer
+        price:
+          type: number
+          format: float
+        picture:
+          type: string
+        description:
+          type: string
+        allergens:
+          type: array
+          items:
+            type: string
+
+    OrderCreate:
+      type: object
+      required:
+        - pickup_date
+        - pickup_time
+        - customer_name
+        - customer_email
+      properties:
+        pickup_date:
+          type: string
+          format: date
+        pickup_time:
+          type: string
+          format: time
+        customer_name:
+          type: string
+        customer_email:
+          type: string
+          format: email
+        customer_phone_number:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: integer
+              quantity:
+                type: integer
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_name:
+          type: string
+        customer_email:
+          type: string
+        customer_phone_number:
+          type: string
+        pickup_date:
+          type: string
+          format: date
+        pickup_time:
+          type: string
+          format: time
+        status:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: integer
+              quantity:
+                type: integer
+
+    OrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        order:
+          $ref: "#/components/schemas/Order"
