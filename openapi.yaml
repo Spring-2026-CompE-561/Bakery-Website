@@ -2,13 +2,15 @@ openapi: 3.0.3
 info:
   title: "Bakery Website API"
   version: "1.0.0"
-  description: |
+  description: >
     A Filipino family run bakery website with the feel of a sari-sari store where customers are directed to pre-order what they want.
     Orders will only be accepted locally and will be confirmed by the owner.
     These orders will be uniquely identified and organized into an easy-to-use interface for the owner.
 
 servers:
   - url: http://localhost:8000
+    description: FastAPI / Auth
+  - url: http://localhost:8001
 
 tags:
   - name: Public
@@ -17,7 +19,7 @@ tags:
     description: Bakery products
   - name: Orders
     description: Orders and checkout flow
-  - name: Auth
+  - name: Admin
     description: Bakery owner authentication (admin only)
 
 paths:
@@ -166,13 +168,10 @@ paths:
                   value:
                     error: "unavailable date"
 
-  # ---------------------------
-  # Optional owner authentication (matches your User model)
-  # You can keep or remove these endpoints depending on your group plan.
-  # ---------------------------
+  
   /api/signup:
     post:
-      tags: [Auth]
+      tags: [Admin]
       summary: Create owner user (admin)
       description: Used for the bakery owner account (not customers).
       requestBody:
@@ -197,7 +196,7 @@ paths:
 
   /api/login:
     post:
-      tags: [Auth]
+      tags: [Admin]
       summary: Owner login
       description: Logs in the bakery owner (admin). Token handling can be added later if needed.
       requestBody:
@@ -220,9 +219,6 @@ paths:
 
 components:
   schemas:
-    # ----------------
-    # Simple responses
-    # ----------------
     SuccessResponse:
       type: object
       properties:
@@ -260,9 +256,6 @@ components:
               example: "unavailable date"
           required: [error]
 
-    # --------------
-    # Product model
-    # --------------
     Product:
       type: object
       properties:
@@ -291,9 +284,6 @@ components:
         - name
         - price
 
-    # ------------------------
-    # Requests per your table
-    # ------------------------
     AddToCartRequest:
       type: object
       properties:
@@ -331,9 +321,6 @@ components:
           type: string
           nullable: true
 
-    # --------------
-    # Order models
-    # --------------
     Order:
       type: object
       properties:
@@ -405,9 +392,6 @@ components:
         - product_id
         - quantity
 
-    # ---------------------------
-    # User / Owner models
-    # ---------------------------
     User:
       type: object
       description: Bakery owner account (admin). Customers do not create accounts.
@@ -441,7 +425,7 @@ components:
           format: email
         password:
           type: string
-          description: Plain password for account creation (hashed in database).
+          description: password that will be hashed
 
     LoginRequest:
       type: object
