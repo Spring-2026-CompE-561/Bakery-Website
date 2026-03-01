@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16
+    container_name: bakery_db
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data
+      - POSTGRES_USER=${POSTGRES_USER?User variable not set}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?PW variable not set}
+      - POSTGRES_DB=${POSTGRES_DB?DB variable not set}
+    ports:
+      - ${POSTGRES_PORT?Port variable not set}
+    volumes:
+      - bakery_pgdata:/var/lib/postgresql/data
+
+volumes:
+  bakery_pgdata:
