@@ -1,0 +1,64 @@
+[project]
+name = "bakery-backend"
+version = "0.1.0"
+description = "Backend for the Filipino Bakery"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[all]>=0.129.0",
+    "pandas>=3.0.1",
+    "pre-commit>=4.5.1",
+    "pwdlib[argon2]>=0.3.0",
+    "pydantic-settings>=2.13.1",
+    "pyjwt>=2.11.0",
+    "python-multipart>=0.0.22",
+    "pyyaml>=6.0.3",
+    "requests>=2.32.5",
+    "ruff>=0.15.1",
+    "sqlalchemy>=2.0.48",
+    "uvicorn>=0.40.0",
+]
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "ruff>=0.15.0",
+]
+
+[tool.ruff]
+line-length = 88
+lint.select = ["ALL"]
+
+lint.ignore = [
+    "E501",  # line too long (handled by line-length)
+    "D107",  # missing docstring in __init__
+    "D104",  # missing docstring in package
+    "D", # missing docstring in public modules, classes, functions, and methods
+]
+# select = [
+#     "E",  # pycodestyle errors
+#     "W",  # pycodestyle warnings
+#     "F",  # pyflakes
+#     "I",  # isort
+#     "B",  # flake8-bugbear
+#     "C4", # flake8-comprehensions
+#     "UP", # pyupgrade
+#     "S",  # bandit
+#     "C",  # complexity
+#     "D",  # pydocstyle
+#     "FAST", # fastapi-specific linting
+# ]
+
+fix = true
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # ignore unused imports in __init__.py files
