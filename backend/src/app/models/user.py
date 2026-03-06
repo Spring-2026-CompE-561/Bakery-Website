@@ -1,6 +1,11 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from datetime import datetime, UTC
+from __future__ import annotations
+
+from datetime import UTC, datetime
+
+from sqlalchemy import Column, DateTime, Integer, String
+
 from app.core.database import Base
+
 
 class User(Base):
     __tablename__ = "users"

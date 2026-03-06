@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import UTC, datetime, timedelta
 
 import jwt
@@ -17,8 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/user/login")
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
-    """
-    Create a JWT access token.
+    """Create a JWT access token.
 
     Args:
         data: The data to encode in the token
@@ -26,6 +27,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 
     Returns:
         str: The encoded JWT token
+
     """
     to_encode = data.copy()
     if expires_delta:
@@ -37,21 +39,20 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 
 
 def get_password_hash(password: str) -> str:
-    """
-    Hash a plaintext password.
+    """Hash a plaintext password.
 
     Args:
         password: The plaintext password to hash
 
     Returns:
         str: The hashed password
+
     """
     return password_hash.hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """
-    Verify a plaintext password against a hashed password.
+    """Verify a plaintext password against a hashed password.
 
     Args:
         plain_password: The plaintext password to verify
@@ -59,19 +60,20 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
     Returns:
         bool: True if password matches, False otherwise
+
     """
     return password_hash.verify(plain_password, hashed_password)
 
 
 def verify_token(token: str) -> dict | None:
-    """
-    Verify and decode a JWT token.
+    """Verify and decode a JWT token.
 
     Args:
         token: The JWT token to verify
 
     Returns:
         dict | None: The decoded payload if valid, None otherwise
+
     """
     try:
         payload = jwt.decode(

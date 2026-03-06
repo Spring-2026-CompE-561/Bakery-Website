@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from pydantic import Field
 from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     app_name: str = "Bakery API"
@@ -11,5 +14,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
 
 settings = Settings()

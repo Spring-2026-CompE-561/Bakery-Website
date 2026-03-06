@@ -1,7 +1,12 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Date, Time
+from __future__ import annotations
+
+from datetime import UTC, datetime
+
+from sqlalchemy import Column, Date, DateTime, Float, Integer, String, Time
 from sqlalchemy.orm import relationship
-from datetime import datetime, UTC
+
 from app.core.database import Base
+
 
 class Order(Base):
     __tablename__ = "orders"
@@ -10,7 +15,10 @@ class Order(Base):
     customer_name = Column(String, nullable=False)
     customer_email = Column(String, nullable=False)
     customer_phone = Column(String, nullable=True)
-    status = Column(String, default="PENDING") # PENDING, CONFIRMED, COMPLETED, CANCELLED
+    status = Column(
+        String,
+        default="PENDING",
+    )  # PENDING, CONFIRMED, COMPLETED, CANCELLED
     total_price = Column(Float, nullable=False)
     pickup_date = Column(Date, nullable=False)
     pickup_time = Column(Time, nullable=False)

@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from __future__ import annotations
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +17,7 @@ app = FastAPI(
     version=settings.app_version,
 )
 
-app.include_router(api_router)
+app.include_router(api_router, prefix="/api/v1")
 
 # Configure CORS
 app.add_middleware(

@@ -1,14 +1,18 @@
+from __future__ import annotations
+
 from sqlalchemy.orm import Session
+
 from app.models.product import Product
 from app.schemas.product import ProductCreate
 
+
 class ProductRepository:
     @staticmethod
-    def get_all(db: Session):
+    def get_all(db: Session) -> list[Product]:
         return db.query(Product).all()
 
     @staticmethod
-    def create(db: Session, product_in: ProductCreate):
+    def create(db: Session, product_in: ProductCreate) -> Product:
         db_product = Product(**product_in.model_dump())
         db.add(db_product)
         db.commit()

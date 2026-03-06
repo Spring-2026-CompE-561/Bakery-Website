@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from fastapi import APIRouter
-from app.routes import product, order, user
+
+from app.routes import order, product, user
 
 api_router = APIRouter()
 

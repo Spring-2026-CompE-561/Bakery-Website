@@ -1,5 +1,9 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, Text
+from __future__ import annotations
+
+from sqlalchemy import Boolean, Column, Float, Integer, String, Text
+
 from app.core.database import Base
+
 
 class Product(Base):
     __tablename__ = "products"

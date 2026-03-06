@@ -1,15 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException
+from __future__ import annotations
+
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
 from app.core.database import get_db
 from app.schemas.product import Product, ProductCreate
 from app.services.product_service import ProductService
 
 router = APIRouter()
 
-@router.get("/", response_model=list[Product])
-def get_products(db: Session = Depends(get_db)):
+
+@router.get("/")
+def get_products(db: Annotated[Session, Depends(get_db)]) -> list[Product]:
     return ProductService.list_all_products(db)
 
-@router.post("/", response_model=Product)
-def add_product(product_in: ProductCreate, db: Session = Depends(get_db)):
+
+@router.post("/")
+def add_product(
+    product_in: ProductCreate,
+    db: Annotated[Session, Depends(get_db)],
+) -> Product:
     return ProductService.add_new_product(db, product_in)

@@ -1,19 +1,22 @@
+from __future__ import annotations
+
 from pydantic import BaseModel
-from typing import Optional
 
 
 class ProductBase(BaseModel):
     name: str
-    description: Optional[str] = None
+    description: str | None = None
     price: float
     is_available: bool = True
-    picture_url: Optional[str] = None
+    picture_url: str | None = None
+
 
 class ProductCreate(ProductBase):
-    pass  
+    pass
+
 
 class Product(ProductBase):
     id: int
 
     class Config:
-        from_attributes = True 
+        from_attributes = True
