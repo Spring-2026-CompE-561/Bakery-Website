@@ -8,7 +8,7 @@ from app.core.database import Base, engine
 from app.core.settings import settings
 
 # Create database tables
-# If the tables do not exist, create them
+# If the tables don't exist, create them
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(

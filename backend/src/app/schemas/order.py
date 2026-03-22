@@ -1,26 +1,39 @@
-from __future__ import annotations
-
+from pydantic import BaseModel, EmailStr
+from typing import List
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr
 
-from app.schemas.order_item import OrderItem
-
-
-class OrderBase(BaseModel):
-    customer_name: str
-    customer_email: EmailStr  # Ensures it's a real email format
-    total_price: float
-    status: str = "pending"
+class OrderItemCreate(BaseModel):
+    product_id: int
+    quantity: int
+    unit_price: float
 
 
-class OrderCreate(OrderBase):
-    items: list[OrderItem]  # When creating, we include the list of items
-
-
-class Order(OrderBase):
+class OrderItem(OrderItemCreate):
     id: int
+    order_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class OrderCreate(BaseModel):
+    customer_name: str
+    customer_email: EmailStr
+    total_price: float
+    pickup_date: str
+    pickup_time: str
+    items: List[OrderItemCreate]
+
+
+class Order(BaseModel):
+    id: int
+    customer_name: str
+    customer_email: str
+    total_price: float
+    status: str
     created_at: datetime
+    items: List[OrderItem]
 
     class Config:
         from_attributes = True
