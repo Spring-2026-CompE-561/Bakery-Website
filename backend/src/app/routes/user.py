@@ -2,25 +2,31 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app.core.database import get_db
-from app.schemas.user import User, UserCreate
+from app.schemas.user import Token
+from app.core.auth import create_access_token
 from app.services.user_service import UserService
 
 router = APIRouter()
 
 
-@router.post("/")  # REMOVED response_model=User
-def create_user(
-    user_in: UserCreate,
+@router.post("/login", response_model=Token)
+def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: Annotated[Session, Depends(get_db)],
-) -> User:
-    return UserService.create_new_user(db, user_in)
+):
+    """Admin Login: Returns a JWT token."""
+    user = UserService.authenticate(db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
-
-@router.get("/me", response_model=User)
-def get_current_user() -> any:
-    # This will be used later for authentication
-    pass
+    access_token = create_access_token(data={"sub": user.email})
+    return {"access_token": access_token, "token_type": "bearer"}
