@@ -1,3 +1,4 @@
+# This script seeds the database with an initial admin user.
 import sys
 import os
 
