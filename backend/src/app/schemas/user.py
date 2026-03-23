@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 
 class UserBase(BaseModel):
@@ -9,7 +10,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str  # Only used when creating/logging in
+    password: str
 
 
 class User(UserBase):
@@ -17,3 +18,12 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None

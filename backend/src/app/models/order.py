@@ -18,7 +18,7 @@ class Order(Base):
     status = Column(
         String,
         default="PENDING",
-    )  # PENDING, CONFIRMED, COMPLETED, CANCELLED
+    )  # PENDING, CONFIRMED, READY, COMPLETED, CANCELLED
     total_price = Column(Float, nullable=False)
     pickup_date = Column(Date, nullable=False)
     pickup_time = Column(Time, nullable=False)
