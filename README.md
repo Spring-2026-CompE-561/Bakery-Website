@@ -21,7 +21,8 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 
 3. **From the terminal on vscode initialize the Admin & Start the Server:**
 * uv run python seed_admin.py
-* uv run uvicorn app.main:app --reload
+* uv run uvicorn app.main:app --reload or 
+* uv run uvicorn --app-dir src app.main:app --reload 
 
 ### 📖 Testing
 Once the server is running, open: http://127.0.0.1:8000/docs
