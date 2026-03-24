@@ -19,3 +19,11 @@ class OrderItem(OrderItemBase):
 
     class Config:
         from_attributes = True
+
+
+# For updating order item info (all fields optional)
+from typing import Optional
+class OrderItemUpdate(BaseModel):
+    product_id: Optional[int] = None
+    quantity: Optional[int] = None
+    unit_price: Optional[float] = None

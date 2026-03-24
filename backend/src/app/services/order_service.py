@@ -2,11 +2,19 @@ from __future__ import annotations
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+<<<<<<< HEAD
 from app.repository.order_repository import OrderRepository
 
 # from app.repository.product_repository import ProductRepository
 from app.models.product import Product
 from app.schemas.order import Order, OrderCreate
+=======
+from ..repository.order_repository import OrderRepository
+
+# from ..repository.product_repository import ProductRepository
+from ..models.product import Product
+from ..schemas.order import Order, OrderCreate
+>>>>>>> 42ed432 (Implement and test CRUD logic for all models; align schemas and logic with models)
 
 
 class OrderService:

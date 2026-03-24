@@ -20,3 +20,13 @@ class Product(ProductBase):
 
     class Config:
         from_attributes = True
+
+
+# For updating product info (all fields optional)
+from typing import Optional
+class ProductUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    is_available: Optional[bool] = None
+    picture_url: Optional[str] = None

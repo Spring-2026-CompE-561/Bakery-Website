@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
-from app.models.product import Product
-from app.schemas.product import ProductCreate
+from ..models.product import Product
+from ..schemas.product import ProductCreate
 
 
 class ProductRepository:

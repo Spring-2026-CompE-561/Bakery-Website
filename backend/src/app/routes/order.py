@@ -5,12 +5,21 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+<<<<<<< HEAD
 from app.core.dependencies import get_current_admin
 from app.models.user import User
 from app.core.database import get_db
 from app.schemas.order import Order, OrderCreate
 from app.models.order import Order as OrderModel
 from app.services.order_service import OrderService
+=======
+from ..core.dependencies import get_current_admin
+from ..models.user import User
+from ..core.database import get_db
+from ..schemas.order import Order, OrderCreate
+from ..models.order import Order as OrderModel
+from ..services.order_service import OrderService
+>>>>>>> 42ed432 (Implement and test CRUD logic for all models; align schemas and logic with models)
 
 router = APIRouter()
 

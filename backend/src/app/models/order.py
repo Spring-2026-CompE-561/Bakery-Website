@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from sqlalchemy import Column, Date, DateTime, Float, Integer, String, Time
 from sqlalchemy.orm import relationship
 
-from app.core.database import Base
+from ..core.database import Base
 
 
 class Order(Base):

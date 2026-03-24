@@ -7,7 +7,7 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 ## How To Set Up And Run
 
 ### 📋 Prerequisite
-* Python 3.12+
+* Python 3.13+
 * uv install guide https://docs.astral.sh/uv/getting-started/installation/
 
 1. **From the terminal on vscode:**
@@ -21,7 +21,7 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 
 3. **From the terminal on vscode initialize the Admin & Start the Server:**
 * uv run python seed_admin.py
-* uv run uvicorn app.main:app --reload
+* uv run uvicorn src.app.main:app --reload
 
 ### 📖 Testing
 Once the server is running, open: http://127.0.0.1:8000/docs

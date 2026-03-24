@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jwt import PyJWTError
 from pwdlib import PasswordHash
 
-from app.core.settings import settings
+from .settings import settings
 
 SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm

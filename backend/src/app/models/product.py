@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from sqlalchemy import Boolean, Column, Float, Integer, String, Text
 
-from app.core.database import Base
+from ..core.database import Base
 
 
 class Product(Base):

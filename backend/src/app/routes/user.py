@@ -6,10 +6,17 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 
+<<<<<<< HEAD
 from app.core.database import get_db
 from app.schemas.user import Token
 from app.core.auth import create_access_token
 from app.services.user_service import UserService
+=======
+from ..core.database import get_db
+from ..schemas.user import Token
+from ..core.auth import create_access_token
+from ..services.user_service import UserService
+>>>>>>> 42ed432 (Implement and test CRUD logic for all models; align schemas and logic with models)
 
 router = APIRouter()
 
