@@ -1,3 +1,5 @@
+# dependencies for admin
+
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session

@@ -1,3 +1,5 @@
+# database format for admin
+
 from __future__ import annotations
 
 from pydantic import BaseModel, EmailStr

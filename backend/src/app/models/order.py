@@ -1,3 +1,5 @@
+# database structure for customer orders
+
 from __future__ import annotations
 
 from datetime import UTC, datetime

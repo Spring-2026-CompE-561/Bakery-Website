@@ -1,3 +1,5 @@
+# validation for placing product into database
+
 from __future__ import annotations
 
 from sqlalchemy.orm import Session

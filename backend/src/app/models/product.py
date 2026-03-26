@@ -1,3 +1,5 @@
+# database structure for products
+
 from __future__ import annotations
 
 from sqlalchemy import Boolean, Column, Float, Integer, String, Text

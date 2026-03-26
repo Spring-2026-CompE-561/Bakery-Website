@@ -1,3 +1,5 @@
+# database structure for item orders
+
 from __future__ import annotations
 
 from sqlalchemy import Column, Float, ForeignKey, Integer

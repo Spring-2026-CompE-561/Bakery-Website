@@ -1,3 +1,5 @@
+# validation for placing order into database
+
 from __future__ import annotations
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
