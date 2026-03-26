@@ -1,6 +1,6 @@
 # database format for whole orders
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import List, Optional
 from datetime import datetime
 
@@ -15,8 +15,7 @@ class OrderItem(OrderItemCreate):
     id: int
     order_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OrderCreate(BaseModel):
@@ -37,8 +36,7 @@ class Order(BaseModel):
     created_at: datetime
     items: List[OrderItem]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # For updating order info (all fields optional)

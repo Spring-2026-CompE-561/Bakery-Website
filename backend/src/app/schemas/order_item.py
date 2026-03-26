@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class OrderItemBase(BaseModel):
@@ -19,8 +19,7 @@ class OrderItem(OrderItemBase):
     id: int
     order_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # For updating order item info (all fields optional)
