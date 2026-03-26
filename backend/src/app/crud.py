@@ -103,7 +103,7 @@ def update_order(db: Session, order_id: int, order_in: order_schema.OrderUpdate)
     db_order = db.query(order.Order).filter(order.Order.id == order_id).first()
     if not db_order:
         return None
-    for key, value in order_in.dict(exclude_unset=True).items():
+    for key, value in order_in.model_dump(exclude_unset=True).items():
         setattr(db_order, key, value)
     db.commit()
     db.refresh(db_order)
@@ -120,7 +120,7 @@ def delete_order(db: Session, order_id: int):
 # OrderItem CRUD
 
 def create_order_item(db: Session, order_item_in: order_item_schema.OrderItemCreate):
-    db_order_item = order_item.OrderItem(**order_item_in.dict())
+    db_order_item = order_item.OrderItem(**order_item_in.model_dump())
     db.add(db_order_item)
     db.commit()
     db.refresh(db_order_item)
@@ -136,7 +136,7 @@ def update_order_item(db: Session, order_item_id: int, order_item_in: order_item
     db_order_item = db.query(order_item.OrderItem).filter(order_item.OrderItem.id == order_item_id).first()
     if not db_order_item:
         return None
-    for key, value in order_item_in.dict(exclude_unset=True).items():
+    for key, value in order_item_in.model_dump(exclude_unset=True).items():
         setattr(db_order_item, key, value)
     db.commit()
     db.refresh(db_order_item)
