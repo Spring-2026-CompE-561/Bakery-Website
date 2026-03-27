@@ -35,3 +35,9 @@ class ProductRepository:
         db.commit()
         db.refresh(db_product)
         return db_product
+
+    @staticmethod
+    def delete(db: Session, db_product: Product) -> None:
+        # Permanently remove the product row from the database.
+        db.delete(db_product)
+        db.commit()

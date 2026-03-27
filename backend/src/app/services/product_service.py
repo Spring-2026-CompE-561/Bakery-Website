@@ -72,3 +72,15 @@ class ProductService:
             )
 
         return ProductRepository.update(db, db_product, updates)
+
+    @staticmethod
+    def delete_product(db: Session, product_id: int) -> None:
+        # DELETE requires the product to exist before it can be removed.
+        db_product = ProductRepository.get_by_id(db, product_id)
+        if not db_product:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Product not found",
+            )
+
+        ProductRepository.delete(db, db_product)

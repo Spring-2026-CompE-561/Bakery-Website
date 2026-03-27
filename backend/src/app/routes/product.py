@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Annotated
 
 from ..core.dependencies import get_current_admin
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 
 from ..core.database import get_db
@@ -50,3 +50,14 @@ def put_product(
 ) -> Product:
     # Full update route for replacing product fields.
     return ProductService.replace_product(db, product_id, product_in)
+
+
+@router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_product(
+    product_id: int,
+    db: Annotated[Session, Depends(get_db)],
+    current_admin: Annotated[User, Depends(get_current_admin)],
+) -> Response:
+    # Delete the selected product and return an empty 204 response.
+    ProductService.delete_product(db, product_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
