@@ -8,6 +8,7 @@ from ..repository.order_repository import OrderRepository
 
 # from ..repository.product_repository import ProductRepository
 from ..models.product import Product
+from ..models.order import Order as OrderModel
 from ..schemas.order import Order, OrderCreate
 
 
@@ -31,3 +32,13 @@ class OrderService:
     def list_all_orders(db: Session) -> list[Order]:
         """Admin logic to see all orders."""
         return OrderRepository.get_all_orders(db)
+    
+    @staticmethod
+    def delete_order(db: Session, order_id: int) -> bool:
+        db_order = OrderRepository.get_by_id(db, order_id)
+
+        if not db_order:
+            raise HTTPException(status_code=404, detail="Order not found")
+        
+        # TODO: more logic about orders
+        return OrderRepository.delete_order(db, db_order)

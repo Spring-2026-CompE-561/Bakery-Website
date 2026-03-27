@@ -2,7 +2,7 @@
 
 from sqlalchemy.orm import Session, joinedload
 from datetime import datetime
-from ..models.order import Order
+from ..models.order import Order as OrderModel
 from ..models.order_item import OrderItem
 from ..models.product import Product
 from ..schemas.order import OrderCreate
@@ -10,7 +10,7 @@ from ..schemas.order import OrderCreate
 
 class OrderRepository:
     @staticmethod
-    def create_order(db: Session, order_in: OrderCreate) -> Order:
+    def create_order(db: Session, order_in: OrderCreate) -> OrderModel:
         try:
             date_obj = datetime.strptime(order_in.pickup_date, "%Y-%m-%d").date()
         except ValueError:
@@ -25,7 +25,7 @@ class OrderRepository:
             except ValueError:
                 time_obj = datetime.now().time()
 
-        db_order = Order(
+        db_order = OrderModel(
             customer_name=order_in.customer_name,
             customer_email=order_in.customer_email,
             customer_phone=getattr(order_in, "customer_phone", None),
@@ -63,9 +63,18 @@ class OrderRepository:
         return db_order
 
     @staticmethod
-    def get_all_orders(db: Session) -> list[Order]:
+    def get_all_orders(db: Session) -> list[OrderModel]:
         """
         Retrieves all orders. We use joinedload to fetch the
         associated items in a single query for efficiency.
         """
-        return db.query(Order).options(joinedload(Order.items)).all()
+        return db.query(OrderModel).options(joinedload(OrderModel.items)).all()
+    
+    @staticmethod
+    def get_by_id(db: Session, order_id: int) -> OrderModel | None:
+        return db.query(OrderModel).filter(OrderModel.id == order_id).first()
+
+    @staticmethod
+    def delete_order(db: Session, order: OrderModel) -> None:
+        db.delete(order)
+        db.commit()
