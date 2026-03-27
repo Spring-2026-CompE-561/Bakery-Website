@@ -3,13 +3,13 @@ from sqlalchemy.orm import Session
 from .models import user, product, order, order_item
 from .schemas import user as user_schema, product as product_schema, order as order_schema, order_item as order_item_schema
 from sqlalchemy.exc import NoResultFound
-from app.core.auth import password_hash
+from src.app.core.auth import get_password_hash
 
 # User CRUD
 
 
 def create_user(db: Session, user_in: user_schema.UserCreate):
-    hashed_password = password_hash.hash(user_in.password)
+    hashed_password = get_password_hash(user_in.password)
     db_user = user.User(
         email=user_in.email,
         name=user_in.name,
@@ -36,7 +36,7 @@ def update_user(db: Session, user_id: int, user_in: user_schema.UserUpdate):
         return None
     update_data = user_in.model_dump(exclude_unset=True)
     if 'password' in update_data:
-        db_user.hashed_password = password_hash.hash(update_data.pop('password'))
+        db_user.hashed_password = get_password_hash.hash(update_data.pop('password'))
     for key, value in update_data.items():
         setattr(db_user, key, value)
     db.commit()
@@ -87,7 +87,7 @@ def delete_product(db: Session, product_id: int):
 # Order CRUD
 
 def create_order(db: Session, order_in: order_schema.OrderCreate):
-    db_order = order.Order(**order_in.dict())
+    db_order = order.Order(**order_in.model_dump())
     db.add(db_order)
     db.commit()
     db.refresh(db_order)

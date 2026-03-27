@@ -1,13 +1,13 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.models import user as user_model, product as product_model, order as order_model, order_item as order_item_model
-from app.schemas import user as user_schema, product as product_schema, order as order_schema, order_item as order_item_schema
-from app.crud import (
+from src.app.models import user as user_model, product as product_model, order as order_model, order_item as order_item_model
+from src.app.schemas import user as user_schema, product as product_schema, order as order_schema, order_item as order_item_schema
+from src.app.crud import (
     create_user, get_user, update_user, delete_user,
     create_product, get_product, update_product, delete_product
 )
-from app.core.database import Base
+from src.app.core.database import Base
 
 # Setup in-memory SQLite for testing
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
