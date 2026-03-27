@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.database import get_db
-from ..schemas.user import Token, UserOut, UserCreate
+from ..schemas.user import Token, UserOut, UserCreate, UserUpdate
 from ..core.auth import create_access_token, get_current_user
 from ..services.user_service import UserService
 
@@ -62,3 +62,27 @@ def register_user(
     # create user
     new_user = UserService.create_user(db, user_data)
     return new_user
+
+
+# update current user route
+@router.put("/update", response_model=UserOut)
+def update_current_user(
+    updates: UserUpdate,
+    db: Annotated[Session, Depends(get_db)],
+    current_user=Depends(get_current_user),
+):
+    """ Update the currently authenticated user (admin). """
+
+    # check if email is already taken
+    if updates.email:
+        existing_user = UserService.get_user_by_email(db, updates.email)
+        if existing_user and existing_user.id != current_user.id:
+            raise HTTPException(
+                status_code=400,
+                detail="Email already in use"
+            )
+
+    # call service to update user
+    updated_user = UserService.update_user(db, current_user, updates)
+
+    return updated_user
