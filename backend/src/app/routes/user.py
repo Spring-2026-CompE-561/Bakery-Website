@@ -14,7 +14,7 @@ from ..core.auth import create_access_token, get_current_user
 from ..services.user_service import UserService
 
 # router setup
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(prefix="/user", tags=["User"])
 
 # login route
 @router.post("/login", response_model=Token)

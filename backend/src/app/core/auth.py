@@ -11,6 +11,12 @@ from pwdlib import PasswordHash
 
 from .settings import settings
 
+from fastapi import Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
+from .database import get_db
+from ..repository.user_repository import UserRepository
+
 SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
@@ -87,3 +93,34 @@ def verify_token(token: str) -> dict | None:
         return None
     else:
         return payload
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+):
+    """
+    Get the current authenticated user from JWT token.
+    """
+
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+    )
+
+    # Decode token using your existing helper
+    payload = verify_token(token)
+
+    if payload is None:
+        raise credentials_exception
+
+    email: str = payload.get("sub")
+
+    if email is None:
+        raise credentials_exception
+
+    user = UserRepository.get_by_email(db, email)
+
+    if user is None:
+        raise credentials_exception
+
+    return user
