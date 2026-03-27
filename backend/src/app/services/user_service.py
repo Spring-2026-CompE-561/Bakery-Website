@@ -11,7 +11,6 @@ from ..core.auth import get_password_hash, verify_password
 
 
 class UserService:
-    # create user
     @staticmethod
     def create_new_user(db: Session, user_in: UserCreate) -> User | None:
         existing_user = UserRepository.get_by_email(db, user_in.email)
@@ -29,8 +28,7 @@ class UserService:
         db.commit()
         db.refresh(db_user)
         return db_user
-    
-    # authenticate user
+
     @staticmethod
     def authenticate(db: Session, email: str, password: str) -> User | None:
         user = UserRepository.get_by_email(db, email)
@@ -39,32 +37,3 @@ class UserService:
         if not verify_password(password, user.hashed_password):
             return None
         return user
-    
-
-    # get user by email
-    @staticmethod
-    def get_user_by_email(db: Session, email: str) -> User | None:
-        return UserRepository.get_by_email(db, email)
-    
-
-    # upodate user
-    @staticmethod
-    def update_user(db:Session, user: User, updates: UserUpdate) -> User:
-        if updates.email is not None:
-            user.email = updates.email
-
-        if updates.name is not None:
-            user.name = updates.name
-
-        if updates.password is not None:
-            user.hashed_password = get_password_hash(updates.password)
-
-        db.commit()
-        db.refresh(user)
-        return user
-
-    # delete user
-    @staticmethod
-    def delete_user(db: Session, user: User) -> None:
-        db.delete(user)
-        db.commit()
