@@ -10,6 +10,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.database import get_db
 from ..schemas.user import Token, UserOut, UserCreate, UserUpdate
+from ..repository.user_repository import UserRepository
 from ..core.auth import create_access_token, get_current_user
 from ..services.user_service import UserService
 
@@ -52,7 +53,7 @@ def register_user(
     """Register (post/create) a new user"""
 
     #check if user already exists
-    existing_user = UserService.get_user_by_email(db, user_data.email)
+    existing_user = UserService.get_by_email(db, user_data.email)
     if existing_user:
         raise HTTPException(
             status_code=400,
@@ -75,7 +76,7 @@ def update_current_user(
 
     # check if email is already taken
     if updates.email:
-        existing_user = UserService.get_user_by_email(db, updates.email)
+        existing_user = UserService.get_by_email(db, updates.email)
         if existing_user and existing_user.id != current_user.id:
             raise HTTPException(
                 status_code=400,

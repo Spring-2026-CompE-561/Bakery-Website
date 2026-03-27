@@ -37,3 +37,7 @@ class UserService:
         if not verify_password(password, user.hashed_password):
             return None
         return user
+    
+    @staticmethod
+    def get_by_email(db: Session, email: str) -> User | None:
+        return UserRepository.get_by_email(db, email)
