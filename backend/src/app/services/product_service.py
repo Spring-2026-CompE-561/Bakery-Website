@@ -22,6 +22,29 @@ class ProductService:
         return ProductRepository.create(db, product_in)
 
     @staticmethod
+    def replace_product(
+        db: Session,
+        product_id: int,
+        product_in: ProductCreate,
+    ) -> ProductRepository:
+        # PUT replaces the editable product fields with a complete payload.
+        db_product = ProductRepository.get_by_id(db, product_id)
+        if not db_product:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Product not found",
+            )
+
+        if product_in.price < 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Price must be non-negative",
+            )
+
+        updates = product_in.model_dump()
+        return ProductRepository.update(db, db_product, updates)
+
+    @staticmethod
     def patch_product(
         db: Session,
         product_id: int,

@@ -39,3 +39,14 @@ def patch_product(
 ) -> Product:
     # Partial update route for product fields.
     return ProductService.patch_product(db, product_id, product_in)
+
+
+@router.put("/{product_id}")
+def put_product(
+    product_id: int,
+    product_in: ProductCreate,
+    db: Annotated[Session, Depends(get_db)],
+    current_admin: Annotated[User, Depends(get_current_admin)],
+) -> Product:
+    # Full update route for replacing product fields.
+    return ProductService.replace_product(db, product_id, product_in)
