@@ -19,7 +19,7 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 * SECRET_KEY="any-random-secret-key-string"
 * DATABASE_URL="sqlite:///./bakery.db"
 
-3. **From the terminal on vscode initialize the Admin & Start the Server:**
+3. **From the terminal on vscode, in backend/ directory, initialize the Admin & Start the Server:**
 * uv run python seed_admin.py
 * uv run uvicorn src.app.main:app --reload
 
