@@ -9,8 +9,8 @@ from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.database import get_db
-from ..schemas.user import Token
-from ..core.auth import create_access_token
+from ..schemas.user import Token, UserOut, UserCreate
+from ..core.auth import create_access_token, get_current_user
 from ..services.user_service import UserService
 
 # router setup
