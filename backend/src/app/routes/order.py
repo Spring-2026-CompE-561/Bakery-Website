@@ -53,3 +53,13 @@ def update_order_status(
     db.commit()
     db.refresh(db_order)
     return db_order
+
+@router.delete("/{order_id}/")
+def delete_order(
+    order_id: int,
+    db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
+) -> bool:
+    OrderService.delete_order(db, order_id)
+    return True
+    
