@@ -55,7 +55,7 @@ def register_user(
     existing_user = UserService.get_user_by_email(db, user_data.email)
     if existing_user:
         raise HTTPException(
-            status_code=400
+            status_code=400,
             detail="Email already registered"
         )
     
