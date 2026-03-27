@@ -41,3 +41,24 @@ class UserService:
     @staticmethod
     def get_by_email(db: Session, email: str) -> User | None:
         return UserRepository.get_by_email(db, email)
+    
+
+    @staticmethod
+    def update_user(db: Session, user: User, updates: UserUpdate) -> User:
+        """Update the current user (admin)."""
+
+        # update email
+        if updates.email:
+            user.email = updates.email
+
+        # update name
+        if updates.name:
+            user.name = updates.name
+
+        # update password (IMPORTANT: hash it)
+        if updates.password:
+            user.hashed_password = get_password_hash(updates.password)
+
+        db.commit()
+        db.refresh(user)
+        return user
