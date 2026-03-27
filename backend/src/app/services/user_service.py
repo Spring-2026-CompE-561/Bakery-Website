@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from ..models.user import User
 from ..repository.user_repository import UserRepository
-from ..schemas.user import UserCreate
+from ..schemas.user import UserCreate, UserUpdate
 from ..core.auth import get_password_hash, verify_password
 
 
@@ -22,7 +22,7 @@ class UserService:
         db_user = User(
             email=user_in.email,
             hashed_password=hashed_pw,
-            name=user_in.full_name,
+            name=user_in.name,
         )
         db.add(db_user)
         db.commit()
