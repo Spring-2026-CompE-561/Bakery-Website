@@ -61,7 +61,8 @@ def register_user(
         )
     
     # create user
-    new_user = UserService.create_user(db, user_data)
+    #new_user = UserService.create_user(db, user_data)
+    new_user = UserService.create_new_user(db, user_data)
     return new_user
 
 
