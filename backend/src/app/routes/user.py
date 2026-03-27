@@ -10,7 +10,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.database import get_db
 from ..schemas.user import Token, UserOut, UserCreate, UserUpdate
-from ..repository.user_repository import UserRepository
 from ..core.auth import create_access_token, get_current_user
 from ..services.user_service import UserService
 
@@ -61,7 +60,6 @@ def register_user(
         )
     
     # create user
-    #new_user = UserService.create_user(db, user_data)
     new_user = UserService.create_new_user(db, user_data)
     return new_user
 
