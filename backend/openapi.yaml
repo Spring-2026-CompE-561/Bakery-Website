@@ -216,6 +216,37 @@ paths:
                   success:
                     type: boolean
                     example: true
+  /api/v1/about:
+    get:
+      tags: [Public]
+      summary: Retrieve About information
+      responses:
+        "200":
+          description: About information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  app_name:
+                    type: string
+                  version:
+                    type: string
+                  description:
+                    type: string
+                  contact:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+              examples:
+                success:
+                  value:
+                    app_name: "Bakery API"
+                    version: "1.0.0"
+                    description: "Backend API for a Filipino family-run bakery (products, orders, admin)."
+                    contact:
+                      email: "owner@example.com"
 
 components:
   schemas:
