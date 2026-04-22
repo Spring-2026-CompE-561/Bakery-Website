@@ -20,7 +20,7 @@ export default function Pager({
       <button
         onClick={goPrev}
         disabled={currentPage === 1}
-        className="flex h-12 w-20 flex-col items-center justify-center rounded-md border border-[#a98b97] bg-[#999d55] text-xs leading-tight text-stone-700 shadow-sm disabled:opacity-40 disabled:pointer-events-none hover:bg-[#4c4e2a]"
+        className="flex h-12 w-20 flex-col items-center justify-center rounded-md border border-[#a98b97] bg-[#999d55] text-xs leading-tight text-stone-700 shadow-sm disabled:opacity-40 disabled:pointer-events-none hover:bg-[#4c4e2a] hover:text-stone-400"
       >
         <span>Prev</span>
         <span>Page</span>
@@ -29,7 +29,7 @@ export default function Pager({
       <button
         onClick={goNext}
         disabled={currentPage === totalPages}
-        className="flex h-12 w-20 flex-col items-center justify-center rounded-md border border-[#a98b97] bg-[#999d55] text-xs leading-tight text-stone-700 shadow-sm disabled:opacity-40 disabled:pointer-events-none hover:bg-[#4c4e2a]"
+        className="flex h-12 w-20 flex-col items-center justify-center rounded-md border border-[#a98b97] bg-[#999d55] text-xs leading-tight text-stone-700 shadow-sm disabled:opacity-40 disabled:pointer-events-none hover:bg-[#4c4e2a] hover:text-stone-400"
       >
         <span>Next</span>
         <span>Page</span>
