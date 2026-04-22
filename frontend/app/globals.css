@@ -1,8 +1,9 @@
 @import "tailwindcss";
+@import "@fontsource/cactus-classical-serif";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbc9e4;
+  --foreground: #fbc9e4;
 }
 
 @theme inline {
@@ -15,12 +16,12 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #fbc9e4;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Cactus Classical Serif";
 }
