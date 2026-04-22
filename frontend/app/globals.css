@@ -1,26 +1,30 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Gluten:wght@100..900&family=Cactus+Classical+Serif&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFA3C3;
+  --foreground: #2c1a22;
+
+  --color-papaya:      #FFEFD6;
+  --color-baby-pink:   #FBC9E4;
+  --color-smooth-pink: #FFA3C3;
+  --color-tender-rose: #ED7B8D;
+  --color-deep-sage:   #999D55;
+
+  --font-display: 'Gluten', cursive;
+  --font-body:    'Cactus Classical Serif', serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
 }
