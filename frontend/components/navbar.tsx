@@ -11,7 +11,7 @@ export default function Navbar() {
         <Link href="/"
           style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
           className="text-3xl font-bold hover:opacity-80">
-          Sari Sari Sweets
+          Seri Seri Sweets
         </Link>
 
         <span style={{ color: "var(--color-foreground)" }}>|</span>
