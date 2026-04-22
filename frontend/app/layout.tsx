@@ -1,23 +1,18 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// frontend/app/layout.tsx
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
 import "./globals.css";
 
+export const metadata = {
+  title: "Sari Sari Sweets",
+  description: "Filipino desserts — pickup only, Oahu Hawaii",
+};
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body>
         <Navbar />
-        <main className="flex-grow">
-        {children}
-        </main>
-        <Footer />
+        <main>{children}</main>
       </body>
     </html>
   );
