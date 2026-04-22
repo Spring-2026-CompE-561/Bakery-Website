@@ -47,19 +47,19 @@ export default function ProductsHeader({
   }, [isPageMenuOpen, setIsPageMenuOpen]);
 
   return (
-    <div className="flex items-center justify-between border-b border-[#8a6f7b] px-3 py-2 sm:px-4">
+    <div className="flex items-center justify-between border-b border-black px-3 py-2 sm:px-4">
       <div className="flex items-center gap-2">
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setIsPageMenuOpen((prev) => !prev)}
             disabled={totalPages === 1}
-            className="rounded border border-[#8a6f7b] bg-[#999d55] px-3 py-1 text-xs text-stone-700 shadow-sm hover:bg-[#4c4e2a] hover:text-stone-400 disabled:pointer-events-none"
+            className="rounded border border-black bg-[#999d55] px-3 py-1 text-xs text-stone-700 hover:bg-[#4c4e2a] hover:text-stone-400 disabled:pointer-events-none"
           >
             Page {currentPage}
           </button>
 
           {isPageMenuOpen && (
-            <div className="absolute left-0 top-full z-10 mt-1 w-24 rounded border border-[#8a6f7b] bg-[#fff8fb] shadow-md">
+            <div className="absolute left-0 top-full z-10 mt-1 w-24 rounded border border-black bg-[#fff8fb] shadow-md">
               {Array.from({ length: totalPages }, (_, index) => {
                 const page = index + 1;
 
