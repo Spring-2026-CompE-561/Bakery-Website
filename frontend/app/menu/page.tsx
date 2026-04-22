@@ -1,3 +1,8 @@
+// menu page
+// header, products, footer
+// header and footer help user navigate through the menu
+// products are in a grid
+
 "use client";
 
 import { useState } from "react";
@@ -39,8 +44,8 @@ export default function ProductsPage() {
     };
 
     return (
-        <main className="min-h-screen bg-[#d9b0c1] p-4 sm:p-6">
-            <div className="mx-auto max-w-6xl border border-[#8a6f7b] bg-[#e7bfd0] shadow-sm">
+        <main className="min-h-screen bg-[var(--color-smooth-pink)] p-4 sm:p-6 flex-1">
+            <div className="mx-auto max-w-6xl border border-black bg-[var(--color-baby-pink)]">
 
                 <ProductsHeader
                     currentPage={currentPage}
