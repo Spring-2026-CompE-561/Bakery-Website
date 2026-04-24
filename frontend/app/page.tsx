@@ -16,22 +16,6 @@ const products = [
   },
   {
     id: 2,
-    name: "Vanilla Mini Cake",
-    price: "$6.00",
-    description: "Soft vanilla cupcake with smooth and creamy vanilla buttercream.",
-    img: "https://placehold.co/400x300/f5e6c8/8b6914?text=Vanilla+Mini+Cake",
-    badge: null,
-  },
-  {
-    id: 3,
-    name: "Turon Mini Cake",
-    price: "$10.00",
-    description: "Banana-caramel cupcake inspired by the Filipino favorite, topped with crunchy caramelized lumpia wrapper.",
-    img: "https://placehold.co/400x300/d4a853/6b4c0a?text=Turon+Mini+Cake",
-    badge: "Fan Favorite",
-  },
-  {
-    id: 4,
     name: "Ube Mini Cake",
     price: "$10.00",
     description: "Soft ube cupcake with creamy ube buttercream and sweet nutty flavor.",
@@ -39,7 +23,7 @@ const products = [
     badge: "Popular",
   },
   {
-    id: 5,
+    id: 3,
     name: "Sampler Box",
     price: "$30.00",
     description: "One of each flavor — Chocolate, Vanilla, Turon, and Ube — perfect for trying them all!",
@@ -78,7 +62,7 @@ export default function HomePage() {
         }}>
           Filipino-inspired mini cakes baked fresh with love. Order ahead for local pickup — taste a little piece of home.
         </p>
-        <Link href="/checkout">
+        <Link href="/menu">
           <Button
             size="lg"
             style={{
@@ -97,17 +81,17 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* ── Products Grid ── */}
+      {/* ── Featured Products (3 max) ── */}
       <section style={{ padding: "48px 32px" }}>
         <p style={{ fontSize: "24px", fontWeight: "bold", textAlign: "center", marginBottom: "32px" }}>
-          🧁 Our Menu
+          🧁 Featured Items
         </p>
 
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
           gap: "28px",
-          maxWidth: "1100px",
+          maxWidth: "900px",
           margin: "0 auto",
         }}>
           {products.map((product) => (
@@ -130,7 +114,6 @@ export default function HomePage() {
                 (e.currentTarget as HTMLElement).style.boxShadow = "3px 3px 0 #000";
               }}
             >
-              {/* Product image — replace src with your real photo */}
               <div style={{ position: "relative" }}>
                 <img
                   src={product.img}
@@ -139,15 +122,13 @@ export default function HomePage() {
                 />
                 {product.badge && (
                   <div style={{ position: "absolute", top: "10px", right: "10px" }}>
-                    <Badge
-                      style={{
-                        background: "var(--color-tender-rose)",
-                        color: "#000",
-                        border: "1px solid #000",
-                        fontFamily: "var(--font-body)",
-                        fontSize: "12px",
-                      }}
-                    >
+                    <Badge style={{
+                      background: "var(--color-tender-rose)",
+                      color: "#000",
+                      border: "1px solid #000",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "12px",
+                    }}>
                       {product.badge}
                     </Badge>
                   </div>
@@ -163,25 +144,39 @@ export default function HomePage() {
               </CardContent>
 
               <CardFooter style={{ padding: "8px 16px 16px" }}>
-                <Link href="/checkout" style={{ width: "100%" }}>
-                  <Button
-                    style={{
-                      width: "100%",
-                      background: "var(--color-papaya)",
-                      border: "1.5px solid #000",
-                      color: "#000",
-                      fontFamily: "var(--font-body)",
-                      fontWeight: "bold",
-                      height: "auto",
-                      padding: "8px",
-                    }}
-                  >
+                <Link href="/menu" style={{ width: "100%" }}>
+                  <Button style={{
+                    width: "100%",
+                    background: "var(--color-papaya)",
+                    border: "1.5px solid #000",
+                    color: "#000",
+                    fontFamily: "var(--font-body)",
+                    fontWeight: "bold",
+                    height: "auto",
+                    padding: "8px",
+                  }}>
                     Order This
                   </Button>
                 </Link>
               </CardFooter>
             </Card>
           ))}
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "32px" }}>
+          <Link href="/menu">
+            <Button style={{
+              background: "var(--color-smooth-pink)",
+              border: "2px solid #000",
+              color: "#000",
+              fontFamily: "var(--font-body)",
+              fontWeight: "bold",
+              height: "auto",
+              padding: "10px 28px",
+            }}>
+              See Full Menu
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -193,26 +188,28 @@ export default function HomePage() {
         borderTop: "2px solid #000",
         borderBottom: "2px solid #000",
         padding: "48px 32px",
+        textAlign: "center",
       }}>
-        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>
-            About Seri-Seri Sweets
-          </p>
-          <p style={{ fontSize: "18px", lineHeight: "1.8", marginBottom: "16px" }}>
-            Hi, I'm <strong>Raquel Muña</strong>, the owner of Seri-Seri Sweets. I'm a wife, mom,
-            and military spouse currently stationed in Hawai'i with Filipino heritage.
-          </p>
-          <p style={{ fontSize: "18px", lineHeight: "1.8", marginBottom: "16px" }}>
-            I created Seri-Seri Sweets after discovering my love for baking and sharing treats with others.
-            The name was inspired by my family and the nostalgic <em>Sari-Sari</em> store — a place filled
-            with Filipino snacks, essentials, and community.
-          </p>
-          <p style={{ fontSize: "18px", lineHeight: "1.8" }}>
-            Our journey began at Fort Campbell, where I first envisioned this home bakery, and it continues
-            to grow with us as we move through different duty stations, each place bringing new inspiration
-            to Seri-Seri Sweets. 🏡🌺
-          </p>
-        </div>
+        <p style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>
+          About Seri-Seri Sweets
+        </p>
+        <p style={{ fontSize: "18px", maxWidth: "560px", margin: "0 auto 28px", lineHeight: "1.7" }}>
+          A Filipino family bakery bringing the warmth of home to Oahu, Hawai'i — one mini cake at a time. 🌺
+        </p>
+        <Link href="/about">
+          <Button style={{
+            background: "#fff",
+            border: "2px solid #000",
+            color: "#000",
+            fontFamily: "var(--font-body)",
+            fontWeight: "bold",
+            height: "auto",
+            padding: "10px 28px",
+            fontSize: "16px",
+          }}>
+            Our Story →
+          </Button>
+        </Link>
       </section>
 
       {/* ── Contact Section ── */}
