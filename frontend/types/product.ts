@@ -2,8 +2,8 @@
 export interface Product {
   id: number;
   name: string;
-  price: string;
   description: string;
-  img: string;
+  price: string;
+  picture_url: string;
   badge: string | null;
 }
