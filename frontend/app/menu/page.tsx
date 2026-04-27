@@ -6,6 +6,8 @@
 "use client";
 
 import { useState } from "react";
+import { Product } from "@/types/product";
+import { ProductModal } from "@/components/productmodal";
 import MenuPager from "@/components/ui/menuPager";
 import MenuHeader from "@/components/ui/menuHeader";
 import { products } from "@/data/menu";
@@ -14,6 +16,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default function Menu() {
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // For modal
+    
     const PRODUCTS_PER_PAGE = 6;
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +67,7 @@ export default function Menu() {
                     {currentProducts.map((product) => (
                         <Card
               key={product.id}
+              onClick={() => setSelectedProduct(product)}
               style={{
                 border: "2px solid #000",
                 borderRadius: "10px",
@@ -121,6 +126,14 @@ export default function Menu() {
                     goNext={goNext}
                     goPrev={goPrev}
                 />
+                
+                {selectedProduct && (
+                <ProductModal 
+                product={selectedProduct} 
+                onClose={() => setSelectedProduct(null)}
+                onAddToCart={(q) => console.log(`Added ${q} to cart`)}
+                />
+                )}
             </div>
         </main>
     );

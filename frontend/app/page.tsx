@@ -4,8 +4,9 @@ import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Product } from "@/types/product";
 
-const products = [
+const products: Product[] = [ 
   {
     id: 1,
     name: "Chocolate Mini Cake",
