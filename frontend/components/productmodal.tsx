@@ -13,7 +13,8 @@ interface ModalProps {
 
 export function ProductModal({ product, onClose, onAddToCart }: ModalProps) {
   const [qty, setQty] = useState(1);
-  const numericPrice = parseFloat(product.price.replace('$', ''));
+  // const numericPrice = parseFloat(product.price.replace('$', ''));
+  const numericPrice = Number(product.price);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white border-4 border-[#999D55] p-6 rounded-lg w-full max-w-md shadow-xl">
