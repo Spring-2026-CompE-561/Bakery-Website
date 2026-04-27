@@ -18,7 +18,7 @@ export function ProductModal({ product, onClose, onAddToCart }: ModalProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white border-4 border-[#999D55] p-6 rounded-lg w-full max-w-md shadow-xl">
-        <img src={product.img} alt={product.name} className="w-full h-50 object-cover mb-4" />
+        <img src={product.picture_url} alt={product.name} className="w-full h-50 object-cover mb-4" />
         
         <h2 className="text-2xl font-bold font-[family-name:var(--font-geist-sans)] text-[#ED7B8D]">{product.name}</h2>
         <p className="text-xl text-black font-medium mb-1">${numericPrice.toFixed(2)}</p>
