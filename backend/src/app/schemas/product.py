@@ -11,6 +11,7 @@ class ProductBase(BaseModel):
     price: float
     is_available: bool = True
     picture_url: str | None = None
+    badge: str | None = None
 
 
 class ProductCreate(ProductBase):
@@ -31,3 +32,4 @@ class ProductUpdate(BaseModel):
     price: Optional[float] = None
     is_available: Optional[bool] = None
     picture_url: Optional[str] = None
+    badge: Optional[str] = None

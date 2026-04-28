@@ -19,3 +19,4 @@ class Product(Base):
     price = Column(Float, nullable=False)
     is_available = Column(Boolean, default=True)
     picture_url = Column(String, nullable=True)
+    badge = Column(String, nullable=True)
