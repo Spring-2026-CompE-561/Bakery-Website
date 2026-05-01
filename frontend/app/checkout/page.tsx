@@ -63,6 +63,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           customer_name: customerName.trim(),
           customer_email: customerEmail.trim(),
+          customer_phone: customerPhone.trim() || undefined,
           total_price: total,
           pickup_date: pickupDate,
           pickup_time: pickupTime,
@@ -142,29 +143,6 @@ export default function CheckoutPage() {
   return (
     <div style={{ background: "var(--color-baby-pink)", minHeight: "100vh", fontFamily: "var(--font-body)" }}>
 
-      {/* Pickup date/time banner */}
-      <div
-        className="flex items-center justify-center gap-4 px-6 py-4"
-        style={{ background: "var(--color-smooth-pink)", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
-        <p style={{ fontFamily: "var(--font-body)", fontSize: "18px", fontWeight: "bold" }}>
-          Pickup for {formatDate(pickupDate)} at {pickupTime}
-        </p>
-        <button
-          onClick={openModal}
-          style={{
-            background: "var(--color-tender-rose)",
-            border: "none",
-            borderRadius: "8px",
-            padding: "6px 14px",
-            cursor: "pointer",
-            color: "#fff",
-            fontSize: "15px",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-          }}>
-          ✏
-        </button>
-      </div>
-
       {/* Modal overlay */}
       {isModalOpen && (
         <div
@@ -182,7 +160,6 @@ export default function CheckoutPage() {
             onClick={(e) => e.stopPropagation()}
             style={{
               background: "white",
-              border: "none",
               borderRadius: "20px",
               boxShadow: "0 8px 40px rgba(0,0,0,0.16)",
               padding: "36px",
@@ -193,7 +170,7 @@ export default function CheckoutPage() {
               gap: "20px",
             }}>
 
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>Edit Pickup Time</p>
+            <p style={{ fontSize: "13px", fontWeight: "bold", letterSpacing: "0.08em", textTransform: "uppercase", color: "#aaa" }}>Edit Pickup Time</p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
               <label style={inputLabel}>Date</label>
@@ -258,6 +235,39 @@ export default function CheckoutPage() {
 
       {/* Main content */}
       <div style={{ padding: "28px 72px" }}>
+
+        {/* Pickup date/time */}
+        <div className="flex justify-center" style={{ marginBottom: "20px" }}>
+          <div style={{
+            background: "var(--color-tender-rose)",
+            borderRadius: "16px",
+            boxShadow: "0 4px 20px rgba(237,123,141,0.4)",
+            padding: "18px 32px",
+            display: "flex",
+            alignItems: "center",
+            gap: "20px",
+          }}>
+            <div>
+              <p style={{ fontSize: "11px", fontWeight: "bold", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.75)", marginBottom: "4px" }}>Pickup Time</p>
+              <p style={{ fontSize: "18px", fontWeight: "bold", color: "#fff" }}>
+                {formatDate(pickupDate)} &middot; {pickupTime}
+              </p>
+            </div>
+            <button
+              onClick={openModal}
+              style={{
+                background: "rgba(255,255,255,0.25)",
+                border: "none",
+                borderRadius: "8px",
+                padding: "8px 16px",
+                cursor: "pointer",
+                color: "#fff",
+                fontSize: "20px",
+              }}>
+              ✏
+            </button>
+          </div>
+        </div>
 
         {/* Pickup location */}
         <section style={card}>
