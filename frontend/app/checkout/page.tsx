@@ -103,7 +103,7 @@ export default function CheckoutPage() {
   const card: React.CSSProperties = {
     background: "white",
     borderRadius: "16px",
-    boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+    border: "2px solid #000",
     padding: "24px 28px",
     marginBottom: "20px",
   };
@@ -161,7 +161,7 @@ export default function CheckoutPage() {
             style={{
               background: "white",
               borderRadius: "20px",
-              boxShadow: "0 8px 40px rgba(0,0,0,0.16)",
+              border: "2px solid #000",
               padding: "36px",
               width: "380px",
               fontFamily: "var(--font-body)",
@@ -201,7 +201,7 @@ export default function CheckoutPage() {
                 onClick={savePickup}
                 style={{
                   background: "var(--color-tender-rose)",
-                  border: "none",
+                  border: "2px solid #000",
                   borderRadius: "10px",
                   padding: "10px 28px",
                   fontSize: "16px",
@@ -209,7 +209,6 @@ export default function CheckoutPage() {
                   fontWeight: "bold",
                   cursor: "pointer",
                   color: "#fff",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                 }}>
                 Save
               </button>
@@ -217,13 +216,13 @@ export default function CheckoutPage() {
                 onClick={cancelModal}
                 style={{
                   background: "#f5f5f5",
-                  border: "none",
+                  border: "2px solid #000",
                   borderRadius: "10px",
                   padding: "10px 28px",
                   fontSize: "16px",
                   fontFamily: "var(--font-body)",
                   cursor: "pointer",
-                  color: "#555",
+                  color: "#333",
                 }}>
                 Cancel
               </button>
@@ -241,7 +240,7 @@ export default function CheckoutPage() {
           <div style={{
             background: "var(--color-tender-rose)",
             borderRadius: "16px",
-            boxShadow: "0 4px 20px rgba(237,123,141,0.4)",
+            border: "2px solid #000",
             padding: "18px 32px",
             display: "flex",
             alignItems: "center",
@@ -257,7 +256,7 @@ export default function CheckoutPage() {
               onClick={openModal}
               style={{
                 background: "rgba(255,255,255,0.25)",
-                border: "none",
+                border: "2px solid #000",
                 borderRadius: "8px",
                 padding: "8px 16px",
                 cursor: "pointer",
@@ -291,13 +290,13 @@ export default function CheckoutPage() {
                   <div className="flex items-center" style={{ gap: "8px" }}>
                     <button
                       onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                      style={{ width: "28px", height: "28px", borderRadius: "9999px", border: "1.5px solid #f0c4d4", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
+                      style={{ width: "28px", height: "28px", borderRadius: "9999px", border: "2px solid #000", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
                       −
                     </button>
                     <span style={{ minWidth: "20px", textAlign: "center" }}>{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                      style={{ width: "28px", height: "28px", borderRadius: "9999px", border: "1.5px solid #f0c4d4", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
+                      style={{ width: "28px", height: "28px", borderRadius: "9999px", border: "2px solid #000", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
                       +
                     </button>
                   </div>
@@ -380,7 +379,7 @@ export default function CheckoutPage() {
             disabled={isSubmitting || items.length === 0}
             style={{
               background: "var(--color-tender-rose)",
-              border: "none",
+              border: "2px solid #000",
               borderRadius: "12px",
               padding: "16px 0",
               width: "360px",
@@ -390,7 +389,6 @@ export default function CheckoutPage() {
               cursor: isSubmitting || items.length === 0 ? "not-allowed" : "pointer",
               color: "#fff",
               opacity: isSubmitting || items.length === 0 ? 0.55 : 1,
-              boxShadow: "0 4px 16px rgba(237,123,141,0.35)",
               transition: "opacity 0.2s",
             }}>
             {isSubmitting ? "Placing Order..." : "Place Order"}
