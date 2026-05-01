@@ -1,7 +1,7 @@
 
 // frontend/app/checkout/page.tsx
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useCart } from "@/context/CartContext";
 
 function getEarliestDate(): string {
@@ -99,23 +99,67 @@ export default function CheckoutPage() {
     setIsModalOpen(false);
   }
 
+  const card: React.CSSProperties = {
+    background: "white",
+    borderRadius: "16px",
+    boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+    padding: "24px 28px",
+    marginBottom: "20px",
+  };
+
+  const sectionTitle: React.CSSProperties = {
+    fontSize: "13px",
+    fontWeight: "bold",
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: "#aaa",
+    marginBottom: "14px",
+    fontFamily: "var(--font-body)",
+  };
+
+  const inputLabel: React.CSSProperties = {
+    fontSize: "12px",
+    fontWeight: "bold",
+    letterSpacing: "0.06em",
+    textTransform: "uppercase",
+    color: "#aaa",
+    marginBottom: "4px",
+    fontFamily: "var(--font-body)",
+  };
+
+  const inputStyle: React.CSSProperties = {
+    background: "#fafafa",
+    border: "1.5px solid #f0c4d4",
+    borderRadius: "10px",
+    padding: "10px 14px",
+    fontSize: "16px",
+    fontFamily: "var(--font-body)",
+    color: "#000",
+    width: "100%",
+    outline: "none",
+  };
+
   return (
     <div style={{ background: "var(--color-baby-pink)", minHeight: "100vh", fontFamily: "var(--font-body)" }}>
 
       {/* Pickup date/time banner */}
-      <div style={{ background: "var(--color-smooth-pink)", borderBottom: "1px solid #000" }}
-        className="flex items-center justify-center gap-4 px-6 py-4">
-        <p style={{ fontFamily: "var(--font-body)", fontSize: "20px", fontWeight: "bold" }}>
+      <div
+        className="flex items-center justify-center gap-4 px-6 py-4"
+        style={{ background: "var(--color-smooth-pink)", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
+        <p style={{ fontFamily: "var(--font-body)", fontSize: "18px", fontWeight: "bold" }}>
           Pickup for {formatDate(pickupDate)} at {pickupTime}
         </p>
         <button
           onClick={openModal}
           style={{
             background: "var(--color-tender-rose)",
-            border: "2px solid #000",
-            borderRadius: "4px",
-            padding: "4px 12px",
+            border: "none",
+            borderRadius: "8px",
+            padding: "6px 14px",
             cursor: "pointer",
+            color: "#fff",
+            fontSize: "15px",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
           }}>
           ✏
         </button>
@@ -127,21 +171,21 @@ export default function CheckoutPage() {
           onClick={cancelModal}
           style={{
             position: "fixed", inset: 0,
-            background: "rgba(0,0,0,0.4)",
+            background: "rgba(0,0,0,0.35)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             zIndex: 50,
           }}>
 
-          {/* Modal box — stop click from closing when clicking inside */}
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: "var(--color-papaya)",
-              border: "2px solid #000",
-              borderRadius: "8px",
-              padding: "32px",
+              background: "white",
+              border: "none",
+              borderRadius: "20px",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.16)",
+              padding: "36px",
               width: "380px",
               fontFamily: "var(--font-body)",
               display: "flex",
@@ -151,39 +195,23 @@ export default function CheckoutPage() {
 
             <p style={{ fontSize: "20px", fontWeight: "bold" }}>Edit Pickup Time</p>
 
-            {/* Date picker */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "16px" }}>Date</label>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={inputLabel}>Date</label>
               <input
                 type="date"
                 value={tempDate}
                 min={earliestDate}
                 onChange={(e) => setTempDate(e.target.value)}
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "18px",
-                  padding: "6px 10px",
-                  border: "1px solid #000",
-                  background: "var(--color-baby-pink)",
-                  borderRadius: "4px",
-                }}
+                style={inputStyle}
               />
             </div>
 
-            {/* Time picker */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "16px" }}>Time</label>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={inputLabel}>Time</label>
               <select
                 value={tempTime}
                 onChange={(e) => setTempTime(e.target.value)}
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "18px",
-                  padding: "6px 10px",
-                  border: "1px solid #000",
-                  background: "var(--color-baby-pink)",
-                  borderRadius: "4px",
-                }}
+                style={inputStyle}
               >
                 {timeSlots.map((slot) => (
                   <option key={slot} value={slot}>{slot}</option>
@@ -191,32 +219,34 @@ export default function CheckoutPage() {
               </select>
             </div>
 
-            {/* Buttons */}
             <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
               <button
                 onClick={savePickup}
                 style={{
                   background: "var(--color-tender-rose)",
-                  border: "2px solid #000",
-                  borderRadius: "6px",
+                  border: "none",
+                  borderRadius: "10px",
                   padding: "10px 28px",
-                  fontSize: "18px",
+                  fontSize: "16px",
                   fontFamily: "var(--font-body)",
                   fontWeight: "bold",
                   cursor: "pointer",
+                  color: "#fff",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                 }}>
                 Save
               </button>
               <button
                 onClick={cancelModal}
                 style={{
-                  background: "var(--color-papaya)",
-                  border: "2px solid #000",
-                  borderRadius: "6px",
+                  background: "#f5f5f5",
+                  border: "none",
+                  borderRadius: "10px",
                   padding: "10px 28px",
-                  fontSize: "18px",
+                  fontSize: "16px",
                   fontFamily: "var(--font-body)",
                   cursor: "pointer",
+                  color: "#555",
                 }}>
                 Cancel
               </button>
@@ -227,49 +257,44 @@ export default function CheckoutPage() {
       )}
 
       {/* Main content */}
-      <div style={{ padding: "24px 72px" }}>
+      <div style={{ padding: "28px 72px" }}>
 
         {/* Pickup location */}
-        <section style={{ marginBottom: "24px" }}>
-          <p style={{ fontSize: "20px", fontFamily: "var(--font-body)", marginBottom: "6px", fontWeight: "bold" }}>
-            Pickup Location
-          </p>
-          <p style={{ fontSize: "20px", fontFamily: "var(--font-body)" }}>
+        <section style={card}>
+          <p style={sectionTitle}>Pickup Location</p>
+          <p style={{ fontSize: "16px", fontFamily: "var(--font-body)", color: "#333", lineHeight: 1.6 }}>
             Street Address<br />
             City, State, Zip Code
           </p>
-          <hr style={{ borderColor: "#000", marginTop: "20px" }} />
         </section>
 
         {/* Order summary */}
-        <section style={{ marginBottom: "24px" }}>
-          <p style={{ fontSize: "20px", fontFamily: "var(--font-body)", marginBottom: "12px", fontWeight: "bold" }}>
-            Order Summary
-          </p>
-          <div style={{ fontSize: "20px", fontFamily: "var(--font-body)" }}>
+        <section style={card}>
+          <p style={sectionTitle}>Order Summary</p>
+          <div style={{ fontSize: "16px", fontFamily: "var(--font-body)" }}>
             {items.length === 0 ? (
-              <p style={{ color: "#808080" }}>Your cart is empty.</p>
+              <p style={{ color: "#aaa" }}>Your cart is empty.</p>
             ) : (
               items.map((item) => (
-                <div key={item.product.id} className="flex items-center justify-between" style={{ marginBottom: "10px", gap: "12px" }}>
-                  <span style={{ flex: 1 }}>{item.product.name}</span>
+                <div key={item.product.id} className="flex items-center justify-between" style={{ marginBottom: "12px", gap: "12px" }}>
+                  <span style={{ flex: 1, color: "#222" }}>{item.product.name}</span>
                   <div className="flex items-center" style={{ gap: "8px" }}>
                     <button
                       onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                      style={{ width: "26px", height: "26px", borderRadius: "9999px", border: "1.5px solid #000", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
+                      style={{ width: "28px", height: "28px", borderRadius: "9999px", border: "1.5px solid #f0c4d4", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
                       −
                     </button>
                     <span style={{ minWidth: "20px", textAlign: "center" }}>{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                      style={{ width: "26px", height: "26px", borderRadius: "9999px", border: "1.5px solid #000", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
+                      style={{ width: "28px", height: "28px", borderRadius: "9999px", border: "1.5px solid #f0c4d4", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
                       +
                     </button>
                   </div>
-                  <span style={{ minWidth: "56px", textAlign: "right" }}>${(Number(item.product.price) * item.quantity).toFixed(2)}</span>
+                  <span style={{ minWidth: "56px", textAlign: "right", color: "#333" }}>${(Number(item.product.price) * item.quantity).toFixed(2)}</span>
                   <button
                     onClick={() => removeFromCart(item.product.id)}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#888", lineHeight: 1 }}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#ccc", lineHeight: 1 }}
                     title="Remove item">
                     ✕
                   </button>
@@ -277,79 +302,88 @@ export default function CheckoutPage() {
               ))
             )}
             {items.length > 0 && (
-              <div className="flex justify-between" style={{ marginTop: "12px", fontWeight: "bold" }}>
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
+              <>
+                <div style={{ borderTop: "1px solid #f3e0eb", marginTop: "12px", paddingTop: "12px" }} className="flex justify-between">
+                  <span style={{ fontWeight: "bold", color: "#222" }}>Total</span>
+                  <span style={{ fontWeight: "bold", color: "#222" }}>${total.toFixed(2)}</span>
+                </div>
+              </>
             )}
           </div>
-          <hr style={{ borderColor: "#000", marginTop: "20px" }} />
         </section>
 
         {/* Contact information */}
-        <section style={{ marginBottom: "40px" }}>
-          <p style={{ fontSize: "20px", fontFamily: "var(--font-body)", marginBottom: "16px", fontWeight: "bold" }}>
-            Contact Information
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxWidth: "300px" }}>
-            <input
-              type="text"
-              placeholder="name"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              style={{ background: "var(--color-papaya)", border: "1px solid #000", padding: "6px 10px", fontSize: "20px", fontFamily: "var(--font-body)", color: "#000" }}
-            />
-            <input
-              type="email"
-              placeholder="email"
-              value={customerEmail}
-              onChange={(e) => setCustomerEmail(e.target.value)}
-              style={{ background: "var(--color-papaya)", border: "1px solid #000", padding: "6px 10px", fontSize: "20px", fontFamily: "var(--font-body)", color: "#000" }}
-            />
-            <input
-              type="tel"
-              placeholder="phone number"
-              value={customerPhone}
-              onChange={(e) => setCustomerPhone(e.target.value)}
-              style={{ background: "var(--color-papaya)", border: "1px solid #000", padding: "6px 10px", fontSize: "20px", fontFamily: "var(--font-body)", color: "#000" }}
-            />
+        <section style={card}>
+          <p style={sectionTitle}>Contact Information</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "340px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={inputLabel}>Name</label>
+              <input
+                type="text"
+                placeholder="Jane Smith"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={inputLabel}>Email</label>
+              <input
+                type="email"
+                placeholder="jane@example.com"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={inputLabel}>Phone (optional)</label>
+              <input
+                type="tel"
+                placeholder="(555) 000-0000"
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                style={inputStyle}
+              />
+            </div>
           </div>
-          <hr style={{ borderColor: "#000", marginTop: "40px" }} />
         </section>
 
         {/* Error message */}
         {submitError && (
-          <p style={{ color: "red", fontFamily: "var(--font-body)", fontSize: "16px", marginBottom: "12px", textAlign: "center" }}>
+          <p style={{ color: "#c0392b", fontFamily: "var(--font-body)", fontSize: "15px", marginBottom: "12px", textAlign: "center" }}>
             {submitError}
           </p>
         )}
 
         {/* Success message */}
         {orderPlaced && (
-          <p style={{ color: "green", fontFamily: "var(--font-body)", fontSize: "18px", fontWeight: "bold", marginBottom: "12px", textAlign: "center" }}>
-            Order placed! We'll be in touch soon.
+          <p style={{ color: "#27ae60", fontFamily: "var(--font-body)", fontSize: "17px", fontWeight: "bold", marginBottom: "12px", textAlign: "center" }}>
+            Order placed! We&apos;ll be in touch soon.
           </p>
         )}
 
         {/* Place order button */}
-        <div className="flex justify-center" style={{ marginBottom: "40px" }}>
+        <div className="flex justify-center" style={{ marginBottom: "48px" }}>
           <button
             onClick={placeOrder}
             disabled={isSubmitting || items.length === 0}
             style={{
               background: "var(--color-tender-rose)",
-              border: "2px solid #000",
-              borderRadius: "8px",
+              border: "none",
+              borderRadius: "12px",
               padding: "16px 0",
               width: "360px",
-              fontSize: "20px",
+              fontSize: "18px",
               fontFamily: "var(--font-body)",
               fontWeight: "bold",
               cursor: isSubmitting || items.length === 0 ? "not-allowed" : "pointer",
-              color: "#000",
-              opacity: isSubmitting || items.length === 0 ? 0.6 : 1,
+              color: "#fff",
+              opacity: isSubmitting || items.length === 0 ? 0.55 : 1,
+              boxShadow: "0 4px 16px rgba(237,123,141,0.35)",
+              transition: "opacity 0.2s",
             }}>
-            {isSubmitting ? "Placing Order..." : "PLACE ORDER"}
+            {isSubmitting ? "Placing Order..." : "Place Order"}
           </button>
         </div>
 
