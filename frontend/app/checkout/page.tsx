@@ -2,6 +2,7 @@
 // frontend/app/checkout/page.tsx
 "use client";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 function getEarliestDate(): string {
   const date = new Date();
@@ -28,6 +29,7 @@ const timeSlots = [
 export default function CheckoutPage() {
   const earliestDate = getEarliestDate();
 
+  const { items, total, updateQuantity, removeFromCart, clearCart } = useCart();
   const [pickupDate, setPickupDate] = useState(earliestDate);
   const [pickupTime, setPickupTime] = useState("8:00 AM");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +37,51 @@ export default function CheckoutPage() {
   // temp state inside the modal before saving
   const [tempDate, setTempDate] = useState(pickupDate);
   const [tempTime, setTempTime] = useState(pickupTime);
+
+  // contact form
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+
+  // submission
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  async function placeOrder() {
+    if (items.length === 0) return;
+    if (!customerName.trim() || !customerEmail.trim()) {
+      setSubmitError("Please fill in your name and email.");
+      return;
+    }
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/v1/orders/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer_name: customerName.trim(),
+          customer_email: customerEmail.trim(),
+          total_price: total,
+          pickup_date: pickupDate,
+          pickup_time: pickupTime,
+          items: items.map((item) => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            unit_price: Number(item.product.price),
+          })),
+        }),
+      });
+      if (!res.ok) throw new Error("Order failed. Please try again.");
+      clearCart();
+      setOrderPlaced(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   function openModal() {
     setTempDate(pickupDate);
@@ -180,7 +227,7 @@ export default function CheckoutPage() {
       )}
 
       {/* Main content */}
-      <div style={{ padding: "24px 32px" }}>
+      <div style={{ padding: "24px 72px" }}>
 
         {/* Pickup location */}
         <section style={{ marginBottom: "24px" }}>
@@ -200,18 +247,41 @@ export default function CheckoutPage() {
             Order Summary
           </p>
           <div style={{ fontSize: "20px", fontFamily: "var(--font-body)" }}>
-            <div className="flex justify-between" style={{ marginBottom: "6px" }}>
-              <span>1 x chocolate mini cake</span>
-              <span>$6.00</span>
-            </div>
-            <div className="flex justify-between" style={{ marginBottom: "6px" }}>
-              <span>2 x turon mini cake</span>
-              <span>$20.00</span>
-            </div>
-            <div className="flex justify-between" style={{ marginTop: "12px", fontWeight: "bold" }}>
-              <span>Total</span>
-              <span>$26.00</span>
-            </div>
+            {items.length === 0 ? (
+              <p style={{ color: "#808080" }}>Your cart is empty.</p>
+            ) : (
+              items.map((item) => (
+                <div key={item.product.id} className="flex items-center justify-between" style={{ marginBottom: "10px", gap: "12px" }}>
+                  <span style={{ flex: 1 }}>{item.product.name}</span>
+                  <div className="flex items-center" style={{ gap: "8px" }}>
+                    <button
+                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                      style={{ width: "26px", height: "26px", borderRadius: "9999px", border: "1.5px solid #000", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
+                      −
+                    </button>
+                    <span style={{ minWidth: "20px", textAlign: "center" }}>{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                      style={{ width: "26px", height: "26px", borderRadius: "9999px", border: "1.5px solid #000", background: "var(--color-papaya)", fontWeight: "bold", fontSize: "16px", cursor: "pointer", lineHeight: 1 }}>
+                      +
+                    </button>
+                  </div>
+                  <span style={{ minWidth: "56px", textAlign: "right" }}>${(Number(item.product.price) * item.quantity).toFixed(2)}</span>
+                  <button
+                    onClick={() => removeFromCart(item.product.id)}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#888", lineHeight: 1 }}
+                    title="Remove item">
+                    ✕
+                  </button>
+                </div>
+              ))
+            )}
+            {items.length > 0 && (
+              <div className="flex justify-between" style={{ marginTop: "12px", fontWeight: "bold" }}>
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            )}
           </div>
           <hr style={{ borderColor: "#000", marginTop: "20px" }} />
         </section>
@@ -222,40 +292,64 @@ export default function CheckoutPage() {
             Contact Information
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxWidth: "300px" }}>
-            {["name", "email", "phone number"].map((field) => (
-              <input
-                key={field}
-                type="text"
-                placeholder={field}
-                style={{
-                  background: "var(--color-papaya)",
-                  border: "1px solid #000",
-                  padding: "6px 10px",
-                  fontSize: "20px",
-                  fontFamily: "var(--font-body)",
-                  color: "#808080",
-                }}
-              />
-            ))}
+            <input
+              type="text"
+              placeholder="name"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+              style={{ background: "var(--color-papaya)", border: "1px solid #000", padding: "6px 10px", fontSize: "20px", fontFamily: "var(--font-body)", color: "#000" }}
+            />
+            <input
+              type="email"
+              placeholder="email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              style={{ background: "var(--color-papaya)", border: "1px solid #000", padding: "6px 10px", fontSize: "20px", fontFamily: "var(--font-body)", color: "#000" }}
+            />
+            <input
+              type="tel"
+              placeholder="phone number"
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
+              style={{ background: "var(--color-papaya)", border: "1px solid #000", padding: "6px 10px", fontSize: "20px", fontFamily: "var(--font-body)", color: "#000" }}
+            />
           </div>
           <hr style={{ borderColor: "#000", marginTop: "40px" }} />
         </section>
 
+        {/* Error message */}
+        {submitError && (
+          <p style={{ color: "red", fontFamily: "var(--font-body)", fontSize: "16px", marginBottom: "12px", textAlign: "center" }}>
+            {submitError}
+          </p>
+        )}
+
+        {/* Success message */}
+        {orderPlaced && (
+          <p style={{ color: "green", fontFamily: "var(--font-body)", fontSize: "18px", fontWeight: "bold", marginBottom: "12px", textAlign: "center" }}>
+            Order placed! We'll be in touch soon.
+          </p>
+        )}
+
         {/* Place order button */}
         <div className="flex justify-center" style={{ marginBottom: "40px" }}>
-          <button style={{
-            background: "var(--color-tender-rose)",
-            border: "2px solid #000",
-            borderRadius: "8px",
-            padding: "16px 0",
-            width: "360px",
-            fontSize: "20px",
-            fontFamily: "var(--font-body)",
-            fontWeight: "bold",
-            cursor: "pointer",
-            color: "#000",
-          }}>
-            PLACE ORDER
+          <button
+            onClick={placeOrder}
+            disabled={isSubmitting || items.length === 0}
+            style={{
+              background: "var(--color-tender-rose)",
+              border: "2px solid #000",
+              borderRadius: "8px",
+              padding: "16px 0",
+              width: "360px",
+              fontSize: "20px",
+              fontFamily: "var(--font-body)",
+              fontWeight: "bold",
+              cursor: isSubmitting || items.length === 0 ? "not-allowed" : "pointer",
+              color: "#000",
+              opacity: isSubmitting || items.length === 0 ? 0.6 : 1,
+            }}>
+            {isSubmitting ? "Placing Order..." : "PLACE ORDER"}
           </button>
         </div>
 
