@@ -46,3 +46,5 @@ class Token(BaseModel):
 # Token payload data
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+
