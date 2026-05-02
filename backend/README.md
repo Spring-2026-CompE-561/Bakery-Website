@@ -9,6 +9,7 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 ### 📋 Prerequisite
 * Python 3.13+
 * uv install guide https://docs.astral.sh/uv/getting-started/installation/
+* PostgresSQL 15+ installed locally
 
 1. **From the terminal on vscode:**
 * cd Bakery-Website/backend
@@ -17,7 +18,7 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 2. **create a .env file in the backend folder and add the following variables:**
 * APP_NAME="Filipino Bakery API"
 * SECRET_KEY="any-random-secret-key-string"
-* DATABASE_URL="sqlite:///./bakery.db"
+* DATABASE_URL="postgresql://user:password@localhost:5432/bakery_db"  (Note: Use your local Postgres password here user:"password")
 
 3. **From the terminal on vscode, in backend/ directory, initialize the Admin & Start the Server:**
 * uv run python seed_admin.py

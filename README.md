@@ -3,28 +3,44 @@
 A Filipino family run bakery website with the feel of a sari-sari store where customers are directed to pre-order what they want. Orders will only be accepted locally and will be confirmed by the owner. These orders will be uniquely identified and organized into an easy-to-use interface for the owner.
 
 ---
+Note: This project requires both the FastAPI (Backend) and Next.js (Frontend) to be running simultaneously to function.
 
 ## How To Set Up And Run
 
-### 📋 Prerequisite
+### 📋 Backend Prerequisite
 * Python 3.13+
 * uv install guide https://docs.astral.sh/uv/getting-started/installation/
+* PostgresSQL 15+ installed locally
+* bun install guide https://bun.com/docs/installation
 
-1. **From the terminal on vscode:**
+1. **From the terminal 1 on vscode:**
 * cd Bakery-Website/backend
 * uv sync
 
-2. **create a .env file in the backend folder and add the following variables:**
+2. **From the terminal 2 on vscode:**
+* cd Bakery-Website/frontend
+* bun install
+
+3. **create a .env file in the backend folder and add the following variables:**
 * APP_NAME="Filipino Bakery API"
 * SECRET_KEY="any-random-secret-key-string"
-* DATABASE_URL="sqlite:///./bakery.db"
+* DATABASE_URL="postgresql://user:password@localhost:5432/bakery_db"  (Note: Use your local Postgres username and password here user:"password")
 
-3. **From the terminal on vscode, in backend/ directory, initialize the Admin & Start the Server:**
+
+4. **From the terminal 1 on vscode, in backend/ directory, initialize the Admin & Start the Server:**
 * uv run python seed_admin.py
 * uv run uvicorn src.app.main:app --reload
 
-### 📖 Testing
+### 📖 Testing backend
 Once the server is running, open: http://127.0.0.1:8000/docs
+
+5. **From the terminal 2 on vscode, in frontend/ directory, start the server**
+* bun dev
+* uv run uvicorn src.app.main:app --reload
+
+### 📖 Testing frontend
+Once the server is running, open: http://localhost:3000
+
 
 Authorize: Click the "Authorize" button on the Swagger UI.
 Credentials: Use the email and password found in seed_admin.py.

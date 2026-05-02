@@ -6,20 +6,21 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 src_path = os.path.join(current_dir, "src")
 sys.path.append(src_path)
 
-from app.core.database import SessionLocal, engine, Base  # noqa: E402
-from app.services.user_service import UserService  # noqa: E402
-from app.schemas.user import UserCreate  # noqa: E402
+from src.app.core.database import SessionLocal, engine, Base  # noqa: E402
+from src.app.services.user_service import UserService  # noqa: E402
+from src.app.schemas.user import UserCreate  # noqa: E402
 
 
 def run_seed():
     print("Connecting to database...")
     Base.metadata.create_all(bind=engine)
+    print("Connected successfully!")
 
     db = SessionLocal()
     try:
         admin_email = "admin@bakery.com"
 
-        from app.repository.user_repository import UserRepository
+        from src.app.repository.user_repository import UserRepository
 
         existing = UserRepository.get_by_email(db, admin_email)
 

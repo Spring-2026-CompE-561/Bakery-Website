@@ -62,3 +62,4 @@ class UserService:
         db.commit()
         db.refresh(user)
         return user
+
