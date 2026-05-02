@@ -84,5 +84,4 @@ def update_current_user(
 
     # call service to update user
     updated_user = UserService.update_user(db, current_user, updates)
-
     return updated_user
