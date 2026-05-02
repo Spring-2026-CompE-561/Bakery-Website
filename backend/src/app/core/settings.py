@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     # https://docs.pydantic.dev/latest/concepts/pydantic_settings/
     # class-based 'config' is no more
-    model_config = SettingsConfigDict(env_file=DOTENV, extra='ignore') # specify .env file for env variables
+    model_config = SettingsConfigDict(env_file=".env", extra='ignore', case_sensitive=False) # specify .env file for env variables
 
 
 settings = Settings()
