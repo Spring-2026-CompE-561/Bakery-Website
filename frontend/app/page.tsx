@@ -1,39 +1,35 @@
 // frontend/app/page.tsx
 "use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/product";
-
-const products: Product[] = [ 
-  {
-    id: 1,
-    name: "Chocolate Mini Cake",
-    price: "$6.00",
-    description: "Rich chocolate cupcake topped with fluffy chocolate buttercream.",
-    img: "https://placehold.co/400x300/c8a882/5a3e2b?text=Chocolate+Mini+Cake",
-    badge: null,
-  },
-  {
-    id: 2,
-    name: "Ube Mini Cake",
-    price: "$10.00",
-    description: "Soft ube cupcake with creamy ube buttercream and sweet nutty flavor.",
-    img: "https://placehold.co/400x300/c9a8e0/5b2d8e?text=Ube+Mini+Cake",
-    badge: "Popular",
-  },
-  {
-    id: 3,
-    name: "Sampler Box",
-    price: "$30.00",
-    description: "One of each flavor — Chocolate, Vanilla, Turon, and Ube — perfect for trying them all!",
-    img: "https://placehold.co/400x300/e8d5b7/7a5c3a?text=Sampler+Box",
-    badge: "Best Value",
-  },
-];
+import { getMenu } from "@/data/menu";
 
 export default function HomePage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadFeatured() {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getMenu();
+        setProducts(data.slice(0, 3));
+      } catch (err) {
+        console.error(err);
+        setError("Could not load featured items.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadFeatured();
+  }, []);
+
   return (
     <div style={{ background: "var(--color-baby-pink)", minHeight: "100vh", fontFamily: "var(--font-body)" }}>
 
@@ -88,6 +84,14 @@ export default function HomePage() {
           🧁 Featured Items
         </p>
 
+        {loading && (
+          <p style={{ textAlign: "center", fontSize: "16px", color: "#888" }}>Loading featured items...</p>
+        )}
+        {error && (
+          <p style={{ textAlign: "center", fontSize: "16px", color: "#c00" }}>{error}</p>
+        )}
+
+        {!loading && !error && (
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -117,7 +121,7 @@ export default function HomePage() {
             >
               <div style={{ position: "relative" }}>
                 <img
-                  src={product.img}
+                  src={product.picture_url}
                   alt={product.name}
                   style={{ width: "100%", height: "220px", objectFit: "cover", display: "block", borderBottom: "2px solid #000" }}
                 />
@@ -139,7 +143,7 @@ export default function HomePage() {
               <CardContent style={{ padding: "16px 16px 8px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "8px" }}>
                   <p style={{ fontSize: "18px", fontWeight: "bold" }}>{product.name}</p>
-                  <p style={{ fontSize: "17px", fontWeight: "bold" }}>{product.price}</p>
+                  <p style={{ fontSize: "17px", fontWeight: "bold" }}>${product.price}</p>
                 </div>
                 <p style={{ fontSize: "14px", color: "#555", lineHeight: "1.5" }}>{product.description}</p>
               </CardContent>
@@ -163,6 +167,7 @@ export default function HomePage() {
             </Card>
           ))}
         </div>
+        )}
 
         <div style={{ textAlign: "center", marginTop: "32px" }}>
           <Link href="/menu">
