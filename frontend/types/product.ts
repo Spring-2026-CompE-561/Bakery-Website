@@ -4,6 +4,6 @@ export interface Product {
   name: string;
   description: string;
   price: string;
-  picture_url: string;
+  img: string;
   badge: string | null;
 }

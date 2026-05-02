@@ -10,12 +10,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-} from "@/components/ui/field";
+import { Field,FieldError, FieldGroup,FieldLabel,} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -67,7 +62,7 @@ export function LoginForm({
 
         const returnedData = await res.json();
         
-        // Store the token using your preferred key
+        // Store the token using preferred key
         localStorage.setItem("access_token", returnedData.access_token);
 
         toast.success("Welcome back!", {

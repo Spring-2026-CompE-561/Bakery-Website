@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Annotated
+from typing import Annotated, List
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ..core.dependencies import get_current_admin
 from ..models.user import User
 from ..core.database import get_db
-from ..schemas.order import Order, OrderCreate
+from ..schemas.order import Order, OrderCreate, OrderUpdate
 from ..models.order import Order as OrderModel
 from ..services.order_service import OrderService
 
@@ -37,20 +37,23 @@ def get_all_orders(
 @router.patch("/{order_id}/status")
 def update_order_status(
     order_id: int,
-    new_status: str,
+    status_data: OrderUpdate, 
     db: Session = Depends(get_db),
     current_admin: User = Depends(get_current_admin),
 ):
+    # Extract the status from the pydantic model
+    new_status = status_data.status.upper() 
+    
     valid_statuses = ["PENDING", "CONFIRMED", "READY", "COMPLETED", "CANCELLED"]
-    if new_status.upper() not in valid_statuses:
+    if new_status not in valid_statuses:
         raise HTTPException(status_code=400, detail="Invalid status")
 
     db_order = db.query(OrderModel).filter(OrderModel.id == order_id).first()
     if not db_order:
         raise HTTPException(status_code=404, detail="Order not found")
 
-    db_order.status = new_status.upper()
-    db.commit()
+    db_order.status = new_status
+    db.commit() 
     db.refresh(db_order)
     return db_order
 

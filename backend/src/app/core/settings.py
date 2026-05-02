@@ -1,5 +1,3 @@
-# data serialization using pydantic
-
 from __future__ import annotations
 
 from pydantic import Field
@@ -15,11 +13,10 @@ class Settings(BaseSettings):
     secret_key: str = Field(default="long-secret-bakery-key", description="JWT Secret")
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
-    database_url: str = "sqlite:///./bakery.db"
+    database_url: str
 
     # https://docs.pydantic.dev/latest/concepts/pydantic_settings/
     # class-based 'config' is no more
-    model_config = SettingsConfigDict(env_file=".env", extra='ignore', case_sensitive=False) # specify .env file for env variables
-
+    model_config = SettingsConfigDict(env_file=".env", extra='ignore', case_sensitive=False) 
 
 settings = Settings()

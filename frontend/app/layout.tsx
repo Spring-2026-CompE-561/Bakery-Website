@@ -23,17 +23,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="min-h-screen flex flex-col">
-
         <Providers>
-           <QueryProvider>
+          <QueryProvider>
           <Navbar />
           <main className="flex-grow">{children}</main>
           <Toaster position="top-center"/>
           </QueryProvider>
           <Footer />
         </Providers>
-       
-
       </body>
     </html>
   );
