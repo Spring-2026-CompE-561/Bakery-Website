@@ -10,7 +10,7 @@ Note: This project requires both the FastAPI (Backend) and Next.js (Frontend) to
 ### 📋 Backend Prerequisite
 * Python 3.13+
 * uv install guide https://docs.astral.sh/uv/getting-started/installation/
-* PostgresSQL 15+ installed locally
+* PostgresSQL 15+ installed locally (Important)
 * bun install guide https://bun.com/docs/installation
 
 1. **From the terminal 1 on vscode:**
@@ -28,7 +28,7 @@ Note: This project requires both the FastAPI (Backend) and Next.js (Frontend) to
 
 
 4. **From the terminal 1 on vscode, in backend/ directory, initialize the Admin & Start the Server:**
-* uv run python seed_admin.py
+* uv run python seed_admin.py (initial admin login information)
 * uv run uvicorn src.app.main:app --reload
 
 ### 📖 Testing backend
@@ -39,9 +39,12 @@ Once the server is running, open: http://127.0.0.1:8000/docs
 * uv run uvicorn src.app.main:app --reload
 
 ### 📖 Testing frontend
-Once the server is running, open: http://localhost:3000
+Once the server is running, open: http://localhost:3000 for regular customers
+Once the server is running, open: http://localhost:3000/admin/login for admin
 
 
+### 📖 Testing on fastapi/swagger
+open: http://127.0.0.1:8000/docs
 Authorize: Click the "Authorize" button on the Swagger UI.
 Credentials: Use the email and password found in seed_admin.py.
 Features: You can test Admin privileges like adding products, viewing all orders, and updating order statuses.
