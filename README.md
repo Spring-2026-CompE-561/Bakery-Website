@@ -9,6 +9,7 @@ A Filipino family run bakery website with the feel of a sari-sari store where cu
 ### 📋 Prerequisite
 * Python 3.13+
 * uv install guide https://docs.astral.sh/uv/getting-started/installation/
+* PostgresSQL 15+ installed locally
 
 1. **From the terminal on vscode:**
 * cd Bakery-Website/backend
