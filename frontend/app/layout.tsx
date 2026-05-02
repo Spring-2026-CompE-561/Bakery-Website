@@ -6,6 +6,9 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { QueryProvider } from "@/components/query-provider";
+
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -15,15 +18,22 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  
+
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="min-h-screen flex flex-col">
+
         <Providers>
+           <QueryProvider>
           <Navbar />
           <main className="flex-grow">{children}</main>
           <Toaster position="top-center"/>
+          </QueryProvider>
           <Footer />
         </Providers>
+       
+
       </body>
     </html>
   );

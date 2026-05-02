@@ -34,11 +34,15 @@ def update_user(db: Session, user_id: int, user_in: user_schema.UserUpdate):
     db_user = db.query(user.User).filter(user.User.id == user_id).first()
     if not db_user:
         return None
+    
     update_data = user_in.model_dump(exclude_unset=True)
     if 'password' in update_data:
-        db_user.hashed_password = get_password_hash.hash(update_data.pop('password'))
+        new_password = update_data.pop('password')
+        db_user.hashed_password = get_password_hash(new_password)
+        
     for key, value in update_data.items():
         setattr(db_user, key, value)
+        
     db.commit()
     db.refresh(db_user)
     return db_user
