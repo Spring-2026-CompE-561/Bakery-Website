@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import List, Optional
-from datetime import datetime
+from datetime import date, datetime, time
 
 
 class OrderItemCreate(BaseModel):
@@ -21,6 +21,7 @@ class OrderItem(OrderItemCreate):
 class OrderCreate(BaseModel):
     customer_name: str
     customer_email: EmailStr
+    customer_phone: Optional[str] = None
     total_price: float
     pickup_date: str
     pickup_time: str
@@ -35,7 +36,8 @@ class Order(BaseModel):
     status: str
     created_at: datetime
     items: List[OrderItem]
-
+    pickup_date: date 
+    pickup_time: time 
     model_config = ConfigDict(from_attributes=True)
 
 

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,7 +9,8 @@ import {
 import { 
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from "@/components/ui/select";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { CheckCircle2, Clock, Package, XCircle, AlertCircle, CheckCircle } from "lucide-react";
 
 interface Order {
   id: number;
@@ -16,34 +18,52 @@ interface Order {
   total_price: number;
   status: string;
   created_at: string;
+  pickup_date: string; 
+  pickup_time: string; 
 }
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("created_newest");
 
-  // 1. Fetch Orders from Backend
-  useEffect(() => {
-    async function getOrders() {
-      try {
-        const res = await fetch("http://127.0.0.1:8000/api/v1/orders/", {
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-          }
-        });
-        if (!res.ok) throw new Error("Failed to fetch orders");
-        const data = await res.json();
-        setOrders(data);
-      } catch (err) {
-        toast.error("Could not load orders from database");
-      } finally {
-        setIsLoading(false);
-      }
+  // if the backend is disconnected or returns 401, force logout and redirect to login page
+  const forceLogout = () => {
+    toast.error("Connection lost or unauthorized. Redirecting...");
+    localStorage.removeItem("access_token");
+    setTimeout(() => { window.location.href = "/admin/login"; }, 1500);
+  };
+
+  // Fetch orders from the backend API
+  const fetchOrders = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/v1/orders/", {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+          "Accept": "application/json",
+        }
+      });
+      if (res.status === 401) return forceLogout();
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setOrders(data);
+    } catch (err) {
+      forceLogout();
+    } finally {
+      setIsLoading(false);
     }
-    getOrders();
-  }, []);
+  };
 
-  // 2. Patch Order Status
+  useEffect(() => { fetchOrders(); }, []);
+
+ // Sort orders based on the selected criteria
+  const sortedOrders = [...orders].sort((a, b) => {
+    if (sortBy === "created_newest") return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    if (sortBy === "created_oldest") return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    if (sortBy === "pickup_soonest") return new Date(a.pickup_date).getTime() - new Date(b.pickup_date).getTime();
+    return 0;
+  });
+
   const handleStatusChange = async (orderId: number, newStatus: string) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/v1/orders/${orderId}/status`, {
@@ -52,70 +72,98 @@ export default function OrdersPage() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ status: newStatus }), 
       });
 
-      if (!response.ok) throw new Error("Update failed");
-
-      toast.success("Status updated successfully");
       
-      // Update local state so the UI reflects the change immediately
-      setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+      if (response.status === 401) return forceLogout();
+      if (!response.ok) throw new Error();
+      
+      toast.success(`Order #${orderId} updated`);
+      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
     } catch (error) {
-      toast.error("Failed to update order status");
+      // If the backend is disconnected during the click, kick to login
+      forceLogout();
     }
   };
 
-  if (isLoading) return <div className="p-8 text-[#999D55]">Loading your bakery orders...</div>;
+  const getStatusIcon = (status: string) => {
+    const s = status.toUpperCase();
+    if (s === "PENDING") return <Clock className="w-4 h-4 text-amber-500" />;
+    if (s === "READY") return <Package className="w-4 h-4 text-green-500" />;
+    if (s === "CONFIRMED") return <CheckCircle className="w-4 h-4 text-orange-500" />;
+    if (s === "COMPLETED") return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+    if (s === "CANCELLED") return <XCircle className="w-4 h-4 text-red-500" />;
+    return <AlertCircle className="w-4 h-4 text-gray-400" />;
+  };
+
+  if (isLoading) return <div className="p-8 text-[#999D55]">Loading orders...</div>;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#999D55]">Order Management</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-[#999D55]">Orders</h1>
+        
+     
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground">Sort by:</span>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="created_newest">Newest Created</SelectItem>
+              <SelectItem value="created_oldest">Oldest Created</SelectItem>
+              <SelectItem value="pickup_soonest">Soonest Pickup</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       
-      <Card className="border-[#FBC9E4]">
+      <Card>
         <CardContent className="pt-6">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
+                <TableHead>Created</TableHead>
                 <TableHead>Customer</TableHead>
                 <TableHead>Total</TableHead>
+                <TableHead>Pickup Date</TableHead>
+                <TableHead>Pickup Time</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={4} className="text-center py-10 text-muted-foreground">
-                    No orders found in the database.
+              {sortedOrders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell>#{order.id}</TableCell>
+                  <TableCell>{new Date(order.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell>{order.customer_name || "Guest"}</TableCell>
+                  <TableCell>${order.total_price.toFixed(2)}</TableCell>
+                  <TableCell>
+                    {order.pickup_date ? new Date(order.pickup_date).toLocaleDateString() : "N/A"}
                   </TableCell>
-                </TableRow>
-              ) : (
-                orders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell>#{order.id}</TableCell>
-                    <TableCell>{order.customer_name}</TableCell>
-                    <TableCell>₱{order.total_price.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <Select 
-                        defaultValue={order.status} 
-                        onValueChange={(val) => handleStatusChange(order.id, val)}
-                      >
-                        <SelectTrigger className="w-[160px] border-[#999D55]/30">
+                  <TableCell>{order.pickup_time || "N/A"}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {getStatusIcon(order.status)}
+                      <Select defaultValue={order.status.toLowerCase()} onValueChange={(v) => handleStatusChange(order.id, v)}>
+                        <SelectTrigger className="w-[130px]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="processing">Processing</SelectItem>
-                          <SelectItem value="ready">Ready for Pickup</SelectItem>
+                          <SelectItem value="confirmed">Confirmed</SelectItem>
+                          <SelectItem value="ready">Ready</SelectItem>
                           <SelectItem value="completed">Completed</SelectItem>
                           <SelectItem value="cancelled">Cancelled</SelectItem>
                         </SelectContent>
                       </Select>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </CardContent>
