@@ -227,9 +227,9 @@ export default function HomePage() {
       }}>
         <p style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>Contact & Pickup</p>
         <p style={{ fontSize: "18px", lineHeight: "2.4" }}>
-          📧 <em style={{ color: "#888" }}>(business email coming soon)</em><br />
-          📞 <em style={{ color: "#888" }}>(phone number coming soon)</em><br />
-          📍 <em style={{ color: "#888" }}>(address coming soon)</em> — Oahu, Hawai'i<br />
+          📧 seriseri.sweets@gmail.com<br />
+          📞 (619) 679-6669<br />
+          📍 Pearl City, Hawai'i<br />
           🕐 <em style={{ color: "#888" }}>(pickup hours coming soon)</em><br />
           <strong>Pickup Only</strong> · Orders confirmed by owner
         </p>
