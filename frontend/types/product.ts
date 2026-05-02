@@ -5,5 +5,7 @@ export interface Product {
   description: string;
   price: string;
   img: string;
+  picture_url: string;
   badge: string | null;
+  is_available: boolean;
 }

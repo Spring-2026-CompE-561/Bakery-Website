@@ -102,6 +102,7 @@ export default function Menu() {
                 boxShadow: "3px 3px 0 #000",
                 transition: "transform 0.15s ease, box-shadow 0.15s ease",
                 background: "#fff",
+                opacity: product.is_available ? 1 : 0.85
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.transform = "translateY(-5px)";
@@ -116,9 +117,35 @@ export default function Menu() {
                 <img
                   src={product.picture_url}
                   alt={product.name}
-                  style={{ width: "100%", height: "200px", objectFit: "cover", display: "block", borderBottom: "2px solid #000" }}
+                  style={{ width: "100%", height: "200px", objectFit: "cover", display: "block", borderBottom: "2px solid #000", filter:product.is_available ? "none" : "grayscale(100%)" }}
                 />
-                {product.badge && (
+
+                {/* SOLD OUT OVERLAY: Only shows if is_available is false */}
+                {!product.is_available && (
+                   <div style={{ 
+                    position: "absolute", 
+                    inset: 0, 
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "center",
+                    backgroundColor: "rgba(0,0,0,0.2)" 
+                  }}>
+                    <div style={{
+                      background: "#ff4d4d", 
+                      color: "#fff",
+                      padding: "5px 15px",
+                      fontWeight: "bold",
+                      border: "2px solid #000",
+                      borderRadius: "5px",
+                      transform: "rotate(-5deg)",
+                      boxShadow: "2px 2px 0 #000"
+                    }}>
+                      SOLD OUT
+                    </div>
+                  </div>
+                )}
+
+                {product.badge && product.is_available && (
                   <div style={{ position: "absolute", top: "10px", right: "10px" }}>
                     <Badge style={{
                       background: "var(--color-tender-rose)",
@@ -135,10 +162,10 @@ export default function Menu() {
 
               <CardContent style={{ padding: "4px 16px 1px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "8px" }}>
-                  <p style={{ fontSize: "18px", fontWeight: "bold" }}>{product.name}</p>
-                  <p style={{ fontSize: "17px", fontWeight: "bold" }}>${product.price}</p>
+                  <p style={{ fontSize: "18px", fontWeight: "bold", color: product.is_available ? "#000" : "#665"}}>{product.name}</p>
+                  <p style={{ fontSize: "17px", fontWeight: "bold", color: product.is_available ? "#000" : "#665"}}>${product.price}</p>
                 </div>
-                <p style={{ fontSize: "14px", color: "#555", lineHeight: "1.5" }}>{product.description}</p>
+                <p style={{ fontSize: "14px", color: product.is_available ? "#555" : "#999", lineHeight: "1.5" }}>{product.description}</p>
               </CardContent>
 
               <CardFooter style={{ padding: "8px 16px 16px" }}>
@@ -158,7 +185,12 @@ export default function Menu() {
                 <ProductModal 
                 product={selectedProduct} 
                 onClose={() => setSelectedProduct(null)}
-                onAddToCart={(q) => addToCart(selectedProduct!, q)}
+                // onAddToCart={(q) => addToCart(selectedProduct!, q)}
+                onAddToCart={(q) => {
+                    if (selectedProduct.is_available) {
+                        addToCart(selectedProduct, q);
+                    }
+                }}
                 />
                 )}
             </div>
