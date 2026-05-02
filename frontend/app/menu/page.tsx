@@ -8,6 +8,7 @@
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
 import { ProductModal } from "@/components/productmodal";
+import { useCart } from "@/context/CartContext";
 import MenuPager from "@/components/ui/menuPager";
 import MenuHeader from "@/components/ui/menuHeader";
 
@@ -17,8 +18,9 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default function Menu() {
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // For modal
-    const [products, setProducts] = useState<Product[]>([]); // For menu
+    const { addToCart } = useCart();
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     
@@ -156,7 +158,7 @@ export default function Menu() {
                 <ProductModal 
                 product={selectedProduct} 
                 onClose={() => setSelectedProduct(null)}
-                onAddToCart={(q) => console.log(`Added ${q} to cart`)}
+                onAddToCart={(q) => addToCart(selectedProduct!, q)}
                 />
                 )}
             </div>

@@ -21,6 +21,7 @@ class OrderItem(OrderItemCreate):
 class OrderCreate(BaseModel):
     customer_name: str
     customer_email: EmailStr
+    customer_phone: Optional[str] = None
     total_price: float
     pickup_date: str
     pickup_time: str
