@@ -13,7 +13,8 @@ class UserBase(BaseModel):
 # inherits email and name from UserBase
 class UserCreate(UserBase):
     password: str # plain text password to be hashed before storing) 
-
+    current_password: str # for updates, to verify current password
+    
 # user response model sent to frontend
 class UserOut(UserBase):
     id: int
@@ -32,6 +33,7 @@ class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     name: Optional[str] = None
     password: Optional[str] = None
+    current_password: str
 
 # LOGIN SCHEMA
 class UserLogin(BaseModel):

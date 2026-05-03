@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 
+// Define the validation schema using Zod as used by Professor's code, with some adjustments
 const formSchema = z.object({
     email: z.string().email("Invalid email address."),
     password: z

@@ -1,8 +1,10 @@
+
 "use client";
 
 import { AdminSidebar } from "@/components/admin-sidebar"; 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import AdminNavbar from "@/components/admin-navbar";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -22,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [router, pathname, isLoginPage]);
 
-  
+  // Authorization Loading State
   if (!isAuthorized && !isLoginPage) {
     return (
       <div className="flex min-h-screen items-center justify-center text-[#999D55]">
@@ -31,15 +33,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
+  // LOGIN PAGE LAYOUT (No Nav, No Sidebar)
+  if (isLoginPage) {
+    return (
+      <div className="min-h-screen bg-white">
+        {children}
+      </div>
+    );
+  }
+
+  // FULL ADMIN DASHBOARD LAYOUT
   return (
-    <div className="flex min-h-screen">
-      {!isLoginPage && <AdminSidebar />} 
-    
-      <main className={`flex-1 bg-muted/10 ${isLoginPage ? "" : "p-8"}`}>
-        <div className={isLoginPage ? "" : "max-w-6xl mx-auto"}>
-          {children}
-        </div>
-      </main>
+    <div className="flex flex-col min-h-screen w-full bg-gray-50"> 
+      <AdminNavbar /> 
+
+      <div className="flex flex-1 w-full">
+        <AdminSidebar /> 
+
+        <main className="flex-1 p-4 md:p-8 overflow-x-hidden">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

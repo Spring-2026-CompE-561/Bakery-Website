@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import { QueryProvider } from "@/components/query-provider";
+import { NavbarWrapper } from "@/components/navbarwrapper";
 
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -18,14 +19,14 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  
+ 
 
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="min-h-screen flex flex-col">
         <Providers>
           <QueryProvider>
-          <Navbar />
+          < NavbarWrapper /> {/* Show Navbar only on non-admin routes */}
           <main className="flex-grow">{children}</main>
           <Toaster position="top-center"/>
           </QueryProvider>
