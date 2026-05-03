@@ -46,6 +46,9 @@ class UserService:
     @staticmethod
     def update_user(db: Session, user: User, updates: UserUpdate) -> User:
         """Update the current user (admin)."""
+        update_data = updates.model_dump(exclude_unset=True)
+        if "current_password" in update_data:
+            del update_data["current_password"]
 
         # update email
         if updates.email:
@@ -55,7 +58,7 @@ class UserService:
         if updates.name:
             user.name = updates.name
 
-        # update password (IMPORTANT: hash it)
+        # update password & hash it
         if updates.password:
             user.hashed_password = get_password_hash(updates.password)
 
