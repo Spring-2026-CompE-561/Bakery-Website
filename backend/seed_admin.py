@@ -34,7 +34,7 @@ def run_seed():
 
         print(f"Creating admin: {admin_email}")
         admin_data = UserCreate(
-            email=admin_email, name="Bakery Admin", password="bakery_password_2026"
+            email=admin_email, name="Bakery Admin", password="bakery_password_2026", current_password="bakery_password_2026"
         )
 
         # UserService.create_new_user(db, admin_data)
