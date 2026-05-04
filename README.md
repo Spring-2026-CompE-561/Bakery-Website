@@ -36,7 +36,6 @@ Once the server is running, open: http://127.0.0.1:8000/docs
 
 5. **From the terminal 2 on vscode, in frontend/ directory, start the server**
 * bun dev
-* uv run uvicorn src.app.main:app --reload
 
 ### 📖 Testing frontend
 Once the server is running, open: http://localhost:3000 for regular customers
