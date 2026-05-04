@@ -12,7 +12,7 @@ const products: Product[] = [
     name: "Chocolate Mini Cake",
     price: "$6.00",
     description: "Rich chocolate cupcake topped with fluffy chocolate buttercream.",
-    img: "https://placehold.co/400x300/c8a882/5a3e2b?text=Chocolate+Mini+Cake",
+    picture_url: "https://placehold.co/400x300/c8a882/5a3e2b?text=Chocolate+Mini+Cake",
     badge: null,
   },
   {
@@ -20,7 +20,7 @@ const products: Product[] = [
     name: "Ube Mini Cake",
     price: "$10.00",
     description: "Soft ube cupcake with creamy ube buttercream and sweet nutty flavor.",
-    img: "https://placehold.co/400x300/c9a8e0/5b2d8e?text=Ube+Mini+Cake",
+    picture_url: "https://placehold.co/400x300/c9a8e0/5b2d8e?text=Ube+Mini+Cake",
     badge: "Popular",
   },
   {
@@ -28,7 +28,7 @@ const products: Product[] = [
     name: "Sampler Box",
     price: "$30.00",
     description: "One of each flavor — Chocolate, Vanilla, Turon, and Ube — perfect for trying them all!",
-    img: "https://placehold.co/400x300/e8d5b7/7a5c3a?text=Sampler+Box",
+    picture_url: "https://placehold.co/400x300/e8d5b7/7a5c3a?text=Sampler+Box",
     badge: "Best Value",
   },
 ];
@@ -117,7 +117,7 @@ export default function HomePage() {
             >
               <div style={{ position: "relative" }}>
                 <img
-                  src={product.img}
+                  src={product.picture_url}
                   alt={product.name}
                   style={{ width: "100%", height: "220px", objectFit: "cover", display: "block", borderBottom: "2px solid #000" }}
                 />

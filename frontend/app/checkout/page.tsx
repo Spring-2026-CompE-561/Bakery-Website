@@ -1,4 +1,3 @@
-
 // frontend/app/checkout/page.tsx
 "use client";
 import { useState } from "react";
@@ -106,7 +105,21 @@ export default function CheckoutPage() {
 
             {/* Date picker */}
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "16px" }}>Date</label>
+              <label htmlFor="pickup-date" style={{ fontSize: "16px" }}>
+                Date
+              </label>
+              <input
+                id="pickup-date"
+                type="date"
+                value={tempDate}
+                min={earliestDate}
+                onChange={(e) => setTempDate(e.target.value)}
+              />
+
+              {/* Note: replaced this code with code above,
+              for better accessability and testability */}
+              
+              {/* <label style={{ fontSize: "16px" }}>Date</label>
               <input
                 type="date"
                 value={tempDate}
@@ -120,12 +133,30 @@ export default function CheckoutPage() {
                   background: "var(--color-baby-pink)",
                   borderRadius: "4px",
                 }}
-              />
+              /> */}
             </div>
 
             {/* Time picker */}
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "16px" }}>Time</label>
+              <label htmlFor="pickup-time" style={{ fontSize: "16px" }}>
+                Time
+              </label>
+              <select
+                id="pickup-time"
+                value={tempTime}
+                onChange={(e) => setTempTime(e.target.value)}
+              >
+                {timeSlots.map((slot) => (
+                  <option key={slot} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
+              
+              {/* Note: replaced this code with code above,
+              for better accessability and testability */}
+
+              {/* <label style={{ fontSize: "16px" }}>Time</label>
               <select
                 value={tempTime}
                 onChange={(e) => setTempTime(e.target.value)}
@@ -141,7 +172,7 @@ export default function CheckoutPage() {
                 {timeSlots.map((slot) => (
                   <option key={slot} value={slot}>{slot}</option>
                 ))}
-              </select>
+              </select> */}
             </div>
 
             {/* Buttons */}
