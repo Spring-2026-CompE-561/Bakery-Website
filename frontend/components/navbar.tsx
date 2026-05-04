@@ -17,10 +17,10 @@ export default function Navbar() {
   return (
     <nav
       style={{ background: "var(--color-papaya)", borderBottom: "1px solid var(--color-smooth-pink)" }}
-      className="relative px-6"
+      className="flex items-center justify-between h-16 px-6"
     >
       {/* ── Main row ── */}
-      <div className="flex items-center justify-between h-16 md:h-20">
+      <div className="flex items-center gap-4 mx-auto">
 
         {/* Store name */}
         <Link
@@ -30,9 +30,11 @@ export default function Navbar() {
         >
           Seri Seri Sweets
         </Link>
+        
 
         {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex justify-center gap-4">
+
           <span style={{ color: "var(--color-foreground)" }}>|</span>
           {navLinks.map(({ label, href }, i, arr) => (
             <span key={label} className="flex items-center gap-4">
@@ -49,6 +51,7 @@ export default function Navbar() {
             </span>
           ))}
         </div>
+       </div>
 
         {/* Right side: cart + hamburger */}
         <div className="flex items-center gap-4">
@@ -104,7 +107,7 @@ export default function Navbar() {
             />
           </button>
         </div>
-      </div>
+
 
       {/* ── Mobile dropdown ── */}
       {menuOpen && (
