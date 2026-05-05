@@ -39,12 +39,25 @@ export default function HomePage() {
         style={{ background: "var(--color-smooth-pink)", borderBottom: "2px solid #000" }}
         className="px-6 py-12 md:py-16 text-center"
       >
-        <p className="text-xs md:text-sm tracking-widest uppercase mb-3 opacity-60">
-          Homemade · Pickup Only · Oahu, Hawai&apos;i
-        </p>
-        <h1 className="font-bold mb-5 leading-tight flex items-center justify-center gap-3" style={{ fontSize: "clamp(28px, 6vw, 60px)" }}>
+        <Badge
+          className="mb-5 inline-flex items-center gap-2"
+          style={{
+            background: "var(--color-papaya)",
+            color: "#000",
+            border: "1.5px solid #000",
+            fontFamily: "var(--font-body)",
+            fontSize: "13px",
+            padding: "6px 16px",
+            borderRadius: "9999px",
+            boxShadow: "2px 2px 0 #000",
+          }}
+        >
+          <CakeSlice size={13} strokeWidth={1.5} />
+          Freshly Baked to Order
+        </Badge>
+
+        <h1 className="font-bold mb-5 leading-tight" style={{ fontSize: "clamp(28px, 6vw, 60px)" }}>
           Seri-Seri Sweets
-          <CakeSlice size={48} strokeWidth={1.5} style={{ color: "var(--color-papaya)", flexShrink: 0 }} />
         </h1>
         <p
           className="mx-auto mb-8 leading-relaxed"
@@ -55,6 +68,7 @@ export default function HomePage() {
         <Link href="/menu">
           <Button
             size="lg"
+            className="transition-transform duration-200 hover:scale-105"
             style={{
               background: "var(--color-tender-rose)",
               border: "2px solid #000",
