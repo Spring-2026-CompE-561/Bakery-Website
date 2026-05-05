@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/product";
 import { getMenu } from "@/data/menu";
-import { Cake, CakeSlice, Heart, MapPin } from "lucide-react";
+import { Cake, CakeSlice, Heart, MapPin, Sparkles } from "lucide-react";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -92,7 +92,7 @@ export default function HomePage() {
       >
         <div
           className="mx-auto"
-          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px", maxWidth: "860px" }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", maxWidth: "860px" }}
         >
           {[
             { icon: Cake,    title: "Freshly Baked",      body: "Every order made from scratch — never sitting on a shelf." },
@@ -136,8 +136,10 @@ export default function HomePage() {
 
       {/* ── Featured Products (3 max) ── */}
       <section className="px-6 py-10 md:py-14">
-        <p className="text-xl md:text-2xl font-bold text-center mb-8">
-          🧁 Featured Items
+        <p className="text-xl md:text-2xl font-bold text-center mb-8 flex items-center justify-center gap-2">
+          <Sparkles size={22} strokeWidth={1.5} />
+          Featured Items
+          <Sparkles size={22} strokeWidth={1.5} />
         </p>
 
         {loading && (
@@ -152,8 +154,8 @@ export default function HomePage() {
             className="mx-auto"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
-              gap: "28px",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "20px",
               maxWidth: "900px",
             }}
           >
@@ -198,15 +200,15 @@ export default function HomePage() {
                   )}
                 </div>
 
-                <CardContent style={{ padding: "16px 16px 8px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "8px" }}>
-                    <p style={{ fontSize: "18px", fontWeight: "bold" }}>{product.name}</p>
-                    <p style={{ fontSize: "17px", fontWeight: "bold" }}>${product.price}</p>
+                <CardContent style={{ padding: "12px 12px 6px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "6px" }}>
+                    <p style={{ fontSize: "15px", fontWeight: "bold" }}>{product.name}</p>
+                    <p style={{ fontSize: "14px", fontWeight: "bold" }}>${product.price}</p>
                   </div>
-                  <p style={{ fontSize: "14px", color: "#555", lineHeight: "1.5" }}>{product.description}</p>
+                  <p style={{ fontSize: "12px", color: "#555", lineHeight: "1.5" }}>{product.description}</p>
                 </CardContent>
 
-                <CardFooter style={{ padding: "8px 16px 16px" }}>
+                <CardFooter style={{ padding: "6px 12px 12px" }}>
                   <Link href="/menu" style={{ width: "100%" }}>
                     <Button className="transition-transform duration-200 hover:scale-105" style={{
                       width: "100%",
