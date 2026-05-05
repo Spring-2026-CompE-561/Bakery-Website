@@ -135,7 +135,7 @@ export default function Menu() {
           )}
 
           {!loading && !error && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 py-4 sm:py-6">
               {currentProducts.map((product) => (
                 <Card
                   key={product.id}
@@ -215,15 +215,15 @@ export default function Menu() {
                     )}
                   </div>
 
-                  <CardContent style={{ padding: "12px 12px 6px", flex: 1 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "8px", marginBottom: "6px", flexWrap: "wrap" }}>
-                      <p style={{ fontSize: "clamp(14px, 1.6vw, 17px)", fontWeight: "bold", color: product.is_available ? "#000" : "#665", flex: "1 1 0", minWidth: 0 }}>{product.name}</p>
-                      <p style={{ fontSize: "clamp(13px, 1.5vw, 16px)", fontWeight: "bold", color: product.is_available ? "#000" : "#665", whiteSpace: "nowrap" }}>${product.price}</p>
+                  <CardContent style={{ padding: "8px 10px 4px", flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "6px", marginBottom: "4px", flexWrap: "wrap" }}>
+                      <p style={{ fontSize: "clamp(12px, 1.4vw, 15px)", fontWeight: "bold", color: product.is_available ? "#000" : "#665", flex: "1 1 0", minWidth: 0 }}>{product.name}</p>
+                      <p style={{ fontSize: "clamp(11px, 1.3vw, 14px)", fontWeight: "bold", color: product.is_available ? "#000" : "#665", whiteSpace: "nowrap" }}>${product.price}</p>
                     </div>
-                    <p style={{ fontSize: "clamp(12px, 1.3vw, 14px)", color: product.is_available ? "#555" : "#999", lineHeight: "1.55" }}>{product.description}</p>
+                    <p style={{ fontSize: "clamp(10px, 1.1vw, 12px)", color: product.is_available ? "#555" : "#999", lineHeight: "1.5" }}>{product.description}</p>
                   </CardContent>
 
-                  <CardFooter style={{ padding: "6px 12px 12px" }} />
+                  <CardFooter style={{ padding: "4px 10px 10px" }} />
                 </Card>
               ))}
             </div>
