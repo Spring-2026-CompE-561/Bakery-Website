@@ -9,23 +9,24 @@ import {
 import { 
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from "@/components/ui/select";
+import { Order } from "@/types/admin";
 import { Card, CardContent } from "@/components/ui/card";
+import { OrderDetailsModal } from "@/components/order-details-modal";
 import { CheckCircle2, Clock, Package, XCircle, AlertCircle, CheckCircle } from "lucide-react";
 
-interface Order {
+interface OrderItem {
   id: number;
-  customer_name: string;
-  total_price: number;
-  status: string;
-  created_at: string;
-  pickup_date: string; 
-  pickup_time: string; 
+  product_id: number;
+  quantity: number;
+  unit_price: number;
 }
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState("created_newest");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
 
   // if the backend is disconnected or returns 401, force logout and redirect to login page
   const forceLogout = () => {
@@ -136,7 +137,10 @@ export default function OrdersPage() {
             </TableHeader>
             <TableBody>
               {sortedOrders.map((order) => (
-                <TableRow key={order.id}>
+                <TableRow key={order.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => setSelectedOrder(order)}
+                >
                   <TableCell>#{order.id}</TableCell>
                   <TableCell>{new Date(order.created_at).toLocaleDateString()}</TableCell>
                   <TableCell>{order.customer_name || "Guest"}</TableCell>
@@ -168,6 +172,11 @@ export default function OrdersPage() {
           </Table>
         </CardContent>
       </Card>
+      <OrderDetailsModal 
+        order={selectedOrder} 
+        isOpen={!!selectedOrder} 
+        onClose={() => setSelectedOrder(null)} 
+      />  
     </div>
   );
 }
