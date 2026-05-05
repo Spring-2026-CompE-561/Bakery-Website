@@ -44,7 +44,7 @@ export default function HomePage() {
         </p>
         <h1 className="font-bold mb-5 leading-tight flex items-center justify-center gap-3" style={{ fontSize: "clamp(28px, 6vw, 60px)" }}>
           Seri-Seri Sweets
-          <CakeSlice size={48} strokeWidth={1.5} style={{ color: "var(--color-deep-sage)", flexShrink: 0 }} />
+          <CakeSlice size={48} strokeWidth={1.5} style={{ color: "var(--color-papaya)", flexShrink: 0 }} />
         </h1>
         <p
           className="mx-auto mb-8 leading-relaxed"
