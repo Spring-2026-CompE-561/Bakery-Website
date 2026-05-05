@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/product";
 import { getMenu } from "@/data/menu";
-import { Cake, CakeSlice, Heart, MapPin, Sparkles } from "lucide-react";
+import { Cake, CakeSlice, Clock, Heart, Mail, MapPin, Phone, Sparkles } from "lucide-react";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -253,7 +253,7 @@ export default function HomePage() {
       >
         <p className="text-xl md:text-2xl font-bold mb-4">About Seri-Seri Sweets</p>
         <p className="text-base md:text-lg mx-auto mb-7 leading-relaxed" style={{ maxWidth: "560px" }}>
-          A Filipino family bakery bringing the warmth of home to Oahu, Hawai&apos;i — one mini cake at a time. 🌺
+          A Filipino family bakery bringing the warmth of home to Oahu, Hawai&apos;i — one mini cake at a time.
         </p>
         <Link href="/about">
           <Button className="transition-transform duration-200 hover:scale-105" style={{
@@ -277,11 +277,23 @@ export default function HomePage() {
         className="px-6 py-10 md:py-14 text-center"
       >
         <p className="text-xl md:text-2xl font-bold mb-6">Contact &amp; Pickup</p>
-        <div className="flex flex-col items-center gap-3 text-base md:text-lg">
-          <p>📧 seriseri.sweets@gmail.com</p>
-          <p>📞 (619) 679-6669</p>
-          <p>📍 Pearl City, Hawai&apos;i</p>
-          <p><em style={{ color: "#888" }}>🕐 (pickup hours coming soon)</em></p>
+        <div className="flex flex-col items-center gap-4 text-base md:text-lg">
+          <p className="flex items-center gap-2">
+            <Mail size={18} strokeWidth={1.5} />
+            seriseri.sweets@gmail.com
+          </p>
+          <p className="flex items-center gap-2">
+            <Phone size={18} strokeWidth={1.5} />
+            (619) 679-6669
+          </p>
+          <p className="flex items-center gap-2">
+            <MapPin size={18} strokeWidth={1.5} />
+            Pearl City, Hawai&apos;i
+          </p>
+          <p className="flex items-center gap-2" style={{ color: "#666" }}>
+            <Clock size={18} strokeWidth={1.5} />
+            <em>Pickup hours coming soon</em>
+          </p>
           <p><strong>Pickup Only</strong> · Orders confirmed by owner</p>
         </div>
       </section>
