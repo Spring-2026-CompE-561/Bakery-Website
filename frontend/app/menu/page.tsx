@@ -135,14 +135,7 @@ export default function Menu() {
           )}
 
           {!loading && !error && (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
-                gap: "24px",
-                padding: "24px 0",
-              }}
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
               {currentProducts.map((product) => (
                 <Card
                   key={product.id}
@@ -223,11 +216,11 @@ export default function Menu() {
                   </div>
 
                   <CardContent style={{ padding: "12px 12px 6px", flex: 1 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "6px" }}>
-                      <p style={{ fontSize: "16px", fontWeight: "bold", color: product.is_available ? "#000" : "#665" }}>{product.name}</p>
-                      <p style={{ fontSize: "15px", fontWeight: "bold", color: product.is_available ? "#000" : "#665" }}>${product.price}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "8px", marginBottom: "6px", flexWrap: "wrap" }}>
+                      <p style={{ fontSize: "clamp(14px, 1.6vw, 17px)", fontWeight: "bold", color: product.is_available ? "#000" : "#665", flex: "1 1 0", minWidth: 0 }}>{product.name}</p>
+                      <p style={{ fontSize: "clamp(13px, 1.5vw, 16px)", fontWeight: "bold", color: product.is_available ? "#000" : "#665", whiteSpace: "nowrap" }}>${product.price}</p>
                     </div>
-                    <p style={{ fontSize: "13px", color: product.is_available ? "#555" : "#999", lineHeight: "1.5" }}>{product.description}</p>
+                    <p style={{ fontSize: "clamp(12px, 1.3vw, 14px)", color: product.is_available ? "#555" : "#999", lineHeight: "1.55" }}>{product.description}</p>
                   </CardContent>
 
                   <CardFooter style={{ padding: "6px 12px 12px" }} />

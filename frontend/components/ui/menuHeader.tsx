@@ -52,12 +52,12 @@ export default function MenuHeader({
         padding: "10px 16px",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        gap: "12px",
+        flexWrap: "wrap",
+        gap: "10px",
       }}
     >
       {/* Left: page picker + arrows */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
         <div style={{ position: "relative" }} ref={menuRef}>
           <button
             onClick={() => setIsPageMenuOpen((prev) => !prev)}
@@ -146,18 +146,17 @@ export default function MenuHeader({
         </button>
       </div>
 
-      {/* Center: title */}
+      {/* Center: title — grows to fill remaining space and centers itself */}
       <h2 style={{
         fontFamily: "var(--font-body)",
         fontWeight: "bold",
-        fontSize: "clamp(14px, 2vw, 18px)",
+        fontSize: "clamp(13px, 2vw, 18px)",
         textAlign: "center",
+        flex: "1 1 120px",
+        minWidth: 0,
       }}>
         View Our Tasty Products!
       </h2>
-
-      {/* Right spacer to balance layout */}
-      <div style={{ minWidth: "100px" }} />
     </div>
   );
 }
