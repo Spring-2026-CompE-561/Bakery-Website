@@ -210,7 +210,7 @@ export default function HomePage() {
 
                 <CardFooter style={{ padding: "6px 12px 12px" }}>
                   <Link href="/menu" style={{ width: "100%" }}>
-                    <Button className="transition-transform duration-200 hover:scale-105" style={{
+                    <Button className="transition-transform duration-200 hover:scale-[1.03]" style={{
                       width: "100%",
                       background: "var(--color-papaya)",
                       border: "1.5px solid #000",
