@@ -9,6 +9,7 @@ sys.path.append(src_path)
 from src.app.core.database import SessionLocal, engine, Base  # noqa: E402
 from src.app.services.user_service import UserService  # noqa: E402
 from src.app.schemas.user import UserCreate  # noqa: E402
+from src.app.crud import create_user  # noqa: E402
 
 
 def run_seed():
@@ -33,11 +34,19 @@ def run_seed():
 
         print(f"Creating admin: {admin_email}")
         admin_data = UserCreate(
-            email=admin_email, name="Bakery Admin", password="bakery_password_2026"
+            email=admin_email, name="Bakery Admin", password="bakery_password_2026", current_password="bakery_password_2026"
         )
 
-        UserService.create_new_user(db, admin_data)
+        # UserService.create_new_user(db, admin_data)
+        new_admin = UserService.create_new_user(db, admin_data)
+
+        new_admin.is_admin = True
+        db.add(new_admin)
+        db.commit() 
+        db.refresh(new_admin)
         print("Success! Admin account initialized.")
+
+       
 
     except Exception as e:
         print(f"Error: {e}")

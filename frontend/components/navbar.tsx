@@ -15,39 +15,43 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
+    <>
     <nav
-      style={{ background: "var(--color-papaya)", borderBottom: "1px solid var(--color-smooth-pink)" }}
-      className="relative px-6"
+      style={{ background: "var(--color-papaya)" }}
     >
       {/* ── Main row ── */}
-      <div className="flex items-center justify-between h-16 md:h-20">
+      <div className="flex items-center justify-between h-16 px-6">
+        <div className="flex items-center gap-4 mx-auto">
 
-        {/* Store name */}
-        <Link
-          href="/"
-          style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
-          className="text-2xl md:text-4xl font-bold hover:opacity-80 shrink-0"
-        >
-          Seri Seri Sweets
-        </Link>
+          {/* Store name */}
+          <Link
+            href="/"
+            style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
+            className="text-2xl md:text-4xl font-bold shrink-0 transition-transform duration-200 hover:scale-110 inline-block"
+          >
+            Seri Seri Sweets
+          </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-4">
-          <span style={{ color: "var(--color-foreground)" }}>|</span>
-          {navLinks.map(({ label, href }, i, arr) => (
-            <span key={label} className="flex items-center gap-4">
-              <Link
-                href={href}
-                style={{ color: "var(--color-foreground)", fontFamily: "var(--font-body)" }}
-                className="text-xl hover:opacity-60"
-              >
-                {label}
-              </Link>
-              {i < arr.length - 1 && (
-                <span style={{ color: "var(--color-foreground)" }}>|</span>
-              )}
-            </span>
-          ))}
+
+          {/* Desktop nav links */}
+          <div className="hidden md:flex justify-center gap-4">
+
+            <span style={{ color: "var(--color-foreground)" }}>|</span>
+            {navLinks.map(({ label, href }, i, arr) => (
+              <span key={label} className="flex items-center gap-4">
+                <Link
+                  href={href}
+                  style={{ color: "var(--color-foreground)", fontFamily: "var(--font-body)" }}
+                  className="text-xl hover:opacity-60"
+                >
+                  {label}
+                </Link>
+                {i < arr.length - 1 && (
+                  <span style={{ color: "var(--color-foreground)" }}>|</span>
+                )}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Right side: cart + hamburger */}
@@ -55,7 +59,7 @@ export default function Navbar() {
           <Link
             href="/checkout"
             style={{ color: "var(--color-foreground)" }}
-            className="relative hover:opacity-60"
+            className="relative transition-transform duration-200 hover:rotate-12"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
               fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -86,7 +90,7 @@ export default function Navbar() {
 
           {/* Hamburger (mobile only) */}
           <button
-            className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8 shrink-0"
+            className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8 shrink-0 transition-transform duration-200 hover:scale-125"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle menu"
           >
@@ -126,5 +130,11 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+    <div style={{ background: "var(--color-papaya)", lineHeight: 0 }}>
+      <svg viewBox="0 0 1440 36" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "30px" }}>
+        <path d="M0,0 L720,28 L1440,0 L1440,36 L0,36 Z" fill="var(--color-smooth-pink)" />
+      </svg>
+    </div>
+    </>
   );
 }

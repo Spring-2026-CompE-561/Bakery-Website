@@ -10,7 +10,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.database import get_db
 from ..schemas.user import Token, UserOut, UserCreate, UserUpdate
-from ..core.auth import create_access_token, get_current_user
+from ..core.auth import create_access_token, get_current_user, verify_password
 from ..services.user_service import UserService
 
 # router setup
@@ -48,7 +48,16 @@ def get_current_user_info(
 def register_user(
     user_data: UserCreate,
     db: Annotated[Session, Depends(get_db)],
+    current_user=Depends(get_current_user),
 ):
+    """ Verify current admin's password before allowing registration of a new user. """
+
+    if not verify_password(user_data.current_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=400,
+            detail="Admin verification failed. Incorrect password."
+        )
+    
     """Register (post/create) a new user"""
 
     #check if user already exists
@@ -73,6 +82,11 @@ def update_current_user(
 ):
     """ Update the currently authenticated user (admin). """
 
+    if not verify_password(updates.current_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=400,
+            detail="Current password verification failed"
+        )
     # check if email is already taken
     if updates.email:
         existing_user = UserService.get_by_email(db, updates.email)

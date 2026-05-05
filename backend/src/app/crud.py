@@ -1,5 +1,5 @@
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from .models import user, product, order, order_item
 from .schemas import user as user_schema, product as product_schema, order as order_schema, order_item as order_item_schema
 from sqlalchemy.exc import NoResultFound
@@ -101,7 +101,7 @@ def get_order(db: Session, order_id: int):
     return db.query(order.Order).filter(order.Order.id == order_id).first()
 
 def get_orders(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(order.Order).offset(skip).limit(limit).all()
+    return db.query(order.Order).options(joinedload(order_item.OrderItem)).offset(skip).limit(limit).all()
 
 def update_order(db: Session, order_id: int, order_in: order_schema.OrderUpdate):
     db_order = db.query(order.Order).filter(order.Order.id == order_id).first()

@@ -10,12 +10,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-} from "@/components/ui/field";
+import { Field,FieldError, FieldGroup,FieldLabel,} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +19,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 
+// Define the validation schema using Zod as used by Professor's code, with some adjustments
 const formSchema = z.object({
     email: z.string().email("Invalid email address."),
     password: z
@@ -67,7 +63,7 @@ export function LoginForm({
 
         const returnedData = await res.json();
         
-        // Store the token using your preferred key
+        // Store the token using preferred key
         localStorage.setItem("access_token", returnedData.access_token);
 
         toast.success("Welcome back!", {
