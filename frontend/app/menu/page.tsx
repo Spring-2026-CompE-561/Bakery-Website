@@ -44,6 +44,19 @@ function Plumeria({ size = 100, opacity = 0.18, rotate = 0 }: AccentProps) {
   );
 }
 
+function PalmLeaf({ size = 100, opacity = 0.18, rotate = 0 }: AccentProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="currentColor"
+      strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"
+      style={{ opacity, transform: `rotate(${rotate}deg)` }}>
+      <path d="M50,85 C50,85 18,55 12,20 C28,28 45,55 50,85" />
+      <path d="M50,85 C50,85 82,55 88,20 C72,28 55,55 50,85" />
+      <path d="M50,85 C50,85 30,45 50,15 C70,45 50,85 50,85" />
+      <line x1="50" y1="85" x2="50" y2="55" strokeWidth="1" />
+    </svg>
+  );
+}
+
 export default function Menu() {
   const { addToCart } = useCart();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -109,13 +122,31 @@ export default function Menu() {
       {/* Wave: hero → grid */}
       <div style={{ background: "var(--color-smooth-pink)", lineHeight: 0 }}>
         <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "50px" }}>
-          <path d="M0,0 C360,70 1080,0 1440,40 L1440,70 L0,70 Z" fill="var(--color-baby-pink)" />
+          <path d="M0,0 C360,70 1080,0 1440,40 L1440,70 L0,70 Z" fill="var(--color-papaya)" />
         </svg>
       </div>
 
       {/* ── Menu Grid ── */}
-      <section className="px-4 sm:px-6 pb-12">
-        <div className="mx-auto max-w-6xl">
+      <section
+        className="px-4 sm:px-6 pb-12"
+        style={{
+          background: "var(--color-papaya)",
+          backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Corner accents */}
+        <div style={{ position: "absolute", top: "-10px",  left:  "-10px"  }}><PalmLeaf  size={130} rotate={-20} opacity={0.13} /></div>
+        <div style={{ position: "absolute", top: "-10px",  right: "-10px"  }}><PalmLeaf  size={130} rotate={20}  opacity={0.13} /></div>
+        <div style={{ position: "absolute", bottom: "-10px", left: "-10px" }}><Plumeria  size={110} rotate={30}  opacity={0.12} /></div>
+        <div style={{ position: "absolute", bottom: "-10px", right: "-10px"}}><Plumeria  size={110} rotate={-30} opacity={0.12} /></div>
+        {/* Mid-side accents */}
+        <div style={{ position: "absolute", top: "40%", left: "-15px"  }}><Hibiscus size={90} rotate={45}  opacity={0.09} /></div>
+        <div style={{ position: "absolute", top: "40%", right: "-15px" }}><Hibiscus size={90} rotate={-45} opacity={0.09} /></div>
+
+        <div className="mx-auto max-w-6xl" style={{ position: "relative", zIndex: 1 }}>
 
           <MenuHeader
             currentPage={currentPage}
@@ -237,6 +268,13 @@ export default function Menu() {
           />
         </div>
       </section>
+
+      {/* Wave: grid → footer */}
+      <div style={{ background: "var(--color-papaya)", lineHeight: 0 }}>
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "50px" }}>
+          <path d="M0,40 C360,0 1080,70 1440,20 L1440,70 L0,70 Z" fill="var(--color-baby-pink)" />
+        </svg>
+      </div>
 
       {selectedProduct && (
         <ProductModal
