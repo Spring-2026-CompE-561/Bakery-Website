@@ -9,6 +9,52 @@ import { Product } from "@/types/product";
 import { getMenu } from "@/data/menu";
 import { Cake, CakeSlice, Clock, Heart, Mail, MapPin, Phone, Sparkles, Star } from "lucide-react";
 
+type AccentProps = { size?: number; opacity?: number; rotate?: number };
+
+function Hibiscus({ size = 110, opacity = 0.18, rotate = 0 }: AccentProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="currentColor"
+      strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"
+      style={{ opacity, transform: `rotate(${rotate}deg)` }}>
+      <ellipse cx="50" cy="27" rx="9" ry="23" />
+      <ellipse cx="50" cy="27" rx="9" ry="23" transform="rotate(72 50 50)" />
+      <ellipse cx="50" cy="27" rx="9" ry="23" transform="rotate(144 50 50)" />
+      <ellipse cx="50" cy="27" rx="9" ry="23" transform="rotate(216 50 50)" />
+      <ellipse cx="50" cy="27" rx="9" ry="23" transform="rotate(288 50 50)" />
+      <circle cx="50" cy="50" r="7" />
+      <line x1="50" y1="43" x2="50" y2="32" strokeWidth="1" />
+    </svg>
+  );
+}
+
+function Plumeria({ size = 100, opacity = 0.18, rotate = 0 }: AccentProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="currentColor"
+      strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"
+      style={{ opacity, transform: `rotate(${rotate}deg)` }}>
+      <path d="M50,50 C46,38 44,22 50,12 C56,22 54,38 50,50" />
+      <path d="M50,50 C46,38 44,22 50,12 C56,22 54,38 50,50" transform="rotate(72 50 50)" />
+      <path d="M50,50 C46,38 44,22 50,12 C56,22 54,38 50,50" transform="rotate(144 50 50)" />
+      <path d="M50,50 C46,38 44,22 50,12 C56,22 54,38 50,50" transform="rotate(216 50 50)" />
+      <path d="M50,50 C46,38 44,22 50,12 C56,22 54,38 50,50" transform="rotate(288 50 50)" />
+      <circle cx="50" cy="50" r="5" />
+    </svg>
+  );
+}
+
+function PalmLeaf({ size = 100, opacity = 0.18, rotate = 0 }: AccentProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" stroke="currentColor"
+      strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"
+      style={{ opacity, transform: `rotate(${rotate}deg)` }}>
+      <path d="M50,85 C50,85 18,55 12,20 C28,28 45,55 50,85" />
+      <path d="M50,85 C50,85 82,55 88,20 C72,28 55,55 50,85" />
+      <path d="M50,85 C50,85 30,45 50,15 C70,45 50,85 50,85" />
+      <line x1="50" y1="85" x2="50" y2="55" strokeWidth="1" />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,9 +82,15 @@ export default function HomePage() {
 
       {/* ── Hero Banner ── */}
       <section
-        style={{ background: "var(--color-smooth-pink)", borderBottom: "2px solid #000" }}
+        style={{ background: "var(--color-smooth-pink)", position: "relative", overflow: "hidden" }}
         className="px-6 py-12 md:py-16 text-center"
       >
+        <div style={{ position: "absolute", top: "-20px",  left:  "-20px"  }}><Hibiscus size={130} rotate={-30} opacity={0.2} /></div>
+        <div style={{ position: "absolute", top: "-20px",  right: "-20px"  }}><Hibiscus size={130} rotate={30}  opacity={0.2} /></div>
+        <div style={{ position: "absolute", bottom: "-20px", left: "-20px" }}><Hibiscus size={120} rotate={20}  opacity={0.15} /></div>
+        <div style={{ position: "absolute", bottom: "-20px", right: "-20px"}}><Hibiscus size={120} rotate={-20} opacity={0.15} /></div>
+        <div style={{ position: "absolute", top: "30%",   left:  "-10px"  }}><Hibiscus size={80}  rotate={45}  opacity={0.1} /></div>
+        <div style={{ position: "absolute", top: "30%",   right: "-10px"  }}><Hibiscus size={80}  rotate={-45} opacity={0.1} /></div>
         <Badge
           className="mb-5 inline-flex items-center gap-2"
           style={{
@@ -87,11 +139,21 @@ export default function HomePage() {
         </Link>
       </section>
 
+      {/* Wave: hero → why us */}
+      <div style={{ background: "var(--color-smooth-pink)", lineHeight: 0 }}>
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "60px" }}>
+          <path d="M0,0 C360,70 1080,0 1440,40 L1440,70 L0,70 Z" fill="var(--color-papaya)" />
+        </svg>
+      </div>
+
       {/* ── Why Us Cards ── */}
       <section
-        style={{ background: "var(--color-papaya)", borderBottom: "2px solid #000" }}
+        style={{ background: "var(--color-papaya)", position: "relative", overflow: "hidden" }}
         className="px-6 py-10 md:py-12"
       >
+        <div style={{ position: "absolute", top: "-10px",  left:  "-10px"  }}><PalmLeaf size={110} rotate={-20} opacity={0.15} /></div>
+        <div style={{ position: "absolute", top: "-10px",  right: "-10px"  }}><PalmLeaf size={110} rotate={20}  opacity={0.15} /></div>
+        <div style={{ position: "absolute", bottom: "-10px", left: "50%", transform: "translateX(-50%)" }}><PalmLeaf size={90} rotate={0} opacity={0.1} /></div>
         <div
           className="mx-auto"
           style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", maxWidth: "860px" }}
@@ -135,6 +197,13 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Wave: why us → featured */}
+      <div style={{ background: "var(--color-papaya)", lineHeight: 0 }}>
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "60px" }}>
+          <path d="M0,40 C360,0 1080,70 1440,20 L1440,70 L0,70 Z" fill="var(--color-baby-pink)" />
+        </svg>
+      </div>
 
       {/* ── Featured Products (3 max) ── */}
       <section className="px-6 py-10 md:py-14">
@@ -267,11 +336,22 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wave: featured → about */}
+      <div style={{ background: "var(--color-baby-pink)", lineHeight: 0 }}>
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "60px" }}>
+          <path d="M0,20 C480,70 960,0 1440,50 L1440,70 L0,70 Z" fill="var(--color-tender-rose)" />
+        </svg>
+      </div>
+
       {/* ── About Section ── */}
       <section
-        style={{ background: "var(--color-tender-rose)", borderTop: "2px solid #000", borderBottom: "2px solid #000" }}
+        style={{ background: "var(--color-tender-rose)", position: "relative", overflow: "hidden" }}
         className="px-6 py-10 md:py-14 text-center"
       >
+        <div style={{ position: "absolute", top: "-15px",  left:  "-15px"  }}><Plumeria size={120} rotate={-20} opacity={0.2} /></div>
+        <div style={{ position: "absolute", top: "-15px",  right: "-15px"  }}><Plumeria size={120} rotate={20}  opacity={0.2} /></div>
+        <div style={{ position: "absolute", bottom: "-15px", left: "15%"   }}><Plumeria size={90}  rotate={30}  opacity={0.13} /></div>
+        <div style={{ position: "absolute", bottom: "-15px", right: "15%"  }}><Plumeria size={90}  rotate={-30} opacity={0.13} /></div>
         <p className="text-xl md:text-2xl font-bold mb-4">About Seri-Seri Sweets</p>
         <p className="text-base md:text-lg mx-auto mb-7 leading-relaxed" style={{ maxWidth: "560px" }}>
           A Filipino family bakery bringing the warmth of home to Oahu, Hawai&apos;i — one mini cake at a time.
@@ -292,11 +372,22 @@ export default function HomePage() {
         </Link>
       </section>
 
+      {/* Wave: about → contact */}
+      <div style={{ background: "var(--color-tender-rose)", lineHeight: 0 }}>
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "60px" }}>
+          <path d="M0,50 C360,0 1080,70 1440,20 L1440,70 L0,70 Z" fill="var(--color-smooth-pink)" />
+        </svg>
+      </div>
+
       {/* ── Contact Section ── */}
       <section
-        style={{ background: "var(--color-smooth-pink)", borderBottom: "2px solid #000" }}
+        style={{ background: "var(--color-smooth-pink)", position: "relative", overflow: "hidden" }}
         className="px-6 py-10 md:py-14 text-center"
       >
+        <div style={{ position: "absolute", top: "-15px",  left:  "-15px"  }}><Hibiscus size={110} rotate={15}  opacity={0.18} /></div>
+        <div style={{ position: "absolute", top: "-15px",  right: "-15px"  }}><Hibiscus size={110} rotate={-15} opacity={0.18} /></div>
+        <div style={{ position: "absolute", bottom: "-10px", left: "30%"   }}><Plumeria size={80}  rotate={10}  opacity={0.12} /></div>
+        <div style={{ position: "absolute", bottom: "-10px", right: "30%"  }}><Plumeria size={80}  rotate={-10} opacity={0.12} /></div>
         <p className="text-xl md:text-2xl font-bold mb-6">Contact &amp; Pickup</p>
         <div className="flex flex-col items-center gap-4 text-base md:text-lg">
           <p className="flex items-center gap-2">
