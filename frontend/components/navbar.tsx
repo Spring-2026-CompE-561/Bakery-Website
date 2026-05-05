@@ -26,7 +26,7 @@ export default function Navbar() {
           <Link
             href="/"
             style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
-            className="text-2xl md:text-4xl font-bold hover:opacity-80 shrink-0"
+            className="text-2xl md:text-4xl font-bold shrink-0 transition-transform duration-200 hover:scale-110 inline-block"
           >
             Seri Seri Sweets
           </Link>
