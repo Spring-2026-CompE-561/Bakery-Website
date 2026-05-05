@@ -14,7 +14,7 @@ class OrderItemCreate(BaseModel):
 class OrderItem(OrderItemCreate):
     id: int
     order_id: int
-
+    product_name: str
     model_config = ConfigDict(from_attributes=True)
 
 
