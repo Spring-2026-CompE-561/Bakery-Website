@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      # use database url ...://user:password@....../db
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123"
+    ports:
+      # whichever port you used for postgres:5432
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  seed-admin:
+      build: 
+        context: ./backend
+      command: uv run python seed_admin.py
+      environment:
+        # paste your database url from .env
+        DATABASE_URL: postgresql://postgres:123@db:5432/postgres
+      depends_on:
+        - db
+      restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      # paste your database url from .env 
+      DATABASE_URL: postgresql://postgres:123@db:5432/postgres
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+      - seed-admin
+  
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+# persistent data 
+volumes:
+  postgres_data:
