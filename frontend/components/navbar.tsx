@@ -15,8 +15,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
+    <>
     <nav
-      style={{ background: "var(--color-papaya)", borderBottom: "1px solid var(--color-smooth-pink)" }}
+      style={{ background: "var(--color-papaya)" }}
     >
       {/* ── Main row ── */}
       <div className="flex items-center justify-between h-16 px-6">
@@ -129,5 +130,11 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+    <div style={{ background: "var(--color-papaya)", lineHeight: 0 }}>
+      <svg viewBox="0 0 1440 36" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "30px" }}>
+        <path d="M0,0 L720,28 L1440,0 L1440,36 L0,36 Z" fill="var(--color-smooth-pink)" />
+      </svg>
+    </div>
+    </>
   );
 }
