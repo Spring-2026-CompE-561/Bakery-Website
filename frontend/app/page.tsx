@@ -169,6 +169,8 @@ export default function HomePage() {
                   boxShadow: "3px 3px 0 #000",
                   transition: "transform 0.15s ease, box-shadow 0.15s ease",
                   background: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.transform = "translateY(-5px)";
@@ -217,7 +219,7 @@ export default function HomePage() {
                   )}
                 </div>
 
-                <CardContent style={{ padding: "12px 12px 6px" }}>
+                <CardContent style={{ padding: "12px 12px 6px", flex: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "6px" }}>
                     <p style={{ fontSize: "15px", fontWeight: "bold" }}>{product.name}</p>
                     <p style={{ fontSize: "14px", fontWeight: "bold" }}>${product.price}</p>
