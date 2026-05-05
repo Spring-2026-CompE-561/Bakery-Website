@@ -17,41 +17,41 @@ export default function Navbar() {
   return (
     <nav
       style={{ background: "var(--color-papaya)", borderBottom: "1px solid var(--color-smooth-pink)" }}
-      className="flex items-center justify-between h-16 px-6"
     >
       {/* ── Main row ── */}
-      <div className="flex items-center gap-4 mx-auto">
+      <div className="flex items-center justify-between h-16 px-6">
+        <div className="flex items-center gap-4 mx-auto">
 
-        {/* Store name */}
-        <Link
-          href="/"
-          style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
-          className="text-2xl md:text-4xl font-bold hover:opacity-80 shrink-0"
-        >
-          Seri Seri Sweets
-        </Link>
-        
+          {/* Store name */}
+          <Link
+            href="/"
+            style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
+            className="text-2xl md:text-4xl font-bold hover:opacity-80 shrink-0"
+          >
+            Seri Seri Sweets
+          </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex justify-center gap-4">
 
-          <span style={{ color: "var(--color-foreground)" }}>|</span>
-          {navLinks.map(({ label, href }, i, arr) => (
-            <span key={label} className="flex items-center gap-4">
-              <Link
-                href={href}
-                style={{ color: "var(--color-foreground)", fontFamily: "var(--font-body)" }}
-                className="text-xl hover:opacity-60"
-              >
-                {label}
-              </Link>
-              {i < arr.length - 1 && (
-                <span style={{ color: "var(--color-foreground)" }}>|</span>
-              )}
-            </span>
-          ))}
+          {/* Desktop nav links */}
+          <div className="hidden md:flex justify-center gap-4">
+
+            <span style={{ color: "var(--color-foreground)" }}>|</span>
+            {navLinks.map(({ label, href }, i, arr) => (
+              <span key={label} className="flex items-center gap-4">
+                <Link
+                  href={href}
+                  style={{ color: "var(--color-foreground)", fontFamily: "var(--font-body)" }}
+                  className="text-xl hover:opacity-60"
+                >
+                  {label}
+                </Link>
+                {i < arr.length - 1 && (
+                  <span style={{ color: "var(--color-foreground)" }}>|</span>
+                )}
+              </span>
+            ))}
+          </div>
         </div>
-       </div>
 
         {/* Right side: cart + hamburger */}
         <div className="flex items-center gap-4">
@@ -107,7 +107,7 @@ export default function Navbar() {
             />
           </button>
         </div>
-
+      </div>
 
       {/* ── Mobile dropdown ── */}
       {menuOpen && (
