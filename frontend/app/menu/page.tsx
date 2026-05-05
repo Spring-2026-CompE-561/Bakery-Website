@@ -122,7 +122,7 @@ export default function Menu() {
       {/* Wave: hero → grid */}
       <div style={{ background: "var(--color-smooth-pink)", lineHeight: 0 }}>
         <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "50px" }}>
-          <path d="M0,0 C360,70 1080,0 1440,40 L1440,70 L0,70 Z" fill="var(--color-papaya)" />
+          <path d="M0,0 C360,70 1080,0 1440,40 L1440,70 L0,70 Z" fill="var(--color-baby-pink)" />
         </svg>
       </div>
 
@@ -130,7 +130,7 @@ export default function Menu() {
       <section
         className="px-4 sm:px-6 pb-12"
         style={{
-          background: "var(--color-papaya)",
+          background: "var(--color-baby-pink)",
           backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px)",
           backgroundSize: "22px 22px",
           position: "relative",
@@ -268,13 +268,6 @@ export default function Menu() {
           />
         </div>
       </section>
-
-      {/* Wave: grid → footer */}
-      <div style={{ background: "var(--color-papaya)", lineHeight: 0 }}>
-        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "50px" }}>
-          <path d="M0,40 C360,0 1080,70 1440,20 L1440,70 L0,70 Z" fill="var(--color-baby-pink)" />
-        </svg>
-      </div>
 
       {selectedProduct && (
         <ProductModal
