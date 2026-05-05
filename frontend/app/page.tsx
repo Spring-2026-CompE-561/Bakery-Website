@@ -101,6 +101,7 @@ export default function HomePage() {
           ].map(({ icon: Icon, title, body }) => (
             <div
               key={title}
+              className="transition-transform duration-200 hover:scale-105"
               style={{
                 background: "#fff",
                 border: "2px solid #000",
@@ -180,7 +181,7 @@ export default function HomePage() {
                   <img
                     src={product.picture_url}
                     alt={product.name}
-                    style={{ width: "100%", height: "220px", objectFit: "cover", display: "block", borderBottom: "2px solid #000" }}
+                    style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderBottom: "2px solid #000" }}
                   />
                   {product.badge && (
                     <div style={{ position: "absolute", top: "10px", right: "10px" }}>
@@ -207,7 +208,7 @@ export default function HomePage() {
 
                 <CardFooter style={{ padding: "8px 16px 16px" }}>
                   <Link href="/menu" style={{ width: "100%" }}>
-                    <Button style={{
+                    <Button className="transition-transform duration-200 hover:scale-105" style={{
                       width: "100%",
                       background: "var(--color-papaya)",
                       border: "1.5px solid #000",
@@ -228,7 +229,7 @@ export default function HomePage() {
 
         <div className="text-center mt-8">
           <Link href="/menu">
-            <Button style={{
+            <Button className="transition-transform duration-200 hover:scale-105" style={{
               background: "var(--color-smooth-pink)",
               border: "2px solid #000",
               color: "#000",
@@ -253,7 +254,7 @@ export default function HomePage() {
           A Filipino family bakery bringing the warmth of home to Oahu, Hawai&apos;i — one mini cake at a time. 🌺
         </p>
         <Link href="/about">
-          <Button style={{
+          <Button className="transition-transform duration-200 hover:scale-105" style={{
             background: "#fff",
             border: "2px solid #000",
             color: "#000",
