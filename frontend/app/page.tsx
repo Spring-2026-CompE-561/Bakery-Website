@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/product";
 import { getMenu } from "@/data/menu";
-import { Cake, CakeSlice, Clock, Heart, Mail, MapPin, Phone, Sparkles } from "lucide-react";
+import { Cake, CakeSlice, Clock, Heart, Mail, MapPin, Phone, Sparkles, Star } from "lucide-react";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -159,7 +159,7 @@ export default function HomePage() {
               maxWidth: "900px",
             }}
           >
-            {products.map((product) => (
+            {products.map((product, i) => (
               <Card
                 key={product.id}
                 style={{
@@ -185,6 +185,23 @@ export default function HomePage() {
                     alt={product.name}
                     style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderBottom: "2px solid #000" }}
                   />
+                  {i === 0 && (
+                    <div style={{ position: "absolute", top: "10px", left: "10px" }}>
+                      <Badge style={{
+                        background: "var(--color-deep-sage)",
+                        color: "#fff",
+                        border: "1px solid #000",
+                        fontFamily: "var(--font-body)",
+                        fontSize: "11px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                      }}>
+                        <Star size={10} strokeWidth={2} fill="currentColor" />
+                        Most Popular
+                      </Badge>
+                    </div>
+                  )}
                   {product.badge && (
                     <div style={{ position: "absolute", top: "10px", right: "10px" }}>
                       <Badge style={{
