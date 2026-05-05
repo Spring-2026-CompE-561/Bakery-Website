@@ -51,3 +51,8 @@ Features: You can test Admin privileges like adding products, viewing all orders
 PyTest: From backend directory
 * uv run pytest
 
+Docker:
+Download Docker locally
+Make sure there are Dockerfiles in both frontend and backend, and a docker-compose.yml
+Run `docker compose up --build`
+

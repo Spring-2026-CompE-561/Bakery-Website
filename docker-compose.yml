@@ -12,6 +12,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  seed-admin:
+      build: 
+        context: ./backend
+      command: uv run python seed_admin.py
+      environment:
+        # paste your database url from .env
+        DATABASE_URL: postgresql://postgres:123@db:5432/postgres
+      depends_on:
+        - db
+      restart: "no"
+
   backend:
     build:
       context: ./backend
@@ -24,6 +35,8 @@ services:
       - ./backend:/app
     depends_on:
       - db
+      - seed-admin
+  
 
   frontend:
     build:
@@ -38,5 +51,6 @@ services:
     depends_on:
       - backend
 
+# persistent data 
 volumes:
   postgres_data:
