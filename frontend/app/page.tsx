@@ -1,6 +1,6 @@
 // frontend/app/page.tsx
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -388,26 +388,59 @@ export default function HomePage() {
         <div style={{ position: "absolute", top: "-15px",  right: "-15px"  }}><Hibiscus size={110} rotate={-15} opacity={0.18} /></div>
         <div style={{ position: "absolute", bottom: "-10px", left: "30%"   }}><Plumeria size={80}  rotate={10}  opacity={0.12} /></div>
         <div style={{ position: "absolute", bottom: "-10px", right: "30%"  }}><Plumeria size={80}  rotate={-10} opacity={0.12} /></div>
-        <p className="text-xl md:text-2xl font-bold mb-6">Contact &amp; Pickup</p>
-        <div className="flex flex-col items-center gap-4 text-base md:text-lg">
-          <p className="flex items-center gap-2">
-            <Mail size={18} strokeWidth={1.5} />
-            seriseri.sweets@gmail.com
-          </p>
-          <p className="flex items-center gap-2">
-            <Phone size={18} strokeWidth={1.5} />
-            (619) 679-6669
-          </p>
-          <p className="flex items-center gap-2">
-            <MapPin size={18} strokeWidth={1.5} />
-            Pearl City, Hawai&apos;i
-          </p>
-          <p className="flex items-center gap-2" style={{ color: "#666" }}>
-            <Clock size={18} strokeWidth={1.5} />
-            <em>Pickup hours coming soon</em>
-          </p>
-          <p><strong>Pickup Only</strong> · Orders confirmed by owner</p>
+        <p className="text-xl md:text-2xl font-bold mb-8" style={{ fontFamily: "var(--font-display)" }}>Contact &amp; Pickup</p>
+
+        <div
+          className="mx-auto"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+            gap: "16px",
+            maxWidth: "800px",
+            marginBottom: "16px",
+          }}
+        >
+          {([
+            { icon: Mail,   label: "Email",        value: "seriseri.sweets@gmail.com" },
+            { icon: Phone,  label: "Phone",        value: "(619) 679-6669"            },
+            { icon: MapPin, label: "Location",     value: "Pearl City, Hawaiʻi"  },
+            { icon: Clock,  label: "Pickup Hours", value: "Coming soon"               },
+          ] as { icon: React.ElementType; label: string; value: string }[]).map(({ icon: Icon, label, value }) => (
+            <div
+              key={label}
+              style={{
+                background: "#fff",
+                border: "2px solid #000",
+                borderRadius: "10px",
+                boxShadow: "3px 3px 0 #000",
+                padding: "18px 14px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <div style={{
+                background: "var(--color-smooth-pink)",
+                border: "1.5px solid #000",
+                borderRadius: "50%",
+                width: "44px",
+                height: "44px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <Icon size={20} strokeWidth={1.5} />
+              </div>
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: "bold", fontSize: "13px", color: "#555" }}>{label}</p>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: "clamp(12px, 1.4vw, 15px)", fontWeight: "bold", color: "#000", textAlign: "center" }}>{value}</p>
+            </div>
+          ))}
         </div>
+
+        <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "#333" }}>
+          <strong>Pickup Only</strong> · Orders confirmed by owner
+        </p>
       </section>
 
     </div>
