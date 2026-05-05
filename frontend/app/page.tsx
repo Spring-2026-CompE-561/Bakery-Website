@@ -56,9 +56,11 @@ export default function HomePage() {
           Freshly Baked to Order
         </Badge>
 
-        <h1 className="font-bold mb-5 leading-tight" style={{ fontSize: "clamp(28px, 6vw, 60px)" }}>
-          Seri-Seri Sweets
-        </h1>
+        <div className="animate-float mb-5">
+          <h1 className="animate-shimmer font-bold leading-tight" style={{ fontSize: "clamp(36px, 8vw, 100px)", fontFamily: "var(--font-display)" }}>
+            Seri-Seri Sweets
+          </h1>
+        </div>
         <p
           className="mx-auto mb-8 leading-relaxed"
           style={{ fontSize: "clamp(15px, 2vw, 20px)", maxWidth: "560px" }}

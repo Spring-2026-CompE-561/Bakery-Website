@@ -89,7 +89,7 @@ export default function Navbar() {
 
           {/* Hamburger (mobile only) */}
           <button
-            className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8 shrink-0"
+            className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8 shrink-0 transition-transform duration-200 hover:scale-125"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle menu"
           >
