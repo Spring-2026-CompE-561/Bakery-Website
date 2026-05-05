@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/product";
 import { getMenu } from "@/data/menu";
+import { Cake, CakeSlice, Heart, MapPin } from "lucide-react";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -41,8 +42,9 @@ export default function HomePage() {
         <p className="text-xs md:text-sm tracking-widest uppercase mb-3 opacity-60">
           Homemade · Pickup Only · Oahu, Hawai&apos;i
         </p>
-        <h1 className="font-bold mb-5 leading-tight" style={{ fontSize: "clamp(28px, 6vw, 60px)" }}>
-          Seri-Seri Sweets 🍰
+        <h1 className="font-bold mb-5 leading-tight flex items-center justify-center gap-3" style={{ fontSize: "clamp(28px, 6vw, 60px)" }}>
+          Seri-Seri Sweets
+          <CakeSlice size={48} strokeWidth={1.5} style={{ color: "var(--color-deep-sage)", flexShrink: 0 }} />
         </h1>
         <p
           className="mx-auto mb-8 leading-relaxed"
@@ -67,6 +69,54 @@ export default function HomePage() {
             Order Now →
           </Button>
         </Link>
+      </section>
+
+      {/* ── Why Us Cards ── */}
+      <section
+        style={{ background: "var(--color-papaya)", borderBottom: "2px solid #000" }}
+        className="px-6 py-10 md:py-12"
+      >
+        <div
+          className="mx-auto"
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px", maxWidth: "860px" }}
+        >
+          {[
+            { icon: Cake,    title: "Freshly Baked",      body: "Every order made from scratch — never sitting on a shelf." },
+            { icon: Heart,   title: "Made with Love",     body: "Filipino family recipes passed down through generations."   },
+            { icon: MapPin,  title: "Local Pickup, Oahu", body: "Pearl City pickup only. Fresh to your hands, same day."     },
+          ].map(({ icon: Icon, title, body }) => (
+            <div
+              key={title}
+              style={{
+                background: "#fff",
+                border: "2px solid #000",
+                borderRadius: "10px",
+                boxShadow: "3px 3px 0 #000",
+                padding: "24px 20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                gap: "12px",
+              }}
+            >
+              <div style={{
+                background: "var(--color-smooth-pink)",
+                border: "1.5px solid #000",
+                borderRadius: "50%",
+                width: "52px",
+                height: "52px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <Icon size={22} strokeWidth={1.5} />
+              </div>
+              <p style={{ fontFamily: "var(--font-body)", fontWeight: "bold", fontSize: "16px" }}>{title}</p>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "#555", lineHeight: "1.6" }}>{body}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ── Featured Products (3 max) ── */}
