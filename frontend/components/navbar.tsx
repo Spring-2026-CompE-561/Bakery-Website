@@ -58,7 +58,7 @@ export default function Navbar() {
           <Link
             href="/checkout"
             style={{ color: "var(--color-foreground)" }}
-            className="relative hover:opacity-60"
+            className="relative transition-transform duration-200 hover:rotate-12"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
               fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
