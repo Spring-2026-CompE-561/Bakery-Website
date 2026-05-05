@@ -41,8 +41,8 @@ export default function Navbar() {
               <span key={label} className="flex items-center gap-4">
                 <Link
                   href={href}
-                  style={{ color: "var(--color-foreground)", fontFamily: "var(--font-body)" }}
-                  className="text-xl hover:opacity-60"
+                  style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
+                  className="text-xl font-bold inline-block transition-transform duration-200 hover:scale-110 hover:opacity-80"
                 >
                   {label}
                 </Link>
@@ -114,14 +114,14 @@ export default function Navbar() {
       {menuOpen && (
         <div
           style={{ borderTop: "1px solid #000", background: "var(--color-papaya)" }}
-          className="md:hidden flex flex-col gap-1 pb-4 pt-3"
+          className="md:hidden flex flex-col pb-4 pt-2"
         >
           {navLinks.map(({ label, href }) => (
             <Link
               key={label}
               href={href}
-              style={{ color: "var(--color-foreground)", fontFamily: "var(--font-body)" }}
-              className="text-lg px-2 py-2 hover:opacity-60"
+              style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
+              className="text-2xl font-bold px-4 py-3 inline-block transition-all duration-200 hover:translate-x-2 hover:opacity-70"
               onClick={() => setMenuOpen(false)}
             >
               {label}
