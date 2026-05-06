@@ -1,8 +1,8 @@
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from .models import user, product, order, order_item
 from .schemas import user as user_schema, product as product_schema, order as order_schema, order_item as order_item_schema
-from sqlalchemy.exc import NoResultFound, joinedload
+from sqlalchemy.exc import NoResultFound
 from src.app.core.auth import get_password_hash
 
 # User CRUD
