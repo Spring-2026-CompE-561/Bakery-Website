@@ -76,7 +76,7 @@ test.describe("Menu integration", () => {
     await expect(page.getByText(firstPrice, { exact: false }).first()).toBeVisible();
   });
 
-  test("product images load successfully", async ({ page, request }) => {
+ test("product images load successfully", async ({ page, request }) => {
     const response = await request.get(`${API_URL}/api/v1/products`);
     const products = await response.json();
 
@@ -85,7 +85,7 @@ test.describe("Menu integration", () => {
     await page.goto("/menu");
 
     const cards = page.locator('[data-slot="card"]');
-    await expect(cards.nth(0)).toBeVisible();
+    await expect(cards.first()).toBeVisible();
 
     const count = await cards.count();
     expect(count).toBeGreaterThan(0);
@@ -95,16 +95,34 @@ test.describe("Menu integration", () => {
         const image = card.locator("img");
 
         await expect(image).toBeVisible();
+
         const alt = await image.getAttribute("alt");
+        const src = await image.getAttribute("src");
+
+        expect(src, `Image missing src. alt=${alt}`).toBeTruthy();
 
         const loaded = await image.evaluate((img) => {
-            const el = img as HTMLImageElement;
-            return el.complete && el.naturalWidth > 0;
+        const el = img as HTMLImageElement;
+
+        return new Promise<boolean>((resolve) => {
+            if (el.complete) {
+            resolve(el.naturalWidth > 0);
+            return;
+            }
+
+            el.addEventListener("load", () => resolve(el.naturalWidth > 0), {
+            once: true,
+            });
+
+            el.addEventListener("error", () => resolve(false), {
+            once: true,
+            });
+        });
         });
 
-        expect(loaded, `Image failed to load: ${alt}`).toBeTruthy();
+        expect(loaded, `Image failed. alt=${alt}, src=${src}`).toBeTruthy();
     }
-  });
+   });
 
   test("next page button changes visible products", async ({ page, request }) => {
     const response = await request.get(`${API_URL}/api/v1/products`);
@@ -135,20 +153,21 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    const items = page.locator('[data-slot="card"]');
+    const items = page.locator('[data-slot="card"]')
+    const card = items.locator('[data-slot="card-content"]');
 
-    await expect(items.first()).toBeVisible();
-    await expect(items.nth(0).getByText(products[0].name, { exact: true })).toBeVisible();
+    await expect(card.first()).toBeVisible();
+    await expect(card.nth(0).getByText(products[0].name)).toBeVisible();
 
     await page.getByRole("button", { name: "Next →" }).click();
 
-    await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
-    await expect(items.nth(0).getByText(products[0].name, { exact: true })).not.toBeVisible();
+    await expect(card.nth(0).getByText(products[6].name)).toBeVisible();
+    await expect(card.nth(0).getByText(products[0].name)).not.toBeVisible();
 
     await page.getByRole("button", { name: "← Prev" }).click();
 
-    await expect(items.nth(0).getByText(products[0].name, { exact: true })).toBeVisible();
-    await expect(items.nth(0).getByText(products[6].name, { exact: true })).not.toBeVisible();
+    await expect(card.nth(0).getByText(products[0].name)).toBeVisible();
+    await expect(card.nth(0).getByText(products[6].name)).not.toBeVisible();
  });
 
   test("prev button is disabled on first page", async ({ page }) => {
