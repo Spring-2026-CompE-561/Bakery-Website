@@ -15,6 +15,10 @@ class ProductService:
         return ProductRepository.get_all(db)
 
     @staticmethod
+    def list_all_products_for_admin(db: Session) -> list[ProductRepository]:
+        return ProductRepository.get_all_for_admin(db)
+
+    @staticmethod
     def add_new_product(db: Session, product_in: ProductCreate) -> ProductRepository:
         if product_in.price < 0:
             msg = f"Invalid price {product_in.price}. Price must be non-negative."

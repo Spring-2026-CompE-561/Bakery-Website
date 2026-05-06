@@ -69,21 +69,21 @@ export function ProductModal({ product, onClose, onAddToCart }: ModalProps) {
 
         {/* Quantity Selector - Disabled if unavailable */}
         <div className={`flex items-center gap-1 mb-6 ${!product.is_available ? 'opacity-50 pointer-events-none' : ''}`}>
-          <Button onClick={() => setQty(Math.max(1, qty - 1))} size="icon" variant="default" className="rounded-full w-6 h-6 flex justify-center text-sm text-white bg-gray-300 hover:bg-gray-500">-</Button>
+          <Button onClick={() => setQty(Math.max(1, qty - 1))} size="icon" variant="default" className="rounded-full w-6 h-6 flex justify-center text-sm text-white bg-gray-300 hover:bg-gray-500 transition-transform duration-200 hover:scale-110">-</Button>
           <span className="text-xl text-black font-bold">{qty}</span>
-          <Button onClick={() => setQty(qty + 1)} size="icon" variant="default" className="rounded-full w-6 h-6 flex justify-center text-sm text-white bg-gray-400 hover:bg-gray-500">+</Button>
+          <Button onClick={() => setQty(qty + 1)} size="icon" variant="default" className="rounded-full w-6 h-6 flex justify-center text-sm text-white bg-gray-400 hover:bg-gray-500 transition-transform duration-200 hover:scale-110">+</Button>
         </div>
 
         <div className="flex gap-4">
-          <Button onClick={onClose} variant="outline" size="icon" className="rounded-full w-12 h-12 bg-black justify-center text-white hover:bg-gray-600">
+          <Button onClick={onClose} variant="outline" size="icon" className="rounded-full w-12 h-12 bg-black justify-center text-white hover:bg-gray-600 transition-transform duration-200 hover:scale-105">
             <X className="w-5 h-5" />
           </Button>
-          
-          <Button 
-            onClick={handleAddToCart} 
+
+          <Button
+            onClick={handleAddToCart}
             variant="outline"
-            disabled={!product.is_available} // Physically disable the button
-            className={`flex-1 w-12 h-12 text-white ${product.is_available ? 'bg-[#999D55] hover:bg-[#8a8d4a]' : 'bg-gray-400 cursor-not-allowed'}`} 
+            disabled={!product.is_available}
+            className={`flex-1 w-12 h-12 text-white transition-transform duration-200 ${product.is_available ? 'bg-[#999D55] hover:bg-[#8a8d4a] hover:scale-[1.03]' : 'bg-gray-400 cursor-not-allowed'}`}
           >
             {product.is_available ? "Add to Cart" : "Sold Out"}
           </Button>

@@ -14,7 +14,7 @@ import { NavbarWrapper } from "@/components/navbarwrapper";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata = {
-  title: "Sari Sari Sweets",
+  title: "Seri Seri Sweets",
   description: "Filipino desserts — pickup only, Oahu Hawaii",
 };
 

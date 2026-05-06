@@ -1,6 +1,4 @@
-// product header aka navbar for the menu
-// dropdown menu for pages as well as arrows to navigate
-// hover, opacity, click off menu functionality with buttons
+import { useRef, useEffect } from "react";
 
 type Props = {
   currentPage: number;
@@ -10,10 +8,7 @@ type Props = {
   isPageMenuOpen: boolean;
   setIsPageMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectPage: (page: number) => void;
-}; // types 
-   // handles paginations and simple ui/ux
-
-import { useRef, useEffect } from "react";
+};
 
 export default function MenuHeader({
   currentPage,
@@ -24,54 +19,92 @@ export default function MenuHeader({
   setIsPageMenuOpen,
   selectPage,
 }: Props) {
-
-  const menuRef = useRef<HTMLDivElement | null>(null); // off click make menu disappear
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!isPageMenuOpen) return;
-
     function handleClickOutside(event: MouseEvent) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsPageMenuOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isPageMenuOpen, setIsPageMenuOpen]);
 
+  const btnBase: React.CSSProperties = {
+    border: "1.5px solid #000",
+    borderRadius: "8px",
+    fontFamily: "var(--font-body)",
+    fontWeight: "bold",
+    fontSize: "14px",
+    padding: "6px 16px",
+    cursor: "pointer",
+    transition: "transform 0.15s ease",
+  };
+
   return (
-    <div className="flex items-center justify-between border-b border-black px-3 py-2 sm:px-4">
-      <div className="flex items-center gap-2">
-        <div className="relative" ref={menuRef}>
+    <div
+      style={{
+        background: "var(--color-papaya)",
+        borderBottom: "2px solid #000",
+        borderRadius: "10px 10px 0 0",
+        padding: "10px 16px",
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "10px",
+      }}
+    >
+      {/* Left: page picker + arrows */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+        <div style={{ position: "relative" }} ref={menuRef}>
           <button
             onClick={() => setIsPageMenuOpen((prev) => !prev)}
-            disabled={totalPages === 1}
-            className="rounded-md border border-black bg-[#999d55] px-5 py-2.5 text-base font-medium text-stone-700 hover:bg-[#4c4e2a] hover:text-stone-400 disabled:pointer-events-none"
+            disabled={totalPages <= 1}
+            style={{
+              ...btnBase,
+              background: "var(--color-tender-rose)",
+              boxShadow: "2px 2px 0 #000",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "none"; }}
           >
             Page {currentPage}
           </button>
 
           {isPageMenuOpen && (
-            <div className="absolute left-0 top-full z-10 mt-1 w-24 rounded border border-black bg-[#fff8fb] shadow-md">
-              {Array.from({ length: totalPages }, (_, index) => {
-                const page = index + 1;
-
+            <div style={{
+              position: "absolute",
+              left: 0,
+              top: "calc(100% + 4px)",
+              zIndex: 10,
+              minWidth: "100px",
+              background: "#fff",
+              border: "1.5px solid #000",
+              borderRadius: "8px",
+              boxShadow: "3px 3px 0 #000",
+              overflow: "hidden",
+            }}>
+              {Array.from({ length: totalPages }, (_, i) => {
+                const page = i + 1;
                 return (
                   <button
                     key={page}
                     onClick={() => selectPage(page)}
-                    className={`block w-full px-4 py-2 text-left text-sm transition hover:bg-[#f1d8e3] ${
-                      currentPage === page
-                        ? "bg-[#f6e7ee] font-semibold text-stone-800"
-                        : "text-stone-700"
-                    }`}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      padding: "8px 16px",
+                      textAlign: "left",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "13px",
+                      fontWeight: currentPage === page ? "bold" : "normal",
+                      background: currentPage === page ? "var(--color-smooth-pink)" : "transparent",
+                      cursor: "pointer",
+                      border: "none",
+                      borderBottom: page < totalPages ? "1px solid #eee" : "none",
+                    }}
                   >
                     Page {page}
                   </button>
@@ -81,29 +114,49 @@ export default function MenuHeader({
           )}
         </div>
 
-        <div className="flex items-center gap-1 text-[#999d55]">
-          <button
-            onClick={goPrev}
-            disabled={currentPage === 1}
-            className="text-lg transition hover:text-[#4c4e2a] disabled:opacity-40 disabled:pointer-events-none"
-          >
-            ◀
-          </button>
-          <button
-            onClick={goNext}
-            disabled={currentPage === totalPages}
-            className="text-lg transition hover:text-[#4c4e2a] disabled:opacity-40 disabled:pointer-events-none"
-          >
-            ▶
-          </button>
-        </div>
+        <button
+          onClick={goPrev}
+          disabled={currentPage === 1}
+          style={{
+            ...btnBase,
+            background: "var(--color-smooth-pink)",
+            padding: "6px 12px",
+            opacity: currentPage === 1 ? 0.4 : 1,
+            pointerEvents: currentPage === 1 ? "none" : "auto",
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "none"; }}
+        >
+          ◀
+        </button>
+        <button
+          onClick={goNext}
+          disabled={currentPage === totalPages}
+          style={{
+            ...btnBase,
+            background: "var(--color-smooth-pink)",
+            padding: "6px 12px",
+            opacity: currentPage === totalPages ? 0.4 : 1,
+            pointerEvents: currentPage === totalPages ? "none" : "auto",
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "none"; }}
+        >
+          ▶
+        </button>
       </div>
 
-      <h1 className="text-center text-lg font-medium text-stone-700 sm:text-xl">
+      {/* Center: title — grows to fill remaining space and centers itself */}
+      <h2 style={{
+        fontFamily: "var(--font-body)",
+        fontWeight: "bold",
+        fontSize: "clamp(13px, 2vw, 18px)",
+        textAlign: "center",
+        flex: "1 1 120px",
+        minWidth: 0,
+      }}>
         View Our Tasty Products!
-      </h1>
-
-      <div className="w-20" />
+      </h2>
     </div>
   );
 }

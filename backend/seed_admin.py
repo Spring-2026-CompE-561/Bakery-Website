@@ -1,6 +1,7 @@
 # This script seeds the database with an initial admin user.
 import sys
 import os
+from sqlalchemy import text
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 src_path = os.path.join(current_dir, "src")
@@ -12,10 +13,19 @@ from src.app.schemas.user import UserCreate  # noqa: E402
 from src.app.crud import create_user  # noqa: E402
 
 
+def run_migrations(engine):
+    with engine.connect() as conn:
+        conn.execute(text("ALTER TABLE products ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT TRUE"))
+        conn.execute(text("UPDATE products SET is_active = TRUE WHERE is_active IS NULL"))
+        conn.commit()
+    print("Migrations applied.")
+
+
 def run_seed():
     print("Connecting to database...")
     Base.metadata.create_all(bind=engine)
     print("Connected successfully!")
+    run_migrations(engine)
 
     db = SessionLocal()
     try:
