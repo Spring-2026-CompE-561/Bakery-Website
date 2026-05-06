@@ -10,6 +10,7 @@ class ProductBase(BaseModel):
     description: str | None = None
     price: float
     is_available: bool = True
+    is_active: bool = True
     picture_url: str | None = None
     badge: str | None = None
 
@@ -31,5 +32,6 @@ class ProductUpdate(BaseModel):
     description: Optional[str] = None
     price: Optional[float] = None
     is_available: Optional[bool] = None
+    is_active: Optional[bool] = None
     picture_url: Optional[str] = None
     badge: Optional[str] = None

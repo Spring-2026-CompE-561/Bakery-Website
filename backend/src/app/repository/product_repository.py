@@ -11,6 +11,10 @@ from ..schemas.product import ProductCreate
 class ProductRepository:
     @staticmethod
     def get_all(db: Session) -> list[Product]:
+        return db.query(Product).filter(Product.is_active == True).all()
+
+    @staticmethod
+    def get_all_for_admin(db: Session) -> list[Product]:
         return db.query(Product).all()
 
     @staticmethod

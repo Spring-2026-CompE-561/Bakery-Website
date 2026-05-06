@@ -16,7 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Loader2 } from "lucide-react";
+import { Plus, Pencil, Loader2, Trash2 } from "lucide-react";
 
 interface Product {
   id: number;
@@ -24,6 +24,7 @@ interface Product {
   description: string | null;
   price: number;
   is_available: boolean;
+  is_active: boolean;
   picture_url: string | null;
   badge: string | null;
 }
@@ -33,6 +34,7 @@ export default function ProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   
   // State for the form (handles both Add and Edit)
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
@@ -45,14 +47,14 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/v1/products/", {
+      const res = await fetch("http://127.0.0.1:8000/api/v1/products/all", {
         headers: { "Authorization": `Bearer ${localStorage.getItem("access_token")}` }
       });
       if (res.status === 401) return forceLogout();
       const data = await res.json();
       setProducts(data);
     } catch (err) {
-      forceLogout();
+      toast.error("Failed to load products. Check backend.");
     } finally {
       setIsLoading(false);
     }
@@ -91,6 +93,24 @@ export default function ProductsPage() {
       toast.error("Failed to save product. Check backend.");
     } finally {
       setIsSubmitLoading(false);
+    }
+  };
+
+  const handleArchive = async (productId: number, currentIsActive: boolean) => {
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/products/${productId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        },
+        body: JSON.stringify({ is_active: !currentIsActive })
+      });
+      if (!res.ok) throw new Error();
+      setProducts(prev => prev.map(p => p.id === productId ? { ...p, is_active: !currentIsActive } : p));
+      toast.success(currentIsActive ? "Product removed" : "Product restored");
+    } catch (err) {
+      toast.error("Failed to update product.");
     }
   };
 
@@ -203,7 +223,7 @@ export default function ProductsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products.map((product) => (
+              {products.filter(p => p.is_active).map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>
                     <img 
@@ -227,9 +247,17 @@ export default function ProductsPage() {
                       onCheckedChange={() => toggleAvailability(product.id, product.is_available)}
                     />
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right space-x-1">
                     <Button variant="ghost" size="icon" onClick={() => { setEditingProduct(product); setIsOpen(true); }}>
                       <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setDeleteTarget(product)}
+                      title="Remove product"
+                    >
+                      <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -238,6 +266,28 @@ export default function ProductsPage() {
           </Table>
         </CardContent>
       </Card>
+      <Dialog open={!!deleteTarget} onOpenChange={(open) => { if (!open) setDeleteTarget(null); }}>
+        <DialogContent className="sm:max-w-[360px]">
+          <DialogHeader>
+            <DialogTitle>Remove Product</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            Are you sure you want to remove <span className="font-semibold">{deleteTarget?.name}</span>? This will hide it from the menu.
+          </p>
+          <DialogFooter className="mt-4">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)}>Cancel</Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (deleteTarget) handleArchive(deleteTarget.id, deleteTarget.is_active);
+                setDeleteTarget(null);
+              }}
+            >
+              Remove
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
