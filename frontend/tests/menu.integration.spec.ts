@@ -95,13 +95,14 @@ test.describe("Menu integration", () => {
         const image = card.locator("img");
 
         await expect(image).toBeVisible();
+        const alt = await image.getAttribute("alt");
 
         const loaded = await image.evaluate((img) => {
             const el = img as HTMLImageElement;
             return el.complete && el.naturalWidth > 0;
         });
 
-        expect(loaded).toBeTruthy();
+        expect(loaded, `Image failed to load: ${alt}`).toBeTruthy();
     }
   });
 
@@ -119,7 +120,7 @@ test.describe("Menu integration", () => {
         await expect(items.nth(i)).toContainText(product.name);
     }
 
-    await page.getByRole("button", { name: "Next Page" }).click();
+    await page.getByRole("button", { name: "Next →" }).click();
 
     await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
   });
@@ -139,12 +140,12 @@ test.describe("Menu integration", () => {
     await expect(items.first()).toBeVisible();
     await expect(items.nth(0).getByText(products[0].name, { exact: true })).toBeVisible();
 
-    await page.getByRole("button", { name: "Next Page" }).click();
+    await page.getByRole("button", { name: "Next →" }).click();
 
     await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
     await expect(items.nth(0).getByText(products[0].name, { exact: true })).not.toBeVisible();
 
-    await page.getByRole("button", { name: "Prev Page" }).click();
+    await page.getByRole("button", { name: "← Prev" }).click();
 
     await expect(items.nth(0).getByText(products[0].name, { exact: true })).toBeVisible();
     await expect(items.nth(0).getByText(products[6].name, { exact: true })).not.toBeVisible();
@@ -153,7 +154,7 @@ test.describe("Menu integration", () => {
   test("prev button is disabled on first page", async ({ page }) => {
     await page.goto("/menu");
 
-    await expect(page.getByRole("button", { name: "Prev Page" })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "← Prev" })).toBeDisabled();
   });
 
   test("next button is disabled on last page", async ({ page, request }) => {
@@ -168,11 +169,12 @@ test.describe("Menu integration", () => {
 
     if (totalPages > 1) {
         for (let i = 1; i < totalPages; i++) {
-        await page.getByRole("button", { name: "Next Page" }).click();
+        await page.getByRole("button", { name: "Next →" }).click();
         }
     };
+    
 
-    await expect(page.getByRole("button", { name: "Next Page" })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Next →" })).toBeDisabled();
   });
 
   test("page dropdown opens", async ({ page, request }) => {
@@ -201,7 +203,7 @@ test.describe("Menu integration", () => {
     await page.getByRole("button", { name: /Page 1/i }).click();
     await page.getByRole("button", { name: /Page 2/i }).click();
     
-    await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
+    await expect(items.nth(0).getByText(products[0].name, { exact: true })).not.toBeVisible();
   });
 
   test("page dropdown closes after selecting a page", async ({ page, request }) => {

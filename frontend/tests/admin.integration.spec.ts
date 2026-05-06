@@ -46,7 +46,7 @@ test.describe("Admin integration", () => {
         const products = await response.json();
     
         test.skip(products.length <= 6, "Need more than 6 products for pagination");
-        
+
         await page.getByRole("link", { name: "Products" }).click();
 
         const rows = page.locator('[data-slot="table-row"]');
@@ -112,7 +112,7 @@ test.describe("Admin integration", () => {
     test("can create a product", async ({ page }) => {
         await page.getByRole("link", { name: "Products" }).click();
 
-        const productName = `Bob-${Date.now()}`;
+        const productName = `Bobeth the 5th`;
 
         await page.getByRole("button", { name: "Add Product" }).click();
 
@@ -130,15 +130,22 @@ test.describe("Admin integration", () => {
         await expect(page.locator("[data-slot='table-cell']").last()).toBeVisible();
     });
 
-    // test("can delete a product", async ({ page, request }) => {
-    //     const response = await request.get(`${API_URL}/api/v1/products`);
-    //     const products = await response.json();
+    test("can delete a product", async ({ page, request }) => {
+        const response = await request.get(`${API_URL}/api/v1/products`);
+        const products = await response.json();
 
-    //     test.skip(products.length <= 0, "Need a product");
+        test.skip(products.length <= 0, "Need a product");
 
-    //     await page.getByRole("link", { name: "Products" }).click();
+        await page.getByRole("link", { name: "Products" }).click();
 
-        
-    // });
+        const productName = `Bobeth the 5th`;
+
+        await page.locator('[data-slot="table-row"]').filter({ hasText: productName }).getByTitle("Remove product").click();
+
+        await page.getByRole("button", { name: "Remove" }).click();
+
+        await expect(page.locator('[data-slot="table-row"]').filter({ hasText: productName })).not.toBeVisible();
+
+    });
 
 });

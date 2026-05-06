@@ -59,9 +59,9 @@ test.describe("Home page integration/unit tests", () => {
 
     await expect(page.getByText("About Seri-Seri Sweets")).toBeVisible();
     await expect(page.getByText("Contact & Pickup")).toBeVisible();
-    await expect(page.getByText("seriseri.sweets@gmail.com")).toBeVisible();
-    await expect(page.getByText("(619) 679-6669")).toBeVisible();
-    await expect(page.getByText("Pearl City, Hawai'i")).toBeVisible();
+    await expect(page.getByRole("contentinfo").getByText("seriseri.sweets@gmail.com")).toBeVisible();
+    await expect(page.getByRole("contentinfo").getByText("(619) 679-6669")).toBeVisible();
+    await expect(page.getByRole("contentinfo").getByText("Pearl City, Hawaii")).toBeVisible();
   });
 
   test("shows featured products from backend", async ({ page, request }) => {
