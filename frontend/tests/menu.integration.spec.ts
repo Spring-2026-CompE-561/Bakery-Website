@@ -60,7 +60,7 @@ test.describe("Menu integration", () => {
     const items = page.locator('[data-slot="card"]');
 
     for (const [i, product] of products.slice(0, products.length % 6).entries()) {
-        await expect(items.nth(i)).toContainText(product.name);
+        await expect(items.nth(i).locator("p").first()).toHaveText(product.name);
     }
   });
 
@@ -76,7 +76,7 @@ test.describe("Menu integration", () => {
     const items = card.locator('[data-slot="card-content"]');
 
     const firstPrice = String(products[0].price);
-    await expect(items.nth(0).getByText(firstPrice)).toBeVisible();
+    await expect(card.nth(0).locator("p").nth(1)).toHaveText(`$${firstPrice}`);
   });
 
  test("product images load successfully", async ({ page, request }) => {
@@ -140,12 +140,12 @@ test.describe("Menu integration", () => {
 
 
     for (const [i, product] of products.slice(0, 6).entries()) {
-        await expect(items.nth(i).getByText(product.name)).toBeVisible();
+        await expect(items.nth(i).locator("p").first()).toHaveText(product.name);
     }
 
     await page.getByRole("button", { name: "Next →" }).click();
 
-    await expect(items.nth(0).getByText(products[6].name)).toBeVisible();
+    await expect(items.nth(0).locator("p").first()).toHaveText(products[6].name);
   });
 
   test("previous page button returns to first page", async ({ page, request }) => {
@@ -162,17 +162,17 @@ test.describe("Menu integration", () => {
     const card = items.locator('[data-slot="card-content"]');
 
     await expect(card.first()).toBeVisible();
-    await expect(card.nth(0).getByText(products[0].name)).toBeVisible();
+    await expect(card.nth(0).locator("p").first()).toHaveText(products[0].name);
 
     await page.getByRole("button", { name: "Next →" }).click();
 
-    await expect(card.nth(0).getByText(products[6].name)).toBeVisible();
-    await expect(card.nth(0).getByText(products[0].name)).not.toBeVisible();
+    await expect(card.nth(0).locator("p").first()).toHaveText(products[6].name);
+    await expect(card.nth(0).locator("p").first()).not.toHaveText(products[0].name);
 
     await page.getByRole("button", { name: "← Prev" }).click();
 
-    await expect(card.nth(0).getByText(products[0].name)).toBeVisible();
-    await expect(card.nth(0).getByText(products[6].name)).not.toBeVisible();
+    await expect(card.nth(0).locator("p").first()).toHaveText(products[0].name);
+    await expect(card.nth(0).locator("p").first()).not.toHaveText(products[6].name);
  });
 
   test("prev button is disabled on first page", async ({ page }) => {
@@ -223,12 +223,12 @@ test.describe("Menu integration", () => {
     await page.goto("/menu");
 
     const card = page.locator('[data-slot="card"]');
-    const itmes = card.locator('[data-slot="card-content"]');
+    const items = card.locator('[data-slot="card-content"]');
 
     await page.getByRole("button", { name: /Page 1/i }).click();
     await page.getByRole("button", { name: /Page 2/i }).click();
     
-    await expect(card.nth(0).getByText(products[0].name)).not.toBeVisible();
+     await expect(items.nth(0).locator("p").nth(0)).toHaveText(products[6].name);
   });
 
   test("page dropdown closes after selecting a page", async ({ page, request }) => {
