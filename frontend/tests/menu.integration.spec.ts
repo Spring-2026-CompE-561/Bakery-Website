@@ -71,9 +71,12 @@ test.describe("Menu integration", () => {
     test.skip(products.length <= 0, "Need a product");
 
     await page.goto("/menu");
+    
+    const card = page.locator('[data-slot="card"]')
+    const items = card.locator('[data-slot="card-content"]');
 
     const firstPrice = String(products[0].price);
-    await expect(page.getByText(firstPrice, { exact: false }).first()).toBeVisible();
+    await expect(items.nth(0).getByText(firstPrice)).toBeVisible();
   });
 
  test("product images load successfully", async ({ page, request }) => {
@@ -132,15 +135,17 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    const items = page.locator('[data-slot="card"]');
+    const card = page.locator('[data-slot="card"]');
+    const items = card.locator('[data-slot="card-content"]');
+
 
     for (const [i, product] of products.slice(0, 6).entries()) {
-        await expect(items.nth(i)).toContainText(product.name);
+        await expect(items.nth(i).getByText(product.name)).toBeVisible();
     }
 
     await page.getByRole("button", { name: "Next →" }).click();
 
-    await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
+    await expect(items.nth(0).getByText(products[6].name)).toBeVisible();
   });
 
   test("previous page button returns to first page", async ({ page, request }) => {
@@ -217,12 +222,13 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    const items = page.locator('[data-slot="card"]');
+    const card = page.locator('[data-slot="card"]');
+    const itmes = card.locator('[data-slot="card-content"]');
 
     await page.getByRole("button", { name: /Page 1/i }).click();
     await page.getByRole("button", { name: /Page 2/i }).click();
     
-    await expect(items.nth(0).getByText(products[0].name, { exact: true })).not.toBeVisible();
+    await expect(card.nth(0).getByText(products[0].name)).not.toBeVisible();
   });
 
   test("page dropdown closes after selecting a page", async ({ page, request }) => {
