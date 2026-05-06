@@ -1,7 +1,3 @@
-// bottom pager aka footer for the menu
-// same functionality as the header, but only prev/next page buttons
-// hover and opacity implemented
-
 type Props = {
   currentPage: number;
   totalPages: number;
@@ -9,30 +5,54 @@ type Props = {
   goPrev: () => void;
 };
 
-export default function MenuPager({
-  currentPage,
-  totalPages,
-  goNext,
-  goPrev,
-}: Props) {
+export default function MenuPager({ currentPage, totalPages, goNext, goPrev }: Props) {
+  const btnBase: React.CSSProperties = {
+    border: "1.5px solid #000",
+    borderRadius: "8px",
+    fontFamily: "var(--font-body)",
+    fontWeight: "bold",
+    fontSize: "14px",
+    padding: "8px 20px",
+    cursor: "pointer",
+    transition: "transform 0.15s ease",
+    background: "var(--color-papaya)",
+    boxShadow: "2px 2px 0 #000",
+  };
+
   return (
-    <div className="flex justify-end gap-4 border-t border-black px-4 py-3 sm:px-6">
+    <div style={{
+      display: "flex",
+      justifyContent: "flex-end",
+      gap: "12px",
+      borderTop: "2px solid #000",
+      padding: "12px 0 4px",
+    }}>
       <button
         onClick={goPrev}
         disabled={currentPage === 1}
-        className="flex h-12 w-20 flex-col items-center justify-center rounded-md border border-black bg-[var(--color-deep-sage)] text-base leading-tight text-stone-700 disabled:opacity-40 disabled:pointer-events-none hover:bg-[#4c4e2a] hover:text-stone-400"
+        style={{
+          ...btnBase,
+          opacity: currentPage === 1 ? 0.4 : 1,
+          pointerEvents: currentPage === 1 ? "none" : "auto",
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "none"; }}
       >
-        <span>Prev</span>
-        <span>Page</span>
+        ← Prev
       </button>
 
       <button
         onClick={goNext}
         disabled={currentPage === totalPages}
-        className="flex h-12 w-20 flex-col items-center justify-center rounded-md border border-black bg-[var(--color-deep-sage)] text-base leading-tight text-stone-700 disabled:opacity-40 disabled:pointer-events-none hover:bg-[#4c4e2a] hover:text-stone-400"
+        style={{
+          ...btnBase,
+          opacity: currentPage === totalPages ? 0.4 : 1,
+          pointerEvents: currentPage === totalPages ? "none" : "auto",
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "none"; }}
       >
-        <span>Next</span>
-        <span>Page</span>
+        Next →
       </button>
     </div>
   );
