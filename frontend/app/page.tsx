@@ -354,7 +354,7 @@ export default function HomePage() {
         <div style={{ position: "absolute", bottom: "-15px", right: "15%"  }}><Plumeria size={90}  rotate={-30} opacity={0.13} /></div>
         <p className="text-xl md:text-2xl font-bold mb-4">About Seri-Seri Sweets</p>
         <p className="text-base md:text-lg mx-auto mb-7 leading-relaxed" style={{ maxWidth: "560px" }}>
-          A Filipino family bakery bringing the warmth of home to Oahu, Hawai&apos;i — one mini cake at a time.
+          A Filipino family bakery bringing the warmth of home to Oahu, Hawaii — one mini cake at a time.
         </p>
         <Link href="/about">
           <Button className="transition-transform duration-200 hover:scale-105" style={{
@@ -403,7 +403,7 @@ export default function HomePage() {
           {([
             { icon: Mail,   label: "Email",        value: "seriseri.sweets@gmail.com" },
             { icon: Phone,  label: "Phone",        value: "(619) 679-6669"            },
-            { icon: MapPin, label: "Location",     value: "Pearl City, Hawaiʻi"  },
+            { icon: MapPin, label: "Location",     value: "Pearl City, Hawaii"  },
             { icon: Clock,  label: "Pickup Hours", value: "Coming soon"               },
           ] as { icon: React.ElementType; label: string; value: string }[]).map(({ icon: Icon, label, value }) => (
             <div

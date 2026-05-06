@@ -94,6 +94,10 @@
   --radius-4xl:      calc(var(--radius) * 2.6);
 }
 
+html {
+  background-color: var(--color-smooth-pink);
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-smooth-pink);

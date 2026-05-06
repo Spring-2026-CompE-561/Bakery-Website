@@ -130,7 +130,7 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-    <div style={{ background: "var(--color-papaya)", lineHeight: 0 }}>
+    <div style={{ background: "var(--color-papaya)", lineHeight: 0, marginBottom: "-1px" }}>
       <svg viewBox="0 0 1440 36" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "30px" }}>
         <path d="M0,0 L720,28 L1440,0 L1440,36 L0,36 Z" fill="var(--color-smooth-pink)" />
       </svg>

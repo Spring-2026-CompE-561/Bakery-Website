@@ -1,5 +1,5 @@
 "use client";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import React from "react";
 
 type AccentProps = { size?: number; opacity?: number; rotate?: number };
 
@@ -56,10 +56,10 @@ export default function AboutPage() {
         style={{ background: "var(--color-smooth-pink)", position: "relative", overflow: "hidden" }}
         className="px-6 py-12 md:py-16 text-center"
       >
-        <div style={{ position: "absolute", top: "-20px", left:  "-20px" }}><Hibiscus size={130} rotate={-30} opacity={0.2} /></div>
-        <div style={{ position: "absolute", top: "-20px", right: "-20px" }}><Hibiscus size={130} rotate={30}  opacity={0.2} /></div>
-        <div style={{ position: "absolute", bottom: "-15px", left: "15%" }}><Plumeria size={90}  rotate={20}  opacity={0.13} /></div>
-        <div style={{ position: "absolute", bottom: "-15px", right: "15%"}}><Plumeria size={90}  rotate={-20} opacity={0.13} /></div>
+        <div style={{ position: "absolute", top: "-20px", left: "-20px" }}><Hibiscus size={130} rotate={-30} opacity={0.2} /></div>
+        <div style={{ position: "absolute", top: "-20px", right: "-20px" }}><Hibiscus size={130} rotate={30} opacity={0.2} /></div>
+        <div style={{ position: "absolute", bottom: "-15px", left: "15%" }}><Plumeria size={90} rotate={20} opacity={0.13} /></div>
+        <div style={{ position: "absolute", bottom: "-15px", right: "15%" }}><Plumeria size={90} rotate={-20} opacity={0.13} /></div>
 
         <h1
           className="font-bold leading-tight mb-3"
@@ -87,9 +87,9 @@ export default function AboutPage() {
         style={{ background: "var(--color-baby-pink)", position: "relative", overflow: "hidden" }}
         className="px-6 py-12 md:py-16"
       >
-        <div style={{ position: "absolute", top: "-10px", left: "-10px"   }}><PalmLeaf size={110} rotate={-20} opacity={0.13} /></div>
-        <div style={{ position: "absolute", top: "-10px", right: "-10px"  }}><PalmLeaf size={110} rotate={20}  opacity={0.13} /></div>
-        <div style={{ position: "absolute", bottom: "-10px", left: "40%"  }}><Plumeria size={80}  rotate={10}  opacity={0.10} /></div>
+        <div style={{ position: "absolute", top: "-10px", left: "-10px" }}><PalmLeaf size={110} rotate={-20} opacity={0.13} /></div>
+        <div style={{ position: "absolute", top: "-10px", right: "-10px" }}><PalmLeaf size={110} rotate={20} opacity={0.13} /></div>
+        <div style={{ position: "absolute", bottom: "-10px", left: "40%" }}><Plumeria size={80} rotate={10} opacity={0.10} /></div>
 
         <div
           className="mx-auto"
@@ -120,85 +120,6 @@ export default function AboutPage() {
             }}
           >
             Hi, I&apos;m Raquel Muña, the owner of Seri-Seri Sweets. I&apos;m a wife, mom, and military spouse currently stationed in Hawai&apos;i with Filipino heritage. I created Seri-Seri Sweets after discovering my love for baking and sharing treats with others. The name was inspired by my family and the nostalgic Sari-Sari store, a place filled with Filipino snacks, essentials, and community. Our journey began at Fort Campbell, where I first envisioned this home bakery, and it continues to grow with us as we move through different duty stations, each place bringing new inspiration to Seri-Seri Sweets.
-          </p>
-        </div>
-      </section>
-
-      {/* Wave: story → contact */}
-      <div style={{ background: "var(--color-baby-pink)", lineHeight: 0 }}>
-        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "55px" }}>
-          <path d="M0,50 C360,0 1080,70 1440,20 L1440,70 L0,70 Z" fill="var(--color-tender-rose)" />
-        </svg>
-      </div>
-
-      {/* ── Bakery Info / Contact ── */}
-      <section
-        style={{ background: "var(--color-tender-rose)", position: "relative", overflow: "hidden" }}
-        className="px-6 py-12 md:py-16 text-center"
-      >
-        <div style={{ position: "absolute", top: "-15px", left:  "-15px"  }}><Hibiscus size={110} rotate={15}  opacity={0.18} /></div>
-        <div style={{ position: "absolute", top: "-15px", right: "-15px"  }}><Hibiscus size={110} rotate={-15} opacity={0.18} /></div>
-        <div style={{ position: "absolute", bottom: "-10px", left: "25%"  }}><Plumeria size={85}  rotate={10}  opacity={0.13} /></div>
-        <div style={{ position: "absolute", bottom: "-10px", right: "25%" }}><Plumeria size={85}  rotate={-10} opacity={0.13} /></div>
-
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <p
-            className="font-bold mb-8"
-            style={{ fontSize: "clamp(22px, 4vw, 36px)", fontFamily: "var(--font-display)" }}
-          >
-            Bakery Info
-          </p>
-
-          <div
-            className="mx-auto"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "16px",
-              maxWidth: "800px",
-              marginBottom: "12px",
-            }}
-          >
-            {[
-              { icon: Mail,   label: "Email",         value: "seriseri.sweets@gmail.com" },
-              { icon: Phone,  label: "Phone",         value: "(619) 679-6669"            },
-              { icon: MapPin, label: "Location",      value: "Pearl City, Hawaiʻi"  },
-              { icon: Clock,  label: "Pickup Hours",  value: "Coming soon"               },
-            ].map(({ icon: Icon, label, value }) => (
-              <div
-                key={label}
-                style={{
-                  background: "#fff",
-                  border: "2px solid #000",
-                  borderRadius: "10px",
-                  boxShadow: "3px 3px 0 #000",
-                  padding: "20px 16px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
-              >
-                <div style={{
-                  background: "var(--color-smooth-pink)",
-                  border: "1.5px solid #000",
-                  borderRadius: "50%",
-                  width: "44px",
-                  height: "44px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-                  <Icon size={20} strokeWidth={1.5} />
-                </div>
-                <p style={{ fontFamily: "var(--font-display)", fontWeight: "bold", fontSize: "14px", color: "#555" }}>{label}</p>
-                <p style={{ fontFamily: "var(--font-body)", fontSize: "clamp(13px, 1.5vw, 16px)", fontWeight: "bold", color: "#000" }}>{value}</p>
-              </div>
-            ))}
-          </div>
-
-          <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "#333", marginTop: "16px" }}>
-            <strong>Pickup Only</strong> · Orders confirmed by owner
           </p>
         </div>
       </section>
