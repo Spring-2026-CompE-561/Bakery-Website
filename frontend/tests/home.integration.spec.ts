@@ -75,8 +75,10 @@ test.describe("Home page integration/unit tests", () => {
 
     await expect(page.getByText("Featured Items", { exact: true })).toBeVisible();
 
+    const items = page.locator('[data-slot="card"]');
+
     for (const [i, product] of products.slice(0, count).entries()) {
-     await expect(page.getByText(product.name)).toBeVisible();
+     await expect(items.nth(i)).toContainText(product.name);
      await expect(page.getByText('$').nth(i)).toBeVisible();
    }
 

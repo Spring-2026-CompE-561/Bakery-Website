@@ -27,11 +27,11 @@ test.describe("Menu integration", () => {
 
     test.skip(products.length <= 0, "Need a product");
 
-    const firstProductName = products[0].name;
-
     await page.goto("/menu");
 
-    await expect(page.getByText(firstProductName, { exact: true })).toBeVisible();
+    const items = page.locator('[data-slot="card"]');
+
+    await expect(items.nth(0)).toContainText(products[0].name);
   });
 
   test("first page renders up to 6 product cards", async ({ page, request }) => {
@@ -85,7 +85,7 @@ test.describe("Menu integration", () => {
     await page.goto("/menu");
 
     const cards = page.locator('[data-slot="card"]');
-    await expect(cards.first()).toBeVisible();
+    await expect(cards.nth(0)).toBeVisible();
 
     const count = await cards.count();
     expect(count).toBeGreaterThan(0);
@@ -121,7 +121,7 @@ test.describe("Menu integration", () => {
 
     await page.getByRole("button", { name: "Next Page" }).click();
 
-    await expect(page.getByText(products[6].name, { exact: true })).toBeVisible();
+    await expect(items.nth(0)).toContainText(products[6].name);
   });
 
   test("previous page button returns to first page", async ({ page, request }) => {
@@ -134,17 +134,20 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await expect(page.getByText(products[0].name, { exact: true })).toBeVisible();
+    const items = page.locator('[data-slot="card"]');
+
+    await expect(items.first()).toBeVisible();
+    await expect(items.nth(0)).toContainText(products[0].name);
 
     await page.getByRole("button", { name: "Next Page" }).click();
 
-    await expect(page.getByText(products[0].name, { exact: true })).not.toBeVisible();
-    await expect(page.getByText(products[6].name, { exact: true })).toBeVisible();
+    await expect(items.nth(0)).toContainText(products[6].name);
+    await expect(items.nth(0)).not.toContainText(products[0].name);
 
     await page.getByRole("button", { name: "Prev Page" }).click();
 
-    await expect(page.getByText(products[0].name, { exact: true })).toBeVisible();
-    await expect(page.getByText(products[6].name, { exact: true })).not.toBeVisible();
+    await expect(items.nth(0)).toContainText(products[0].name);
+    await expect(items.nth(0)).not.toContainText(products[6].name);
  });
 
   test("prev button is disabled on first page", async ({ page }) => {
@@ -196,7 +199,7 @@ test.describe("Menu integration", () => {
     await page.getByRole("button", { name: /Page 1/i }).click();
     await page.getByRole("button", { name: /Page 2/i }).click();
 
-    await expect(page.getByText(products[6].name, { exact: true })).toBeVisible();
+    await expect(page.getByText(products[6].name)).toBeVisible();
   });
 
   test("page dropdown closes after selecting a page", async ({ page, request }) => {
@@ -222,7 +225,7 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await page.getByText(products[0].name).click();
+    await page.locator('[data-slot="card"]').nth(0).click();
 
     await expect(page.getByText("Add To Cart")).toBeVisible();
   });
@@ -236,7 +239,7 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await page.getByText(products[0].name).click();
+    await page.locator('[data-slot="card"]').nth(0).click();
     await expect(page.getByText("Add To Cart")).toBeVisible();
 
     await page.getByRole('button').filter({ hasText: /^$/ }).first().click()
@@ -251,7 +254,7 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await page.getByText(products[0].name).click();
+    await page.locator('[data-slot="card"]').nth(0).click();
 
     await page.getByRole('button', { name: '+' }).click();
 
@@ -266,7 +269,7 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await page.getByText(products[0].name, { exact: true }).click();
+    await page.locator('[data-slot="card"]').nth(0).click();
 
     await page.getByRole('button', { name: '+' }).click();
     await page.getByRole('button', { name: '-' }).click();

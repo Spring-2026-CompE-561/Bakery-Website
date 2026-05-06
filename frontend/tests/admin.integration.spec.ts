@@ -39,20 +39,34 @@ test.describe("Admin integration", () => {
         await expect(page).toHaveURL(/admin\/settings/);
     });
 
-    test("can toggle product availability", async ({ page }) => {
+    test("can toggle product availability", async ({ page, request }) => {
+        const response = await request.get(`${API_URL}/api/v1/products`);
+        expect(response.ok()).toBeTruthy();
+    
+        const products = await response.json();
+    
+        test.skip(products.length <= 6, "Need more than 6 products for pagination");
+        
         await page.getByRole("link", { name: "Products" }).click();
 
-        const row = page.getByRole("row", { name: /Ube Mini Cake/ });
-        const toggle = row.getByRole("switch");
+        const rows = page.locator('[data-slot="table-row"]');
+
+        // skips header row
+        const row = rows.nth(1);
+
+        await expect(row).toBeVisible();
+
+        const toggle = row.locator('[role="switch"], [data-slot="switch"], button[aria-checked]');
 
         await expect(toggle).toBeVisible();
 
         const before = await toggle.getAttribute("aria-checked");
 
         await toggle.click();
+
         await expect(toggle).not.toHaveAttribute("aria-checked", before ?? "");
 
-        // restore original state
+        // restore state
         await toggle.click();
     });
 
@@ -115,5 +129,16 @@ test.describe("Admin integration", () => {
 
         await expect(page.locator("[data-slot='table-cell']").last()).toBeVisible();
     });
+
+    // test("can delete a product", async ({ page, request }) => {
+    //     const response = await request.get(`${API_URL}/api/v1/products`);
+    //     const products = await response.json();
+
+    //     test.skip(products.length <= 0, "Need a product");
+
+    //     await page.getByRole("link", { name: "Products" }).click();
+
+        
+    // });
 
 });

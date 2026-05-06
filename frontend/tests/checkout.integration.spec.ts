@@ -18,14 +18,9 @@ test.describe("Checkout integration", () => {
     expect(Array.isArray(data)).toBeTruthy();
   });
 
-  test("checkout can submit an order to backend", async ({ page, request }) => {
-    const response = await request.get(`${API_URL}/api/v1/products`);
-    const products = await response.json();
-
-    const firstProductName = products[0].name;
-
+  test("checkout can submit an order to backend", async ({ page }) => {
     await page.goto("/menu");
-    await page.getByText(firstProductName).click();
+    await page.locator('[data-slot="card"]').nth(0).click();
     await page.getByRole('button', { name: 'Add to Cart' }).click();
     
     await page.goto("/checkout");
