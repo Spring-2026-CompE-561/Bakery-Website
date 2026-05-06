@@ -5,8 +5,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 const FILE = "tests/.seeded-products.json";
 
 async function globalTeardown() {
-  console.log("Running global teardown...");
-
   if (!fs.existsSync(FILE)) {
     console.log("No seeded-products file found");
     return;
@@ -15,7 +13,6 @@ async function globalTeardown() {
   const saved = JSON.parse(fs.readFileSync(FILE, "utf-8"));
   const created = Array.isArray(saved) ? saved : saved.created ?? [];
 
-  console.log("Products to delete:", created.length);
 
   const api = await request.newContext();
 
@@ -48,10 +45,10 @@ async function globalTeardown() {
       console.log(
         `Failed to delete ${product.id}: ${deleteRes.status()} ${await deleteRes.text()}`
       );
-    } else {
-      console.log(`Deleted product ${product.id}`);
     }
   }
+
+  console.log(`Deleted ${created.length} extra products`);
 
   fs.unlinkSync(FILE);
   await api.dispose();

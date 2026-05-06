@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 const FILE = "tests/.seeded-products.json";
 
 async function globalSetup() {
-  console.log("Running global setup...");
+  console.log("Filling extra products...");
   const api = await request.newContext();
 
   // Login first
@@ -21,7 +21,6 @@ async function globalSetup() {
   }
 
   const loginJson = await loginRes.json();
-  console.log("Login response:", loginJson);
 
   const token =
     loginJson.access_token ||
@@ -39,7 +38,6 @@ async function globalSetup() {
   const existing = await res.json();
 
   const needed = Math.max(0, 7 - existing.length);
-  console.log(needed);
 
   const created = [];
   const runId = Date.now();
