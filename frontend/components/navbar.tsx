@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { Fish, Turtle } from "lucide-react";
 
 const navLinks = [
   { label: "Home",  href: "/" },
@@ -13,6 +14,8 @@ export default function Navbar() {
   const { items } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const [menuOpen, setMenuOpen] = useState(false);
+  // State for the animal easter egg
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <>
@@ -21,21 +24,52 @@ export default function Navbar() {
     >
       {/* ── Main row ── */}
       <div className="flex items-center justify-between h-16 px-6">
-        <div className="flex items-center gap-4 mx-auto">
+        <div className="flex items-center gap-4 mx-auto relative">
+
+          {/* Left Side Animal (Fish) */}
+          <div 
+            style={{ 
+              position: "absolute", 
+              left: "-45px", 
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateX(0)" : "translateX(10px)",
+              transition: "all 0.4s ease-out",
+              pointerEvents: "none"
+            }}
+            className={isHovered ? "animate-bounce" : ""}
+          >
+            <Fish size={24} strokeWidth={1.5} />
+          </div>
 
           {/* Store name */}
           <Link
             href="/"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             style={{ color: "var(--color-foreground)", fontFamily: "var(--font-display)" }}
             className="text-2xl md:text-4xl font-bold shrink-0 transition-transform duration-200 hover:scale-110 inline-block"
           >
             Seri Seri Sweets
           </Link>
 
+          {/* Right Side Animal (Turtle) */}
+          <div 
+            style={{ 
+              position: "absolute", 
+              right: "-45px", 
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateX(0)" : "translateX(-10px)",
+              transition: "all 0.4s ease-out",
+              pointerEvents: "none"
+            }}
+            className={isHovered ? "animate-bounce" : ""}
+          >
+            <Turtle size={24} strokeWidth={1.5} />
+          </div>
+
 
           {/* Desktop nav links */}
-          <div className="hidden md:flex justify-center gap-4">
-
+          <div className="hidden md:flex justify-center gap-4 ml-4">
             <span style={{ color: "var(--color-foreground)" }}>|</span>
             {navLinks.map(({ label, href }, i, arr) => (
               <span key={label} className="flex items-center gap-4">
