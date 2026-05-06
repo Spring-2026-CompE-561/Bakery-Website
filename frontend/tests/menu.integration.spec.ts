@@ -121,7 +121,7 @@ test.describe("Menu integration", () => {
 
     await page.getByRole("button", { name: "Next Page" }).click();
 
-    await expect(items.nth(0)).toContainText(products[6].name);
+    await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
   });
 
   test("previous page button returns to first page", async ({ page, request }) => {
@@ -137,17 +137,17 @@ test.describe("Menu integration", () => {
     const items = page.locator('[data-slot="card"]');
 
     await expect(items.first()).toBeVisible();
-    await expect(items.nth(0)).toContainText(products[0].name);
+    await expect(items.nth(0).getByText(products[0].name, { exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Next Page" }).click();
 
-    await expect(items.nth(0)).toContainText(products[6].name);
-    await expect(items.nth(0)).not.toContainText(products[0].name);
+    await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
+    await expect(items.nth(0).getByText(products[0].name, { exact: true })).not.toBeVisible();
 
     await page.getByRole("button", { name: "Prev Page" }).click();
 
-    await expect(items.nth(0)).toContainText(products[0].name);
-    await expect(items.nth(0)).not.toContainText(products[6].name);
+    await expect(items.nth(0).getByText(products[0].name, { exact: true })).toBeVisible();
+    await expect(items.nth(0).getByText(products[6].name, { exact: true })).not.toBeVisible();
  });
 
   test("prev button is disabled on first page", async ({ page }) => {
@@ -196,10 +196,12 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
+    const items = page.locator('[data-slot="card"]');
+
     await page.getByRole("button", { name: /Page 1/i }).click();
     await page.getByRole("button", { name: /Page 2/i }).click();
-
-    await expect(page.getByText(products[6].name)).toBeVisible();
+    
+    await expect(items.nth(0).getByText(products[6].name, { exact: true })).toBeVisible();
   });
 
   test("page dropdown closes after selecting a page", async ({ page, request }) => {
