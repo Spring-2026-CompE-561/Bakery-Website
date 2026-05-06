@@ -18,5 +18,6 @@ class Product(Base):
     calories = Column(Integer, nullable=True)
     price = Column(Float, nullable=False)
     is_available = Column(Boolean, default=True)
+    is_active = Column(Boolean, default=True)
     picture_url = Column(String, nullable=True)
     badge = Column(String, nullable=True)

@@ -21,6 +21,14 @@ def get_products(db: Annotated[Session, Depends(get_db)]) -> list[Product]:
     return ProductService.list_all_products(db)
 
 
+@router.get("/all")
+def get_all_products_admin(
+    db: Annotated[Session, Depends(get_db)],
+    current_admin: Annotated[User, Depends(get_current_admin)],
+) -> list[Product]:
+    return ProductService.list_all_products_for_admin(db)
+
+
 @router.post("/")
 def add_product(
     product_in: ProductCreate,
