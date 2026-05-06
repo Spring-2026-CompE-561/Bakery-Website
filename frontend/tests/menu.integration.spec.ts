@@ -31,7 +31,7 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await expect(page.getByText(firstProductName)).toBeVisible();
+    await expect(page.getByText(firstProductName, { exact: true })).toBeVisible();
   });
 
   test("first page renders up to 6 product cards", async ({ page, request }) => {
@@ -121,7 +121,7 @@ test.describe("Menu integration", () => {
 
     await page.getByRole("button", { name: "Next Page" }).click();
 
-    await expect(page.getByText(products[6].name)).toBeVisible();
+    await expect(page.getByText(products[6].name, { exact: true })).toBeVisible();
   });
 
   test("previous page button returns to first page", async ({ page, request }) => {
@@ -134,17 +134,17 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await expect(page.getByText(products[0].name)).toBeVisible();
+    await expect(page.getByText(products[0].name, { exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Next Page" }).click();
 
-    await expect(page.getByText(products[0].name)).not.toBeVisible();
-    await expect(page.getByText(products[6].name)).toBeVisible();
+    await expect(page.getByText(products[0].name, { exact: true })).not.toBeVisible();
+    await expect(page.getByText(products[6].name, { exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Prev Page" }).click();
 
-    await expect(page.getByText(products[0].name)).toBeVisible();
-    await expect(page.getByText(products[6].name)).not.toBeVisible();
+    await expect(page.getByText(products[0].name, { exact: true })).toBeVisible();
+    await expect(page.getByText(products[6].name, { exact: true })).not.toBeVisible();
  });
 
   test("prev button is disabled on first page", async ({ page }) => {
@@ -193,10 +193,10 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await page.getByRole("button", { name: /page 1/i }).click();
-    await page.getByRole("button", { name: /page 2/i }).click();
+    await page.getByRole("button", { name: /Page 1/i }).click();
+    await page.getByRole("button", { name: /Page 2/i }).click();
 
-    await expect(page.getByText(products[6].name)).toBeVisible();
+    await expect(page.getByText(products[6].name, { exact: true })).toBeVisible();
   });
 
   test("page dropdown closes after selecting a page", async ({ page, request }) => {
@@ -266,11 +266,11 @@ test.describe("Menu integration", () => {
 
     await page.goto("/menu");
 
-    await page.getByText(products[0].name).click();
+    await page.getByText(products[0].name, { exact: true }).click();
 
     await page.getByRole('button', { name: '+' }).click();
     await page.getByRole('button', { name: '-' }).click();
 
-    await expect(page.getByText('1').nth(4)).toBeVisible();
+    await expect(page.locator('span').filter({ hasText: /^1$/ })).toBeVisible();
   });
 });
