@@ -45,6 +45,7 @@ async function globalTeardown() {
       console.log(
         `Failed to delete ${product.id}: ${deleteRes.status()} ${await deleteRes.text()}`
       );
+      console.log(`Testing product is still in database; manually remove/add more products!`)
     }
   }
 
