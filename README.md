@@ -38,33 +38,33 @@ Once the server is running, open: http://127.0.0.1:8000/docs
 * bun dev
 
 ### 📖 Testing frontend
-Once the server is running, open: http://localhost:3000 for regular customers
+Once the server is running, open: http://localhost:3000 for regular customers  
 Once the server is running, open: http://localhost:3000/admin/login for admin
 
 
 ### 📖 Testing on fastapi/swagger
-open: http://127.0.0.1:8000/docs
-Authorize: Click the "Authorize" button on the Swagger UI.
-Credentials: Use the email and password found in seed_admin.py.
-Features: You can test Admin privileges like adding products, viewing all orders, and updating order statuses.
+open: http://127.0.0.1:8000/docs  
+Authorize: Click the "Authorize" button on the Swagger UI.  
+Credentials: Use the email and password found in seed_admin.py.  
+Features: You can test Admin privileges like adding products, viewing all orders, and updating order statuses.  
 
 ### Unit Tests
 PyTest: From backend directory
-cd backend
-uv run pytest
+* cd backend
+* uv run pytest
   
 Vitest: From frontend
-cd frontend
-bun run test:unit
+* cd frontend
+* bun run test:unit
 
 ### Integration Tests
-(have backend running already)
-Playwright: From frontend
-cd frontend
-bunx playwright test
+* (have backend running already)
+* Playwright: From frontend
+* cd frontend
+* bunx playwright test  
 
 ### Docker
-Download Docker locally
-Make sure there are Dockerfiles in both frontend and backend, and a docker-compose.yml
-Run `docker compose up --build`
+* Download Docker locally  
+* Make sure there are Dockerfiles in both frontend and backend, and a docker-compose.yml  
+* Run `docker compose up --build`
 
