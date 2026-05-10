@@ -48,8 +48,13 @@ Authorize: Click the "Authorize" button on the Swagger UI.
 Credentials: Use the email and password found in seed_admin.py.
 Features: You can test Admin privileges like adding products, viewing all orders, and updating order statuses.
 
+### Unit Tests
 PyTest: From backend directory
 * uv run pytest
+  
+Vitest: From frontend
+*cd frontend
+bun run test:unit
 
 Docker:
 Download Docker locally
