@@ -59,9 +59,21 @@ export default function OrdersPage() {
 
  // Sort orders based on the selected criteria
   const sortedOrders = [...orders].sort((a, b) => {
+    if (sortBy === "pickup_soonest") {
+      const isAInactive = a.status.toLowerCase() === "completed" || a.status.toLowerCase() === "cancelled";
+      const isBInactive = b.status.toLowerCase() === "completed" || b.status.toLowerCase() === "cancelled";
+
+      if (isAInactive && !isBInactive) return 1;  // Move A to the bottom
+      if (!isAInactive && isBInactive) return -1; // Keep B at the bottom
+    // If both have same activity status, sort by date
+      return new Date(a.pickup_date).getTime() - new Date(b.pickup_date).getTime();
+    }
     if (sortBy === "created_newest") return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     if (sortBy === "created_oldest") return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-    if (sortBy === "pickup_soonest") return new Date(a.pickup_date).getTime() - new Date(b.pickup_date).getTime();
+    if (sortBy === "status_pending") {
+      const statusOrder: Record<string, number> = { "pending": 0, "confirmed": 1, "ready": 2, "completed": 3, "cancelled": 4 };
+      return (statusOrder[a.status.toLowerCase()] ?? 5) - (statusOrder[b.status.toLowerCase()] ?? 5);
+   }
     return 0;
   });
 
@@ -116,6 +128,7 @@ export default function OrdersPage() {
               <SelectItem value="created_newest">Newest Created</SelectItem>
               <SelectItem value="created_oldest">Oldest Created</SelectItem>
               <SelectItem value="pickup_soonest">Soonest Pickup</SelectItem>
+              <SelectItem value="status_pending">Status (Pending First)</SelectItem>
             </SelectContent>
           </Select>
         </div>
